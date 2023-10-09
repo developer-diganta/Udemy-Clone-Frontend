@@ -52,7 +52,7 @@ export default {
     emailToken: "",
     otpSent: false,
     otp: "",
-    type:'',
+    type: "",
     otpValidationError: false,
     otpValidationSuccess: false,
     rules: [
@@ -90,9 +90,9 @@ export default {
         localStorage.setItem("signUpEmail", this.email);
         localStorage.setItem("signUpEmailToken", this.emailToken);
         setTimeout(() => {
-          if(this.type==="teacher"){
+          if (this.type === "teacher") {
             this.$router.push("/instructor/signup");
-          }else{
+          } else {
             this.$router.push("/student/signup");
           }
         }, 1000);
@@ -101,9 +101,9 @@ export default {
       }
     },
   },
-  mounted(){
+  mounted() {
     this.type = this.$route.params.id;
-  }
+  },
 };
 </script>
 <style scoped>

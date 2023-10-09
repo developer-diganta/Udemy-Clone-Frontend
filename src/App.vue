@@ -4,16 +4,13 @@
 
 <script>
 export default {
-  components:{
-
-  }
-}
+  components: {},
+};
 </script>
 
 <style>
-
-.container{
-  margin-left:9rem !important;
-  margin-right:9rem !important;
+.container {
+  margin-left: 9rem !important;
+  margin-right: 9rem !important;
 }
 </style>

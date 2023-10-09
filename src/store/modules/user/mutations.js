@@ -1,5 +1,7 @@
 export default {
-    setUserName(state,payload){
-        state.name=payload.name
-    }
-}
+  setUserName(state, payload) {
+    console.log("here");
+    state.name = payload.name;
+    console.log(state.name, ":", payload.name);
+  },
+};

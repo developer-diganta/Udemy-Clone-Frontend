@@ -1,9 +1,9 @@
-import { createStore } from 'vuex'
-import user from "./modules/user/index"
+import { createStore } from "vuex";
+import user from "./modules/user/index";
 const store = createStore({
-  modules:{
-    user:user
-  }
-})
+  modules: {
+    user: user,
+  },
+});
 
 export default store;
