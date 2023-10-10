@@ -47,7 +47,7 @@ export default {
     async fetchTrendingCourses() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/courses?sortBy=enrollments&sortOrder=desc&limit=5",
+          "http://localhost:3000/api/courses?",
         );
         console.log(response.data);
         this.trendingCourses = response.data;

@@ -10,6 +10,17 @@ import * as directives from "vuetify/directives";
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    themes: {
+      light: {
+        dark: false,
+        colors: {
+          primaryTheme: "#008080",
+          secondaryCoral: "#6FBEDF",
+        },
+      },
+    },
+  },
 });
 
 createApp(App).use(store).use(router).use(vuetify).mount("#app");

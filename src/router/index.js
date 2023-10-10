@@ -4,12 +4,15 @@ import InstructorSignUp from "../views/instructor/InstructorSignup.vue";
 import StudentSignUp from "../views/student/StudentSignup.vue";
 import SignInForm from "../views/common/SignIn";
 import InstructorHomePage from "../views/instructor/InstructorHomePage";
+import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
+import StudentHomePage from "../views/student/StudentHomePage";
+
 import App from "../App";
 
 const routes = [
   {
     path: "/",
-    redirect: EmailForm,
+    redirect: "/signup/email/instructor",
   },
   {
     path: "/signup/email/:id",
@@ -52,9 +55,25 @@ const routes = [
     },
   },
   {
+    path: "/instructor/course/add",
+    component: InstructorAddCourse,
+    beforeEnter: (to, from, next) => {
+      if (instructorLoggedIn()) {
+        next();
+      } else {
+        next("/signin/instructor");
+      }
+    },
+  },
+  {
     path: "/signin/:id",
     name: "SignIn",
     component: SignInForm,
+  },
+
+  {
+    path: "/student/home",
+    component: StudentHomePage,
   },
 ];
 
@@ -66,9 +85,8 @@ const otpValidationIsComplete = () => {
 const instructorLoggedIn = () => {
   const _id = localStorage.getItem("_id");
   const email = localStorage.getItem("email");
-  console.log(_id);
-  console.log("here");
-  return _id && email;
+  const type = localStorage.getItem("type");
+  return _id && email && type === "instructor";
 };
 
 const router = createRouter({
