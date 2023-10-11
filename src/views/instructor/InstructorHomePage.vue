@@ -46,9 +46,7 @@ export default {
   methods: {
     async fetchTrendingCourses() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/courses?",
-        );
+        const response = await axios.get("http://localhost:3000/api/courses?");
         console.log(response.data);
         this.trendingCourses = response.data;
       } catch (error) {

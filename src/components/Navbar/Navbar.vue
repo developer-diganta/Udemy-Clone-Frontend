@@ -56,6 +56,7 @@
         </li>
         <li>
           <v-btn
+            @click="redirectToAddCourse"
             style="background-color: #008080; color: white"
             icon="mdi-plus"
             size="x-small"
@@ -130,6 +131,12 @@ export default {
       { title: "Logout" },
     ],
   }),
+
+  methods: {
+    redirectToAddCourse() {
+      this.$router.push("/");
+    },
+  },
 
   watch: {
     group() {

@@ -5,6 +5,8 @@ import StudentSignUp from "../views/student/StudentSignup.vue";
 import SignInForm from "../views/common/SignIn";
 import InstructorHomePage from "../views/instructor/InstructorHomePage";
 import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
+import InstructorCourse from "../views/instructor/InstructorCourse";
+import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons";
 import StudentHomePage from "../views/student/StudentHomePage";
 
 import App from "../App";
@@ -55,6 +57,14 @@ const routes = [
     },
   },
   {
+    path: "/instructor/course/view/:id",
+    component: InstructorCourse,
+  },
+  {
+    path: "/instructor/course/lesson/:id",
+    component: InstructorCourseLessons,
+  },
+  {
     path: "/instructor/course/add",
     component: InstructorAddCourse,
     beforeEnter: (to, from, next) => {
@@ -65,6 +75,7 @@ const routes = [
       }
     },
   },
+
   {
     path: "/signin/:id",
     name: "SignIn",
