@@ -127,8 +127,8 @@
               </template>
             </v-text-field>
           </v-col>
-
           <!-- 
+          
           <v-col cols="12" md="8">
             <v-file-input
               multiple
@@ -248,33 +248,6 @@ export default {
     },
     selectClick(event) {
       console.log(event);
-    },
-    async videoUpload(files) {
-      const formData = new FormData();
-
-      formData.append("file", files.target.files[0]);
-
-      try {
-        const response = await axios.post(
-          `http://localhost:3000/upload`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            onUploadProgress: (progressEvent) => {
-              const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total,
-              );
-              console.log(`Upload Progress: ${percentCompleted}%`);
-            },
-          },
-        );
-
-        console.log("Files uploaded successfully:", response.data);
-      } catch (error) {
-        console.error("Error uploading files:", error);
-      }
     },
   },
 

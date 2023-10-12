@@ -13,4 +13,7 @@ export default {
   margin-left: 9rem !important;
   margin-right: 9rem !important;
 }
+.list-style-none {
+  list-style-type: none;
+}
 </style>
