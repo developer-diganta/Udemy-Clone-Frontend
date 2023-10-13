@@ -99,22 +99,16 @@ export default {
           discount: this.discount,
           categories: this.categories,
         };
-        const response = await axios.post(
-          `${backend_url}/instructor/course/add`,
-          {
-            email: localStorage.getItem("email"),
-            _id: localStorage.getItem("_id"),
-            token: localStorage.getItem("token"),
-            course,
-          },
-        );
+        const response = await this.$store.dispatch("addCourseIntructor", {
+          course,
+        });
+
         console.log(response);
       } catch (error) {
         console.log(error);
       }
     },
     addCategory() {
-      console.log("here");
       this.categories.push(this.singleCategory);
       this.singleCategory = "";
     },

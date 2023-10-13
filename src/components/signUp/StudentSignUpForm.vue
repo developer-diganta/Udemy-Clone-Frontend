@@ -49,6 +49,10 @@ import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import backend_url from "../../globals/globals";
 import axios from "axios";
+import { useStore } from "vuex";
+
+const store = useStore();
+
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
     name(value) {
@@ -85,10 +89,9 @@ name.value.value = "John";
 password.value.value = "Abc@1234";
 const submit = async () => {
   try {
-    const res = await axios.post(`${backend_url}/student`, {
+    const res = await store.dispatch("studentSignUp", {
       name: name.value.value,
       password: password.value.value,
-      token: localStorage.getItem("signUpEmailToken"),
     });
     const token = res.headers.authorization.split(" ")[1];
     localStorage.clear();
@@ -96,7 +99,9 @@ const submit = async () => {
     localStorage.setItem("_id", res.data._id);
     localStorage.setItem("email", res.data.email);
     localStorage.setItem("type", res.data.type);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 <style scoped>

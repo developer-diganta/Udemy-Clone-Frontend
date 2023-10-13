@@ -13,6 +13,7 @@
     <v-card-subtitle>
       {{ course.instructorName }}
     </v-card-subtitle>
+
     <v-rating
       :length="5"
       :size="32"

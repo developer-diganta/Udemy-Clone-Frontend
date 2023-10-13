@@ -47,11 +47,11 @@ export default {
   methods: {
     onInput: _.debounce(async function () {
       // if(searchKey==="")
-      const searchResultsFromAPI = await axios.get(
-        `${backend_url}/courses/fuzzysearch?search=${this.searchKey}`,
+      const searchResultsFromAPI = await this.$store.dispatch(
+        "searchResultsFromAPI",
+        this.searchKey,
       );
-      console.log(searchResultsFromAPI.data);
-      this.searchResults = searchResultsFromAPI.data.map((result) => {
+      this.searchResults = searchResultsFromAPI.map((result) => {
         return {
           title: result.item.title,
           thumbnail: result.item.thumbnail,

@@ -63,9 +63,10 @@ export default {
   methods: {
     async signInSubmit(e) {
       try {
-        const res = await axios.post(`${backendUrl}/${this.endPoint}/login`, {
+        const res = await this.$store.dispatch("signInSubmit", {
           email: this.email,
           password: this.password,
+          endPoint: this.endPoint,
         });
         localStorage.clear();
         localStorage.setItem("email", res.data.email);

@@ -85,11 +85,11 @@ name.value.value = "John";
 password.value.value = "Abc@1234";
 const submit = async () => {
   try {
-    const res = await axios.post(`${backend_url}/instructor`, {
+    const res = await this.$store.dispatch("instructorSignUp", {
       name: name.value.value,
       password: password.value.value,
-      token: localStorage.getItem("signUpEmailToken"),
     });
+
     const token = res.headers.authorization.split(" ")[1];
     localStorage.clear();
     localStorage.setItem("token", token);

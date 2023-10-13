@@ -254,11 +254,10 @@ export default {
   async mounted() {
     this.courseID = this.$route.params.id;
     try {
-      const res = await axios.post(`${backend_url}/instructor/course/viewone`, {
-        email: localStorage.getItem("email"),
+      const res = await this.$store.dispatch("instructorCourseViewOne", {
         courseId: this.courseID,
-        token: localStorage.getItem("token"),
       });
+      console.log(res)
       this.setCourseDetails(res);
     } catch (error) {
       console.log(error);

@@ -79,19 +79,18 @@
   </v-dialog>
 
   <alert
-  v-if="alertSuccess"
-  :message="successMessage"
-  variant="tonal"
-  color="success"
-></alert>
+    v-if="alertSuccess"
+    :message="successMessage"
+    variant="tonal"
+    color="success"
+  ></alert>
 
-<alert
-  v-if="alertFailure"
-  :message="failureMessage"
-  variant="tonal"
-  color="error"
-></alert>
-
+  <alert
+    v-if="alertFailure"
+    :message="failureMessage"
+    variant="tonal"
+    color="error"
+  ></alert>
 </template>
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
@@ -99,17 +98,17 @@ import axios from "axios";
 import backend_url from "@/globals/globals";
 
 import VideoPlayer from "@/components/Video/VideoPlayer.vue";
-import Alert from '@/ui/Alert.vue';
+import Alert from "@/ui/Alert.vue";
 
 export default {
   components: { Navbar, VideoPlayer, Alert },
   data() {
     return {
       course: {},
-      alertSuccess:false,
+      alertSuccess: false,
       alertFailure: false,
-      successMessage:"",
-      failureMessage:"",
+      successMessage: "",
+      failureMessage: "",
       open: [],
       lessons: [],
       firstName: "",
@@ -152,19 +151,16 @@ export default {
     async deleteVideo(index, i) {
       this.subsectionToBeUpdated = index;
       this.indexOfVideo = i;
-      try{
-        const res = await axios.post(`${backend_url}/instructor/videos/delete`, {
-          email: localStorage.getItem("email"),
+      try {
+        const res = await this.$store.dispatch("deleteVideo", {
           courseId: this.course,
-          token: localStorage.getItem("token"),
           subsectionToBeUpdated: this.subsectionToBeUpdated,
           indexOfVideo: this.indexOfVideo,
-          intructorId: localStorage.getItem("_id"),
         });
-        this.alertSuccess=true;
-        this.successMessage = "Video Deleted"
-      }catch(error){
-        this.alertFailure=true;
+        this.alertSuccess = true;
+        this.successMessage = "Video Deleted";
+      } catch (error) {
+        this.alertFailure = true;
         this.failureMessage = error;
         console.log(res);
       }
@@ -179,8 +175,8 @@ export default {
       formData.append("courseId", this.course._id);
 
       try {
-        this.alertSuccess=true;
-        this.successMessage = "Uploading Video"
+        this.alertSuccess = true;
+        this.successMessage = "Uploading Video";
         const response = await axios.post(
           `${backend_url}/courses/uploads`,
           formData,
@@ -200,9 +196,9 @@ export default {
 
         console.log("Files uploaded successfully:", response.data);
 
-        this.successMessage = "Video Uploaded"
+        this.successMessage = "Video Uploaded";
       } catch (error) {
-        this.alertFailure=true;
+        this.alertFailure = true;
         this.failureMessage = error;
         console.error("Error uploading files:", error);
       }
@@ -216,10 +212,8 @@ export default {
   async mounted() {
     this.courseID = this.$route.params.id;
     try {
-      const res = await axios.post(`${backend_url}/instructor/course/viewone`, {
-        email: localStorage.getItem("email"),
+      const res = await this.$store.dispatch("instructorCourseViewOne", {
         courseId: this.courseID,
-        token: localStorage.getItem("token"),
       });
       this.setCourseDetails(res);
     } catch (error) {

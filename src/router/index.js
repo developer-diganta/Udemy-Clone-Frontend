@@ -8,6 +8,7 @@ import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
 import InstructorCourse from "../views/instructor/InstructorCourse";
 import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons";
 import StudentHomePage from "../views/student/StudentHomePage";
+import StudentEnrollPage from "../views/student/StudentEnrollPage";
 
 import App from "../App";
 
@@ -44,6 +45,11 @@ const routes = [
         next("/student/signup/email");
       }
     },
+  },
+  {
+    path: "/student/enroll/:id",
+    name: "StudentEnroll",
+    component: StudentEnrollPage,
   },
   {
     path: "/instructor/home",
@@ -86,6 +92,10 @@ const routes = [
     path: "/student/home",
     component: StudentHomePage,
   },
+  {
+    path:"/student/enroll/:id",
+    component: StudentEnrollPage
+  }
 ];
 
 const otpValidationIsComplete = () => {

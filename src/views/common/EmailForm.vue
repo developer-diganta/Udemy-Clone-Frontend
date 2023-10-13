@@ -65,7 +65,7 @@ export default {
   }),
   methods: {
     async emailFormSubmit(e) {
-      const res = await axios.post(`${backendUrl}/otp`, {
+      const res = await this.$store.dispatch("emailFormSubmit", {
         email: this.email,
       });
 
@@ -81,7 +81,7 @@ export default {
     async otpValidate() {
       try {
         this.otpValidationError = false;
-        const res = await axios.post(`${backendUrl}/otp/verify`, {
+        const res = await this.$store.dispatch("otpValidate", {
           token: this.emailToken,
           otp: this.otp,
         });
