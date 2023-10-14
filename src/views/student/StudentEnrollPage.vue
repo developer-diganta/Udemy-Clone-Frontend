@@ -8,6 +8,33 @@
 
       </div>
       <h2>{{currentVideo.title}} (Preview)</h2>
+
+      <p class="text-h6 mt-4">Course Curriculam</p>
+
+      <v-list v-model:opened="open" v-for="(lesson,index) in course.lessons" :key="index"   :class="`elevation-${2}`"        density="compact"
+      >
+     
+
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :title="index+1 + '. ' + lesson.title"
+            ></v-list-item>
+          </template>
+
+  
+            <v-list-item
+              v-for="(video, i) in lesson.videos"
+              :key="i"
+              :title="i+1 + '. ' + video.title"
+              :prepend-icon="icon"
+              :value="video.title"
+            ></v-list-item>
+        </v-list-group>
+
+      </v-list>
+
     </v-col>
     <v-col cols="12" md="4">
       <v-card :loading="loading" class="mx-auto my-4" max-width="374">
@@ -91,7 +118,7 @@ export default {
       loading: false,
       selection: 1,
       instructor: {},
-      currentVideo:""
+      currentVideo:"",
     };
   },
   methods: {

@@ -9,6 +9,7 @@ import InstructorCourse from "../views/instructor/InstructorCourse";
 import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons";
 import StudentHomePage from "../views/student/StudentHomePage";
 import StudentEnrollPage from "../views/student/StudentEnrollPage";
+import StudentCoursePage from "../views/student/StudentCoursePage";
 
 import App from "../App";
 
@@ -95,6 +96,10 @@ const routes = [
   {
     path:"/student/enroll/:id",
     component: StudentEnrollPage
+  },
+  {
+    path:"/student/learn",
+    component:StudentCoursePage
   }
 ];
 
