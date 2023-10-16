@@ -134,7 +134,7 @@ export default {
 
   methods: {
     redirectToAddCourse() {
-      this.$router.push("/");
+      this.$router.push("/instructor/course/add");
     },
   },
 

@@ -257,7 +257,7 @@ export default {
       const res = await this.$store.dispatch("instructorCourseViewOne", {
         courseId: this.courseID,
       });
-      console.log(res)
+      console.log(res);
       this.setCourseDetails(res);
     } catch (error) {
       console.log(error);

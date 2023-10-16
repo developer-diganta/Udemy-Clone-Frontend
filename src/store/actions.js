@@ -26,14 +26,11 @@ export default {
       return error;
     }
   },
-  async instructorSignUp({ commit }, { name, password }) {
-    console.log(name);
-    console.log(password);
+  async instructorSignUp({ commit }, data) {
+    console.log(data)
     try {
       const res = await axios.post(`${backend_url}/instructor`, {
-        name,
-        password,
-        token: localStorage.getItem("signUpEmailToken"),
+        ... data
       });
       return res;
     } catch (error) {
@@ -41,34 +38,39 @@ export default {
     }
   },
   async emailFormSubmit({ commit }, { email }) {
+    console.log("P",email)
     try {
-      const res = await axios.post(`${backendUrl}/otp`, {
+      const res = await axios.post(`${backend_url}/otp`, {
         email,
       });
+      console.log(res)
       return res;
     } catch (error) {
       return error;
     }
   },
-  async otpValidate({ commit }, { token, otp }) {
+  async otpValidate({ commit }, { otp, email, type }) {
+    console.log(type)
     try {
-      const res = await axios.post(`${backendUrl}/otp/verify`, {
-        token,
+      const res = await axios.post(`${backend_url}/otp/verify`, {
         otp,
+        email,
+        type
       });
+      console.log(res)
       return res;
     } catch (error) {
       return error;
     }
   },
   async signInSubmit({ commit }, { email, password, endPoint }) {
-    console.log(email)
+    console.log(email);
     try {
       const res = await axios.post(`${backend_url}/${endPoint}/login`, {
         email,
         password,
       });
-      console.log(res)
+      console.log(res);
       return res;
     } catch (error) {
       return error;
@@ -117,23 +119,23 @@ export default {
       return error;
     }
   },
-  async fetchTrendingCourses({commit}){
-    try{
-        const res = await axios.get(
-            `${backend_url}/courses?limit=10&sortBy=enrollments&sortOrder=-1`
-          );
-        return res;
-    }catch(error){
-        return error;
+  async fetchTrendingCourses({ commit }) {
+    try {
+      const res = await axios.get(
+        `${backend_url}/courses?limit=10&sortBy=enrollments&sortOrder=-1`,
+      );
+      return res;
+    } catch (error) {
+      return error;
     }
   },
-  async fetchSingleCourse({commit},{courseId}){
-    try{    
-        const res = await axios.get(`${backend_url}/course/${courseId}`)
-        console.log(res)
-        return res.data.course;
-    }catch(error){
-        return error;
+  async fetchSingleCourse({ commit }, { courseId }) {
+    try {
+      const res = await axios.get(`${backend_url}/course/${courseId}`);
+      console.log(res);
+      return res.data.course;
+    } catch (error) {
+      return error;
     }
-  }
+  },
 };

@@ -32,7 +32,7 @@
 import axios from "axios";
 import backendUrl from "../../globals/globals";
 import Alert from "../../ui/Alert.vue";
-
+import emailValidation from '@/utils/validation-rules/emailValidation';
 export default {
   name: "SignInForm",
   components: { Alert },
@@ -44,12 +44,7 @@ export default {
     credentialsMatch: false,
     credentialsMismatch: false,
     errorMessage: "",
-    emailRules: [
-      (value) => {
-        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) return true;
-        return "You must enter an email";
-      },
-    ],
+    emailRules: [],
   }),
   computed: {
     endPoint() {
@@ -87,6 +82,7 @@ export default {
   },
   mounted() {
     this.type = this.$route.params.id;
+    this.emailRules.push(emailValidation);
     this.endPoint === "none" ? this.$router.push("/") : null;
   },
 };

@@ -5,7 +5,7 @@
     controls
     width="600"
     height="400"
-    style="border-radius: 10px"
+    @ended="handleVideoEnd"
     oncontextmenu="return false;"
   >
     <source :src="videoUrl" type="video/mp4" />
@@ -35,6 +35,9 @@ export default {
         playbackRates: [0.5, 1, 1.5, 2],
       };
       this.player = videojs(this.$refs.videoPlayer, options);
+    },
+    handleVideoEnd() {
+      this.$emit("video-ended");
     },
   },
   watch: {

@@ -57,7 +57,7 @@ export default {
   methods: {
     async fetchTrendingCourses() {
       try {
-        const response = await this.$store.dispatch("fetchTrendingCourses")
+        const response = await this.$store.dispatch("fetchTrendingCourses");
         this.trendingCoursesList = response.data;
         console.log(this.trendingCoursesList);
       } catch (error) {

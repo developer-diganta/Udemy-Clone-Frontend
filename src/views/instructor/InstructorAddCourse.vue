@@ -99,7 +99,7 @@ export default {
           discount: this.discount,
           categories: this.categories,
         };
-        const response = await this.$store.dispatch("addCourseIntructor", {
+        const response = await this.$store.dispatch("addCourseInstructor", {
           course,
         });
 

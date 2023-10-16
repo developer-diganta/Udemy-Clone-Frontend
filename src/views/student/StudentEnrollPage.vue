@@ -3,38 +3,36 @@
   <v-row class="container-secondary">
     <v-col cols="12" md="8">
       <div class="mt-3">
-
         <video-player :currentVideo="currentVideo.videoLink"></video-player>
-
       </div>
-      <h2>{{currentVideo.title}} (Preview)</h2>
+      <h2>{{ currentVideo.title }} (Preview)</h2>
 
       <p class="text-h6 mt-4">Course Curriculam</p>
 
-      <v-list v-model:opened="open" v-for="(lesson,index) in course.lessons" :key="index"   :class="`elevation-${2}`"        density="compact"
+      <v-list
+        v-model:opened="open"
+        v-for="(lesson, index) in course.lessons"
+        :key="index"
+        :class="`elevation-${2}`"
+        density="compact"
       >
-     
-
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item
               v-bind="props"
-              :title="index+1 + '. ' + lesson.title"
+              :title="index + 1 + '. ' + lesson.title"
             ></v-list-item>
           </template>
 
-  
-            <v-list-item
-              v-for="(video, i) in lesson.videos"
-              :key="i"
-              :title="i+1 + '. ' + video.title"
-              :prepend-icon="icon"
-              :value="video.title"
-            ></v-list-item>
+          <v-list-item
+            v-for="(video, i) in lesson.videos"
+            :key="i"
+            :title="i + 1 + '. ' + video.title"
+            :prepend-icon="icon"
+            :value="video.title"
+          ></v-list-item>
         </v-list-group>
-
       </v-list>
-
     </v-col>
     <v-col cols="12" md="4">
       <v-card :loading="loading" class="mx-auto my-4" max-width="374">
@@ -47,17 +45,13 @@
           ></v-progress-linear>
         </template>
 
-        <v-img
-          cover
-          height="250"
-          :src="course.thumbnail"
-        ></v-img>
+        <v-img cover height="250" :src="course.thumbnail"></v-img>
 
         <v-card-item>
-          <v-card-title>{{course.title}}</v-card-title>
+          <v-card-title>{{ course.title }}</v-card-title>
 
           <v-card-subtitle>
-            <span class="me-1">{{instructor.name}}</span>
+            <span class="me-1">{{ instructor.name }}</span>
 
             <v-icon color="error" icon="mdi-fire-circle" size="small"></v-icon>
           </v-card-subtitle>
@@ -75,15 +69,22 @@
             ></v-rating>
 
             <div class="text-grey ms-4">
-              {{course.rating}} ({{course.enrollments}} learners)
+              {{ course.rating }} ({{ course.enrollments }} learners)
             </div>
           </v-row>
 
           <div class="my-4 text-subtitle-1">
-            <div v-if="!course.discount" class=" font-weight-black">₹ {{course.price}}</div>
-            <div v-else><span class=" font-weight-black">₹ {{currentPrice + " "}} </span><span class="text-decoration-line-through"> {{course.price}}</span>{{" (" + this.course.discount + "%)"}}</div>
+            <div v-if="!course.discount" class="font-weight-black">
+              ₹ {{ course.price }}
+            </div>
+            <div v-else>
+              <span class="font-weight-black">₹ {{ currentPrice + " " }} </span
+              ><span class="text-decoration-line-through">
+                {{ course.price }}</span
+              >{{ " (" + this.course.discount + "%)" }}
+            </div>
 
-            <div>{{course.description}}</div>
+            <div>{{ course.description }}</div>
           </div>
         </v-card-text>
 
@@ -92,8 +93,12 @@
         <v-card-title>Categories</v-card-title>
 
         <div class="px-4">
-          <v-chip-group >
-           <v-chip v-for="(category,index) in course.categories" :key="index">{{category}}</v-chip>
+          <v-chip-group>
+            <v-chip
+              v-for="(category, index) in course.categories"
+              :key="index"
+              >{{ category }}</v-chip
+            >
           </v-chip-group>
         </div>
 
@@ -118,7 +123,7 @@ export default {
       loading: false,
       selection: 1,
       instructor: {},
-      currentVideo:"",
+      currentVideo: "",
     };
   },
   methods: {
@@ -135,15 +140,18 @@ export default {
       setTimeout(() => (this.loading = false), 2000);
     },
   },
-  computed:{
-    currentPrice(){
-      return this.course.price-(this.course.price/100*this.course.discount).toFixed(2)
-    }
+  computed: {
+    currentPrice() {
+      return (
+        this.course.price -
+        ((this.course.price / 100) * this.course.discount).toFixed(2)
+      );
+    },
   },
   async created() {
     this.course = await this.getCourse();
-   this.instructor = this.course.instructor;
-   this.currentVideo =  this.course.lessons[0].videos[0]
+    this.instructor = this.course.instructor;
+    this.currentVideo = this.course.lessons[0].videos[0];
   },
 };
 </script>

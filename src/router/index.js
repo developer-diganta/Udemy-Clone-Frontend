@@ -4,6 +4,7 @@ import InstructorSignUp from "../views/instructor/InstructorSignup.vue";
 import StudentSignUp from "../views/student/StudentSignup.vue";
 import SignInForm from "../views/common/SignIn";
 import InstructorHomePage from "../views/instructor/InstructorHomePage";
+import InstructorProfile from "../views/instructor/InstructorProfile";
 import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
 import InstructorCourse from "../views/instructor/InstructorCourse";
 import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons";
@@ -19,10 +20,20 @@ const routes = [
     redirect: "/signup/email/instructor",
   },
   {
-    path: "/signup/email/:id",
+    path: "/otp",
     name: "EmailForm",
     component: EmailForm,
   },
+
+  {
+    path: "/signin/:id",
+    name: "SignIn",
+    component: SignInForm,
+    beforeEnter:(to, from, next) => {
+
+    }
+  },
+  /* Instructor Routes */
   {
     path: "/instructor/signup",
     name: "InstructorSignUp",
@@ -34,6 +45,25 @@ const routes = [
         next("/instructor/signup/email");
       }
     },
+  },
+  {
+    path: "/instructor/home",
+    name:"InstructorHomePage",
+    component: InstructorHomePage,
+    beforeEnter: (to, from, next) => {
+      const instructorStatus = instructorLoggedIn();
+      if (instructorStatus==="validated") {
+        next();
+      } else if(instructorStatus === "otpLeft"){
+        next("/otp");
+      } else{
+        next("/signin/instructor")
+      }
+    },
+  },
+  {
+    path:"/instructor/profile",
+    component: InstructorProfile
   },
   {
     path: "/student/signup",
@@ -52,17 +82,7 @@ const routes = [
     name: "StudentEnroll",
     component: StudentEnrollPage,
   },
-  {
-    path: "/instructor/home",
-    component: InstructorHomePage,
-    beforeEnter: (to, from, next) => {
-      if (instructorLoggedIn()) {
-        next();
-      } else {
-        next("/signin/instructor");
-      }
-    },
-  },
+
   {
     path: "/instructor/course/view/:id",
     component: InstructorCourse,
@@ -83,24 +103,19 @@ const routes = [
     },
   },
 
-  {
-    path: "/signin/:id",
-    name: "SignIn",
-    component: SignInForm,
-  },
 
   {
     path: "/student/home",
     component: StudentHomePage,
   },
   {
-    path:"/student/enroll/:id",
-    component: StudentEnrollPage
+    path: "/student/enroll/:id",
+    component: StudentEnrollPage,
   },
   {
-    path:"/student/learn",
-    component:StudentCoursePage
-  }
+    path: "/student/learn",
+    component: StudentCoursePage,
+  },
 ];
 
 const otpValidationIsComplete = () => {
@@ -112,7 +127,14 @@ const instructorLoggedIn = () => {
   const _id = localStorage.getItem("_id");
   const email = localStorage.getItem("email");
   const type = localStorage.getItem("type");
-  return _id && email && type === "instructor";
+  const otpValidation = localStorage.getItem("otpValidation");
+  if (_id && email && type === "instructor"){
+    return "validated"
+  }else if(otpValidation==='0'){
+    return "otpLeft"
+  }else{
+    return "expired"
+  }
 };
 
 const router = createRouter({

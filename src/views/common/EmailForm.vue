@@ -1,21 +1,8 @@
 <template>
-  <div v-if="!otpSent" id="email-form">
-    <h3>Please Enter Your Email To Continue</h3>
-    <div id="sign-up-form" style="width: 50%">
-      <v-sheet class="mx-auto">
-        <v-form @submit.prevent="emailFormSubmit">
-          <v-text-field
-            v-model="email"
-            :rules="rules"
-            label="Email"
-          ></v-text-field>
-          <v-btn type="submit" block class="mt-2">Continue</v-btn>
-        </v-form>
-      </v-sheet>
-    </div>
-  </div>
-  <div v-else id="email-form">
-    <h3>OTP Sent! Please enter your OTP to continue</h3>
+  <div id="email-form">
+    <h3>
+      OTP Has Been Sent To Your email address! Please enter your OTP to continue
+    </h3>
     <div id="sign-up-form" style="width: 50%">
       <v-sheet class="mx-auto">
         <v-form @submit.prevent="otpValidate">
@@ -48,50 +35,33 @@ export default {
   name: "EmailForm",
   components: { Alert },
   data: () => ({
-    email: "dbanik@argusoft.com",
-    emailToken: "",
     otpSent: false,
     otp: "",
-    type: "",
+    type:"",
+    email:"",
     otpValidationError: false,
     otpValidationSuccess: false,
-    rules: [
-      (value) => {
-        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) return true;
-
-        return "You must enter an email";
-      },
-    ],
   }),
   methods: {
-    async emailFormSubmit(e) {
-      const res = await this.$store.dispatch("emailFormSubmit", {
-        email: this.email,
-      });
 
-      if (
-        typeof res.data === "object" &&
-        res.data !== null &&
-        "emailToken" in res.data
-      ) {
-        this.emailToken = res.data.emailToken;
-        this.otpSent = true;
-      }
-    },
     async otpValidate() {
       try {
         this.otpValidationError = false;
+  
         const res = await this.$store.dispatch("otpValidate", {
-          token: this.emailToken,
           otp: this.otp,
+          email: this.email,
+          type: this.type
         });
         this.otpValidationSuccess = true;
-        localStorage.setItem("otpValidated", true);
-        localStorage.setItem("signUpEmail", this.email);
-        localStorage.setItem("signUpEmailToken", this.emailToken);
+        localStorage.setItem("otpValidation", 1);
+        const token = res.headers.authorization.split(" ")[1];
+        localStorage.setItem("token",token);
+        console.log(res.data)
+        localStorage.setItem("_id",res.data._id)
         setTimeout(() => {
-          if (this.type === "teacher") {
-            this.$router.push("/instructor/signup");
+          if (this.type === "instructor") {
+            this.$router.push("/instructor/home");
           } else {
             this.$router.push("/student/signup");
           }
@@ -101,8 +71,21 @@ export default {
       }
     },
   },
-  mounted() {
-    this.type = this.$route.params.id;
+  watch: {
+    email() {
+      if (!this.email) {
+        this.$router.push("/instructor/signup");
+      }
+
+    },
+  },
+  created() {
+    this.email =  localStorage.getItem("email");
+    this.type = localStorage.getItem("type")
+    console.log(this.email)
+      this.$store.dispatch("emailFormSubmit",{email: this.email})
+      this.otpSent = true;
+      console.log(this.type)
   },
 };
 </script>
