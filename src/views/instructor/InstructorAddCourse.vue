@@ -101,9 +101,11 @@ export default {
         };
         const response = await this.$store.dispatch("addCourseInstructor", {
           course,
-        });
+        }); 
 
-        console.log(response);
+        console.log(response.data)
+
+        this.$router.push(`/instructor/course/view/${response.data._id}`);
       } catch (error) {
         console.log(error);
       }

@@ -27,20 +27,7 @@ export default {
   data: () => ({
     userName: "John Doe",
 
-    selfCourses: [
-      {
-        title: "Introduction to JS",
-      },
-      {
-        title: "Understanding Elastic Search",
-      },
-      {
-        title: "Deep Dive Into DevOps",
-      },
-      {
-        title: "React Masterclass 2023",
-      },
-    ],
+    selfCourses: [],
     trendingCourses: [],
   }),
   methods: {
@@ -53,14 +40,24 @@ export default {
         console.error("Error fetching trending courses:", error);
       }
     },
+    async fetchSelfCourse(){
+      try{
+        const response = await this.$store.dispatch("fetchSelfCourses");
+        console.log(response)
+        this.selfCourses = response.data;
+      }catch(error){
+        console.error(error)
+      }  
+    }
   },
   computed: {
     userName() {
       return this.$store.state.user.name;
     },
   },
-  mounted() {
+  created() {
     this.fetchTrendingCourses();
+    this.fetchSelfCourse();
   },
 };
 </script>

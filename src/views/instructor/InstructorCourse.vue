@@ -158,6 +158,7 @@
           elevation="4"
           color="primaryTheme"
           rounded="sm"
+          @click="redirectAddLessons"
           >Add Lessons</v-btn
         >
       </div>
@@ -218,6 +219,9 @@ export default {
     };
   },
   methods: {
+    redirectAddLessons(){
+      this.$router.push(`/instructor/course/lesson/${this.courseID}`)
+    },
     changeThumbnail(event) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -256,6 +260,7 @@ export default {
     try {
       const res = await this.$store.dispatch("instructorCourseViewOne", {
         courseId: this.courseID,
+        router: this.$router
       });
       console.log(res);
       this.setCourseDetails(res);

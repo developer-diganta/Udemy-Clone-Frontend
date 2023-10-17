@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     async signInSubmit(e) {
+      console.log(this.email)
       try {
         const res = await this.$store.dispatch("signInSubmit", {
           email: this.email,

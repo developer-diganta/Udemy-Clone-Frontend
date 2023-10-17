@@ -29,9 +29,9 @@ const routes = [
     path: "/signin/:id",
     name: "SignIn",
     component: SignInForm,
-    beforeEnter:(to, from, next) => {
+    // beforeEnter:(to, from, next) => {
 
-    }
+    // }
   },
   /* Instructor Routes */
   {

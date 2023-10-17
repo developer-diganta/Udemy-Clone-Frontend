@@ -53,6 +53,7 @@ export default {
           email: this.email,
           type: this.type
         });
+
         this.otpValidationSuccess = true;
         localStorage.setItem("otpValidation", 1);
         const token = res.headers.authorization.split(" ")[1];

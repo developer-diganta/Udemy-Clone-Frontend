@@ -5,7 +5,7 @@
     </template>
     <v-divider></v-divider>
     <ul v-for="(stat, index) in stats" :key="index">
-      <li>
+      <li @click="viewCourse(stat._id)">
         <img
           src="https://businance.com/wp-content/uploads/2019/12/2378649-775x400.jpg"
           alt=""
@@ -23,6 +23,11 @@ export default {
   mounted() {
     console.log(this.stats);
   },
+  methods:{
+    viewCourse(courseId){
+      this.$router.push(`/instructor/course/view/${courseId}`)
+    }
+  }
 };
 </script>
 <style scoped>
