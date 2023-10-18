@@ -27,7 +27,9 @@
       >{{ course.enrollments }} learners</v-card-text
     >
     <v-card-actions style="margin-top: -15px">
-      <v-btn color="primaryTheme" variant="tonal"> Enroll </v-btn>
+      <v-btn color="primaryTheme" variant="tonal" @click="enroll">
+        Enroll
+      </v-btn>
 
       <v-spacer></v-spacer>
 
@@ -57,6 +59,11 @@ export default {
   data: () => ({
     show: false,
   }),
+  methods: {
+    enroll() {
+      this.$router.push(`/student/enroll/${this.course._id}`);
+    },
+  },
 };
 </script>
 <style scoped></style>

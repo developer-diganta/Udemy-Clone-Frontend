@@ -7,7 +7,7 @@ export default {
   state() {
     return {
       name: "",
-      id:""
+      id: "",
     };
   },
   mutations,

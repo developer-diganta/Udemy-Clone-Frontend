@@ -39,7 +39,10 @@ const routes = [
     name: "InstructorSignUp",
     component: InstructorSignUp,
     beforeEnter: (to, from, next) => {
-      if (otpValidationIsComplete()) {
+      if (
+        otpValidationIsComplete() &&
+        localStorage.getItem("type") === "instructor"
+      ) {
         next();
       } else {
         next("/instructor/signup/email");
@@ -48,22 +51,22 @@ const routes = [
   },
   {
     path: "/instructor/home",
-    name:"InstructorHomePage",
+    name: "InstructorHomePage",
     component: InstructorHomePage,
     beforeEnter: (to, from, next) => {
       const instructorStatus = instructorLoggedIn();
-      if (instructorStatus==="validated") {
+      if (instructorStatus === "validated") {
         next();
-      } else if(instructorStatus === "otpLeft"){
+      } else if (instructorStatus === "otpLeft") {
         next("/otp");
-      } else{
-        next("/signin/instructor")
+      } else {
+        next("/signin/instructor");
       }
     },
   },
   {
-    path:"/instructor/profile",
-    component: InstructorProfile
+    path: "/instructor/profile",
+    component: InstructorProfile,
   },
   {
     path: "/student/signup",
@@ -103,10 +106,16 @@ const routes = [
     },
   },
 
-
   {
     path: "/student/home",
     component: StudentHomePage,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem("type") === "student") {
+        next();
+      } else {
+        next("/signin/student");
+      }
+    },
   },
   {
     path: "/student/enroll/:id",
@@ -128,12 +137,12 @@ const instructorLoggedIn = () => {
   const email = localStorage.getItem("email");
   const type = localStorage.getItem("type");
   const otpValidation = localStorage.getItem("otpValidation");
-  if (_id && email && type === "instructor"){
-    return "validated"
-  }else if(otpValidation==='0'){
-    return "otpLeft"
-  }else{
-    return "expired"
+  if (_id && email && type === "instructor") {
+    return "validated";
+  } else if (otpValidation === "0") {
+    return "otpLeft";
+  } else {
+    return "expired";
   }
 };
 
@@ -141,5 +150,23 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  const userType = localStorage.getItem("type");
+
+  // Check if the route has the "/instructor" prefix
+  if (to.path.startsWith("/instructor")) {
+    // Check if the user type is "instructor"
+    if (userType === "instructor" && otpValidationIsComplete()) {
+      next(); // Proceed to the route
+    } else {
+      next("/instructor/signup/email"); // Redirect to the email signup page for instructors
+    }
+  } else {
+    // For routes without the "/instructor" prefix, no specific check is needed
+    next();
+  }
+});
+
 
 export default router;

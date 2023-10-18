@@ -10,14 +10,13 @@
     <v-col cols="12" md="4" style="max-height: 80vh; overflow-y: scroll">
       <!-- <v-btn>ADD</v-btn> -->
       <v-btn
-        @click="dialog=true"
-        style="width:100%"
+        @click="dialog = true"
+        style="width: 100%"
         text="Add"
         variant="outlined"
       ></v-btn>
 
       <v-dialog width="500" v-model="dialog">
-
         <v-form @submit.prevent="handleSubmit" class="video-add">
           <v-banner-text style="text-align: center; margin-left: 60px"
             >Upload Material</v-banner-text
@@ -50,7 +49,7 @@
           <v-select
             label="Select"
             v-model="select"
-            v-if="typeOfUpload==='lecture'"
+            v-if="typeOfUpload === 'lecture'"
             :items="videosList.map((video) => video)"
             item-title="video.title"
             item-value="i,j"
@@ -59,20 +58,16 @@
             @change.prevent="handleVideoSelection"
           ></v-select>
 
-
           <v-select
-          label="Select"
-          v-model="sectionSelect"
-          v-if="typeOfUpload==='section'"
-          :items="
-            sectionsList.map((section)=>section)
-          "
-          item-title="title"
-          variant="outlined"
-          return-object
-          @change.prevent="handleVideoSelection"
-        ></v-select>
-
+            label="Select"
+            v-model="sectionSelect"
+            v-if="typeOfUpload === 'section'"
+            :items="sectionsList.map((section) => section)"
+            item-title="title"
+            variant="outlined"
+            return-object
+            @change.prevent="handleVideoSelection"
+          ></v-select>
 
           <v-radio-group class="d-flex" v-model="materialPosition" inline>
             <v-radio label="Before" value="before"></v-radio>
@@ -82,7 +77,7 @@
           <v-btn type="submit" color="primaryTheme" block class="mt-2 mb-2"
             >Submit</v-btn
           >
-          <v-btn type="button" color="error" block @click="dialog=false"
+          <v-btn type="button" color="error" block @click="dialog = false"
             >Close Dialog</v-btn
           >
         </v-form>
@@ -101,7 +96,7 @@
             :key="i"
             class="list-style-none ml-4"
           >
-            <li class="d-flex p-2" style="padding:5px; margin-top:7px;">
+            <li class="d-flex p-2" style="padding: 5px; margin-top: 7px">
               <div
                 @click="deleteVideo(index, i)"
                 icon="mdi-minus"
@@ -113,7 +108,7 @@
               <div
                 variant="text"
                 @click="loadCurrentVideo(subsection.videoLink)"
-                style="margin-left:8px;"
+                style="margin-left: 8px"
               >
                 {{ i + 1 + ". " + subsection.title }}
               </div>
@@ -151,12 +146,12 @@ export default {
   data() {
     return {
       course: {},
-      sectionSelect:{},
+      sectionSelect: {},
       alertSuccess: false,
       alertFailure: false,
       successMessage: "",
       failureMessage: "",
-      dialog:false,
+      dialog: false,
       open: [],
       lessons: [],
       firstName: "",
@@ -169,7 +164,7 @@ export default {
       title: "",
       typeOfUpload: "section",
       videosList: [],
-      sectionsList:[],
+      sectionsList: [],
       select: "",
       materialPosition: "after",
       firstNameRules: [
@@ -191,23 +186,23 @@ export default {
   },
 
   methods: {
-    handleSubmit(){
-      if(this.typeOfUpload==='lecture'){
+    handleSubmit() {
+      if (this.typeOfUpload === "lecture") {
         this.videoUpload();
-      }else{
+      } else {
         this.sectionUpload();
       }
     },
-    async sectionUpload(){
-      console.log(this.title)
-      console.log(this.sectionSelect)
-      const res = await this.$store.dispatch("addSection",{
-        index:this.sectionSelect.index,
-        title:this.title,
-        id:this.course._id
-      })
+    async sectionUpload() {
+      console.log(this.title);
+      console.log(this.sectionSelect);
+      const res = await this.$store.dispatch("addSection", {
+        index: this.sectionSelect.index,
+        title: this.title,
+        id: this.course._id,
+      });
 
-      console.log(res)
+      console.log(res);
       await this.initialLoad();
     },
     setAddMaterialActivated(index, i) {
@@ -260,12 +255,12 @@ export default {
             },
             onUploadProgress: (progressEvent) => {
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
+                (progressEvent.loaded * 100) / progressEvent.total,
               );
               console.log(`Upload Progress: ${percentCompleted}%`);
               this.dialog = false;
             },
-          }
+          },
         );
 
         console.log("Files uploaded successfully:", response.data);
@@ -301,11 +296,11 @@ export default {
         }
 
         this.sectionsList = res.data.course.lessons.map((lesson, index) => ({
-  index,
-  title: lesson.title
-}));
+          index,
+          title: lesson.title,
+        }));
 
-        console.log(this.sectionsList)
+        console.log(this.sectionsList);
         console.log(this.videosList);
         this.setCourseDetails(res);
       } catch (error) {

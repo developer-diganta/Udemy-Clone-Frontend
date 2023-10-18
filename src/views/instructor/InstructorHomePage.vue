@@ -40,15 +40,15 @@ export default {
         console.error("Error fetching trending courses:", error);
       }
     },
-    async fetchSelfCourse(){
-      try{
+    async fetchSelfCourse() {
+      try {
         const response = await this.$store.dispatch("fetchSelfCourses");
-        console.log(response)
+        console.log(response);
         this.selfCourses = response.data;
-      }catch(error){
-        console.error(error)
-      }  
-    }
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
   computed: {
     userName() {

@@ -37,34 +37,33 @@ export default {
   data: () => ({
     otpSent: false,
     otp: "",
-    type:"",
-    email:"",
+    type: "",
+    email: "",
     otpValidationError: false,
     otpValidationSuccess: false,
   }),
   methods: {
-
     async otpValidate() {
       try {
         this.otpValidationError = false;
-  
+
         const res = await this.$store.dispatch("otpValidate", {
           otp: this.otp,
           email: this.email,
-          type: this.type
+          type: this.type,
         });
 
         this.otpValidationSuccess = true;
         localStorage.setItem("otpValidation", 1);
         const token = res.headers.authorization.split(" ")[1];
-        localStorage.setItem("token",token);
-        console.log(res.data)
-        localStorage.setItem("_id",res.data._id)
+        localStorage.setItem("token", token);
+        console.log(res.data);
+        localStorage.setItem("_id", res.data._id);
         setTimeout(() => {
           if (this.type === "instructor") {
             this.$router.push("/instructor/home");
           } else {
-            this.$router.push("/student/signup");
+            this.$router.push("/student/home");
           }
         }, 1000);
       } catch (err) {
@@ -77,16 +76,15 @@ export default {
       if (!this.email) {
         this.$router.push("/instructor/signup");
       }
-
     },
   },
   created() {
-    this.email =  localStorage.getItem("email");
-    this.type = localStorage.getItem("type")
-    console.log(this.email)
-      this.$store.dispatch("emailFormSubmit",{email: this.email})
-      this.otpSent = true;
-      console.log(this.type)
+    this.email = localStorage.getItem("email");
+    this.type = localStorage.getItem("type");
+    console.log(this.email);
+    this.$store.dispatch("emailFormSubmit", { email: this.email });
+    this.otpSent = true;
+    console.log(this.type);
   },
 };
 </script>

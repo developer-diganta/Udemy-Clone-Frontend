@@ -11,7 +11,6 @@
           "
         class="input"
         label="E-mail"
-        disabled
       ></v-text-field>
 
       <v-text-field
@@ -50,8 +49,11 @@ import { useField, useForm } from "vee-validate";
 import backend_url from "../../globals/globals";
 import axios from "axios";
 import { useStore } from "vuex";
+import emailValidation from "@/utils/validation-rules/emailValidation";
+import { useRouter } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
 
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
@@ -60,11 +62,7 @@ const { handleSubmit, handleReset } = useForm({
 
       return "Name needs to be between 4 and 25 characters.";
     },
-    email(value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-
-      return "Must be a valid e-mail.";
-    },
+    email: emailValidation,
     password(value) {
       if (
         value?.length >= 8 &&
@@ -84,21 +82,28 @@ const phone = useField("phone");
 const email = useField("email");
 const password = useField("password");
 
-email.value.value = localStorage.getItem("signUpEmail") || "test@test.com";
+email.value.value = "chrysaor07@gmail.com";
 name.value.value = "John";
 password.value.value = "Abc@1234";
 const submit = async () => {
   try {
     const res = await store.dispatch("studentSignUp", {
+      email: email.value.value,
       name: name.value.value,
       password: password.value.value,
     });
-    const token = res.headers.authorization.split(" ")[1];
+
     localStorage.clear();
-    localStorage.setItem("token", token);
-    localStorage.setItem("_id", res.data._id);
+
+    if (res.data._id) {
+      localStorage.setItem("_id", res.data._id);
+    } else if (res.data.otpValidation === 0) {
+      localStorage.setItem("otpValidation", res.data.otpValidation);
+    }
+
     localStorage.setItem("email", res.data.email);
     localStorage.setItem("type", res.data.type);
+    router.push("/otp");
   } catch (error) {
     console.log(error);
   }

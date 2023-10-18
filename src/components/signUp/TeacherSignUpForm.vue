@@ -22,7 +22,12 @@
         label="Password"
       ></v-text-field>
 
-      <v-textarea label="Bio" rows="2" class="input" v-model="bio.value.value"></v-textarea>
+      <v-textarea
+        label="Bio"
+        rows="2"
+        class="input"
+        v-model="bio.value.value"
+      ></v-textarea>
 
       <v-file-input
         label="Profile Image"
@@ -46,7 +51,7 @@ import backend_url from "../../globals/globals";
 import nameValidation from "../../utils/validation-rules/nameValidation";
 import emailValidation from "../../utils/validation-rules/emailValidation";
 import passwordValidation from "../../utils/validation-rules/passwordValidation";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 
@@ -58,7 +63,7 @@ const { handleSubmit, handleReset } = useForm({
   validationSchema: {
     name: nameValidation,
     email: emailValidation,
-    password: passwordValidation
+    password: passwordValidation,
   },
 });
 const name = useField("name");
@@ -67,46 +72,45 @@ const email = useField("email");
 const password = useField("password");
 const profileImage = ref(null);
 
-name.value.value = "DIGANTA"
-bio.value.value="safsafsavdaggagda"
-email.value.value="chrysaor07@gmail.com"
-password.value.value="Abc@1234"
+name.value.value = "DIGANTA";
+bio.value.value = "safsafsavdaggagda";
+email.value.value = "chrysaor07@gmail.com";
+password.value.value = "Abc@1234";
 
 const handleFileChange = (event) => {
   const reader = new FileReader();
-      reader.onload = (e) => {
-        profileImage.value = e.target.result;
+  reader.onload = (e) => {
+    profileImage.value = e.target.result;
+  };
 
-      };
-
-      reader.readAsDataURL(event.target.files[0]);
+  reader.readAsDataURL(event.target.files[0]);
 };
 
 const submit = async () => {
   try {
-    console.log("here")
+    console.log("here");
 
     const res = await store.dispatch("instructorSignUp", {
       email: email.value.value,
       name: name.value.value,
       password: password.value.value,
-      bio:bio.value.value,
-      profileImage: profileImage._value
+      bio: bio.value.value,
+      profileImage: profileImage._value,
     });
-    console.log(res.data)
+    console.log(res.data);
     // const token = res.headers.authorization.split(" ")[1];
     localStorage.clear();
     // localStorage.setItem("token", token);
-    if(res.data._id){
+    if (res.data._id) {
       localStorage.setItem("_id", res.data._id);
-    }else if(res.data.otpValidation===0){
-      localStorage.setItem("otpValidation",res.data.otpValidation)
+    } else if (res.data.otpValidation === 0) {
+      localStorage.setItem("otpValidation", res.data.otpValidation);
     }
     localStorage.setItem("email", res.data.email);
     localStorage.setItem("type", res.data.type);
-    router.push("/otp")
+    router.push("/otp");
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 </script>

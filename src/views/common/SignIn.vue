@@ -32,7 +32,7 @@
 import axios from "axios";
 import backendUrl from "../../globals/globals";
 import Alert from "../../ui/Alert.vue";
-import emailValidation from '@/utils/validation-rules/emailValidation';
+import emailValidation from "@/utils/validation-rules/emailValidation";
 export default {
   name: "SignInForm",
   components: { Alert },
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async signInSubmit(e) {
-      console.log(this.email)
+      console.log(this.email);
       try {
         const res = await this.$store.dispatch("signInSubmit", {
           email: this.email,
@@ -75,7 +75,7 @@ export default {
         this.$router.push(`/${this.type}/home`);
       } catch (error) {
         console.log(error);
-        this.errorMessage = error.response.data.message;
+        this.errorMessage = error;
         this.credentialsMismatch = true;
         this.credentialsMatch = false;
       }

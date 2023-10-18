@@ -3,14 +3,13 @@
   <v-row class="container-secondary">
     <v-col cols="12" md="8">
       <div class="mt-3">
-        <video-player :currentVideo="currentVideo.videoLink"></video-player>
+        <video-player :currentVideo="currentVideo?.videoLink"></video-player>
       </div>
-      <h2>{{ currentVideo.title }} (Preview)</h2>
+      <h2>{{ currentVideo?.title }} (Preview)</h2>
 
       <p class="text-h6 mt-4">Course Curriculam</p>
 
       <v-list
-        v-model:opened="open"
         v-for="(lesson, index) in course.lessons"
         :key="index"
         :class="`elevation-${2}`"
@@ -123,7 +122,7 @@ export default {
       loading: false,
       selection: 1,
       instructor: {},
-      currentVideo: "",
+      currentVideo: {},
     };
   },
   methods: {

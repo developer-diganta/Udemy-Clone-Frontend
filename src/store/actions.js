@@ -12,14 +12,14 @@ export default {
       return error;
     }
   },
-  async studentSignUp({ commit }, { name, password }) {
+  async studentSignUp({ commit }, { email, name, password }) {
     console.log(name);
     console.log(password);
     try {
       const res = await axios.post(`${backend_url}/student`, {
         name,
         password,
-        token: localStorage.getItem("signUpEmailToken"),
+        email,
       });
       return res;
     } catch (error) {
@@ -27,10 +27,10 @@ export default {
     }
   },
   async instructorSignUp({ commit }, data) {
-    console.log(data)
+    console.log(data);
     try {
       const res = await axios.post(`${backend_url}/instructor`, {
-        ... data
+        ...data,
       });
       return res;
     } catch (error) {
@@ -38,26 +38,26 @@ export default {
     }
   },
   async emailFormSubmit({ commit }, { email }) {
-    console.log("P",email)
+    console.log("P", email);
     try {
       const res = await axios.post(`${backend_url}/otp`, {
         email,
       });
-      console.log(res)
+      console.log(res);
       return res;
     } catch (error) {
       return error;
     }
   },
   async otpValidate({ commit }, { otp, email, type }) {
-    console.log(type)
+    console.log(type);
     try {
       const res = await axios.post(`${backend_url}/otp/verify`, {
         otp,
         email,
-        type
+        type,
       });
-      console.log(res)
+      console.log(res);
       return res;
     } catch (error) {
       return error;
@@ -73,7 +73,7 @@ export default {
       console.log(res);
       return res;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return error;
     }
   },
@@ -90,8 +90,8 @@ export default {
       return error;
     }
   },
-  async instructorCourseViewOne({ commit }, { courseId,router }) {
-    console.log(courseId)
+  async instructorCourseViewOne({ commit }, { courseId, router }) {
+    console.log(courseId);
     try {
       const res = await axios.post(`${backend_url}/instructor/course/viewone`, {
         email: localStorage.getItem("email"),
@@ -100,10 +100,10 @@ export default {
       });
       return res;
     } catch (error) {
-      if(error.response.data.error === "Please authenticate."){
-        console.log(error)
-        alert("session expired")
-        router.push("/signin/instructor")
+      if (error.response.data.error === "Please authenticate.") {
+        console.log(error);
+        alert("session expired");
+        router.push("/signin/instructor");
       }
       return error;
     }
@@ -145,42 +145,91 @@ export default {
       return error;
     }
   },
-  async fetchSelfCourses({commit}){
-    try{
-      const type = localStorage.getItem('type');
-      const id = localStorage.getItem('_id');
-      const email = localStorage.getItem('email');
-      const token = localStorage.getItem('token');
-      const response = await axios.post(`${backend_url}/instructor/selfcourses`,{
-        type,
-        id,
-        email,
-        token
-      })
+  async fetchSelfCourses({ commit }) {
+    try {
+      const type = localStorage.getItem("type");
+      const id = localStorage.getItem("_id");
+      const email = localStorage.getItem("email");
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${backend_url}/instructor/selfcourses`,
+        {
+          type,
+          id,
+          email,
+          token,
+        },
+      );
       return response;
-    }catch(error){
-      console.log(error)
+    } catch (error) {
+      console.log(error);
     }
   },
-  async addSection({commit},
-    {
-      index,
-      title,
-      id
-    }){
-    try{
+  async addSection({ commit }, { index, title, id }) {
+    try {
       const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email")
-      const response = await axios.post(`${backend_url}/instructor/course/lesson/section/add`,{
+      const email = localStorage.getItem("email");
+      const response = await axios.post(
+        `${backend_url}/instructor/course/lesson/section/add`,
+        {
+          token,
+          email,
+          id,
+          index,
+          title,
+        },
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async getInstructorProfile({ commit }) {
+    console.log("here");
+    try {
+      const id = localStorage.getItem("_id");
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("email");
+      const res = await axios.post(`${backend_url}/instructor/profile`, {
+        token,
+        id,
+        email,
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async updateInstructorProfile({ commit }, payload) {
+    try {
+      const id = localStorage.getItem("_id");
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("email");
+      payload.id = id;
+      payload.token = token;
+      payload.email = email;
+      const res = await axios.patch(
+        `${backend_url}/instructor/profile/update`,
+        { updates: payload, id, token, email },
+      );
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  async logout({ commit, state }) {
+    try {
+      const id = localStorage.getItem("_id");
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("email");
+      const r = await axios.patch(`${backend_url}/instructor/logout`, {
+        id,
         token,
         email,
-        id,
-        index,
-        title
-      })
-      console.log(response)
-    }catch(error){
-      console.log(error)
+      });
+      localStorage.clear();
+    } catch (error) {
+      console.log(error);
     }
-  }
+  },
 };

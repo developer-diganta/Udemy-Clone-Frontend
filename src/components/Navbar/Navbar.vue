@@ -83,7 +83,7 @@
             </v-list>
           </v-menu>
         </li>
-
+        <li @click="logout">Logout</li>
         <!-- <li>B</li>
         <li>C</li> -->
       </ul>
@@ -135,6 +135,9 @@ export default {
   methods: {
     redirectToAddCourse() {
       this.$router.push("/instructor/course/add");
+    },
+    async logout() {
+      await this.$store.dispatch("logout");
     },
   },
 

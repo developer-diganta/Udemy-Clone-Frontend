@@ -3,10 +3,22 @@
     <navbar></navbar>
     <v-row class="container-secondary mt-4">
       <v-col cols="12" md="9">
-        <video-player
-          @video-ended="handleVideoEnded"
-          :currentVideo="currentVideo.videoLink"
-        ></video-player>
+        <div id="video-area">
+          <video-player
+            @video-ended="handleVideoEnded"
+            :currentVideo="currentVideo.videoLink"
+          >
+          </video-player>
+          <div class="loader" v-if="videoEnded">
+            <v-progress-circular
+              color="blue-lighten-3"
+              indeterminate
+              :width="6"
+              :height="10"
+            ></v-progress-circular>
+            <p>Loading Next Video In {{ timeToNextVideo }}</p>
+          </div>
+        </div>
 
         <v-card class="tab-wrapper rounded-0">
           <v-tabs v-model="tab" bg-color="primaryTheme">
@@ -14,6 +26,9 @@
             <v-tab value="qa">Q&A</v-tab>
             <v-tab value="announcements">Announcements</v-tab>
             <v-tab value="reviews">Reviews</v-tab>
+            <v-tab class="d-md-none" value="coursecontents"
+              >Course Contents</v-tab
+            >
           </v-tabs>
 
           <v-card-text>
@@ -73,11 +88,46 @@
 
               <v-window-item value="announcements"> Three </v-window-item>
               <v-window-item value="reviews"> Four </v-window-item>
+
+              <v-window-item value="coursecontents">
+                <v-list
+                  v-for="(lesson, index) in course.lessons"
+                  :key="index"
+                  :class="`elevation-${2}`"
+                  density="compact"
+                >
+                  <v-list-group>
+                    <template v-slot:activator="{ props }">
+                      <v-list-item
+                        v-bind="props"
+                        :title="index + 1 + '. ' + lesson.title"
+                      ></v-list-item>
+                    </template>
+
+                    <!-- :title="i + 1 + '. ' + video.title" -->
+                    <v-list-item
+                      v-for="(video, i) in lesson.videos"
+                      :key="i"
+                      @click="loadNewLecture(index, i)"
+                      class="sub-lecture-list"
+                      density="compact"
+                      :style="{
+                        backgroundColor:
+                          selectedIndex === index && selectedI === i
+                            ? '#6FBEDF'
+                            : '',
+                      }"
+                    >
+                      <input type="checkbox" /> {{ i + 1 + ". " + video.title }}
+                    </v-list-item>
+                  </v-list-group>
+                </v-list>
+              </v-window-item>
             </v-window>
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" md="3">
+      <v-col cols="12" md="3" class="d-none d-md-block">
         <v-list
           v-for="(lesson, index) in course.lessons"
           :key="index"
@@ -130,6 +180,9 @@ export default {
       tab: null,
       selectedIndex: 0,
       selectedI: 0,
+      timeToNextVideo: 5,
+      interval: {},
+      videoEnded: false,
     };
   },
   methods: {
@@ -146,7 +199,19 @@ export default {
       this.selectedIndex = index;
       this.currentVideo = this.course.lessons[index].videos[i];
     },
-    handleVideoEnded() {},
+    handleVideoEnded() {
+      this.videoEnded = true;
+      this.interval = setInterval(() => {
+        if (this.timeToNextVideo === 0) {
+          clearInterval(this.interval);
+          this.timeToNextVideo = 5;
+          this.videoEnded = false;
+          this.loadNewLecture(this.selectedIndex, this.selectedI + 1);
+          return;
+        }
+        this.timeToNextVideo -= 1;
+      }, 1000);
+    },
   },
   async created() {
     this.course = await this.getCourse();
@@ -154,4 +219,19 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.video-area {
+  position: relative;
+}
+.loader {
+  color: blue;
+  text-align: center;
+  position: absolute;
+  z-index: 9999;
+  top: 40%;
+  left: 33%;
+}
+.v-progress-circular {
+  margin: 1rem;
+}
+</style>

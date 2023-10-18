@@ -23,11 +23,11 @@ export default {
   mounted() {
     console.log(this.stats);
   },
-  methods:{
-    viewCourse(courseId){
-      this.$router.push(`/instructor/course/view/${courseId}`)
-    }
-  }
+  methods: {
+    viewCourse(courseId) {
+      this.$router.push(`/instructor/course/view/${courseId}`);
+    },
+  },
 };
 </script>
 <style scoped>
