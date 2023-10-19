@@ -1,6 +1,42 @@
 <template>
   <div>
     <navbar></navbar>
+    <v-sheet
+      elevation="12"
+      max-width="600"
+      rounded="lg"
+      width="100%"
+      class="pa-4 text-center mx-auto paymentSuccess"
+      v-if="successMessage"
+    >
+      <v-icon
+        class="mb-5"
+        color="success"
+        icon="mdi-check-circle"
+        size="112"
+      ></v-icon>
+
+      <h2 class="text-h5 mb-6">Payment Successful!</h2>
+
+      <p class="mb-4 text-medium-emphasis text-body-2">
+        You have successfully enrolled in this course! Happy Learning!
+      </p>
+
+      <v-divider class="mb-4"></v-divider>
+
+      <div class="text-end">
+        <v-btn
+          class="text-none"
+          color="success"
+          rounded
+          variant="flat"
+          width="90"
+          @click="hideSuccess"
+        >
+          Done
+        </v-btn>
+      </div>
+    </v-sheet>
     <v-row class="container-secondary mt-4">
       <v-col cols="12" md="9">
         <div id="video-area">
@@ -183,9 +219,13 @@ export default {
       timeToNextVideo: 5,
       interval: {},
       videoEnded: false,
+      successMessage: false,
     };
   },
   methods: {
+    hideSuccess() {
+      this.successMessage = false;
+    },
     async getCourse() {
       const res = await this.$store.dispatch("fetchSingleCourse", {
         courseId: this.$route.query.courseId,
@@ -216,6 +256,9 @@ export default {
   async created() {
     this.course = await this.getCourse();
     this.instructor = this.course.instructor;
+    if (this.$route.query.payment === "success") {
+      this.successMessage = true;
+    }
   },
 };
 </script>
@@ -233,5 +276,12 @@ export default {
 }
 .v-progress-circular {
   margin: 1rem;
+}
+.paymentSuccess {
+  position: absolute;
+  z-index: 99999;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20%;
 }
 </style>

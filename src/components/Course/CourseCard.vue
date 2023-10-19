@@ -27,8 +27,22 @@
       >{{ course.enrollments }} learners</v-card-text
     >
     <v-card-actions style="margin-top: -15px">
-      <v-btn color="primaryTheme" variant="tonal" @click="enroll">
+      <v-btn
+        v-if="type === 'all'"
+        color="primaryTheme"
+        variant="tonal"
+        @click="enroll"
+      >
         Enroll
+      </v-btn>
+
+      <v-btn
+        v-if="type === 'enrolled'"
+        color="primaryTheme"
+        variant="tonal"
+        @click="goToCourse"
+      >
+        Go To Course
       </v-btn>
 
       <v-spacer></v-spacer>
@@ -52,7 +66,7 @@
 </template>
 <script>
 export default {
-  props: ["course"],
+  props: ["course", "type"],
   mounted() {
     console.log(this.course);
   },
@@ -62,6 +76,9 @@ export default {
   methods: {
     enroll() {
       this.$router.push(`/student/enroll/${this.course._id}`);
+    },
+    goToCourse() {
+      this.$router.push(`/student/learn?courseId=${this.course._id}`);
     },
   },
 };

@@ -3,8 +3,9 @@
 </template>
 
 <script>
+import CheckOut from "./views/common/CheckOut.vue";
 export default {
-  components: {},
+  components: { CheckOut },
 };
 </script>
 

@@ -102,9 +102,10 @@
         </div>
 
         <v-card-actions>
-          <v-btn color="primaryTheme" variant="tonal" @click="reserve">
-            Enroll
-          </v-btn>
+          <check-out
+            :courseId="course._id"
+            :priceId="course.stripePriceId"
+          ></check-out>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -113,9 +114,9 @@
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
 import VideoPlayer from "@/components/Video/VideoPlayer.vue";
-
+import CheckOut from "../common/CheckOut.vue";
 export default {
-  components: { Navbar, VideoPlayer },
+  components: { Navbar, VideoPlayer, CheckOut },
   data() {
     return {
       course: {},
@@ -123,6 +124,7 @@ export default {
       selection: 1,
       instructor: {},
       currentVideo: {},
+      stripe: null,
     };
   },
   methods: {
@@ -132,11 +134,6 @@ export default {
       });
       console.log(res);
       return res;
-    },
-    reserve() {
-      this.loading = true;
-
-      setTimeout(() => (this.loading = false), 2000);
     },
   },
   computed: {

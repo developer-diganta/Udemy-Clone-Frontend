@@ -232,4 +232,20 @@ export default {
       console.log(error);
     }
   },
+  async fetchEnrolledCourses({ commit }) {
+    try {
+      const id = localStorage.getItem("_id");
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("email");
+      const res = await axios.post(`${backend_url}/student/enrolledcourses`, {
+        id,
+        token,
+        email,
+      });
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
