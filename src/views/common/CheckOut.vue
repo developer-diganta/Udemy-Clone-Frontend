@@ -8,6 +8,7 @@
 <script>
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import backend_url from '@/globals/globals';
 export default {
   props: ["courseId", "priceId"],
   data() {
@@ -20,11 +21,13 @@ export default {
     async redirect() {
       console.log(this.priceId);
       const session = await axios.post(
-        "http://localhost:3000/create-checkout-session",
+        `${backend_url}/create-checkout-session`,
         {
           priceId: this.priceId,
           studentId: localStorage.getItem("_id"),
           courseId: this.courseId,
+          token: localStorage.getItem("token"),
+          email: localStorage.getItem("email")
         },
       );
       console.log(session.data.url);
@@ -36,7 +39,7 @@ export default {
       "pk_test_51O2oiwSDxAGilksA2fPBMXOJVebI20F6xBdNaGsP86v7377nWhwxflyr1YAxBHAU0LoyV0yEIF4JbRV7YCX44a9H00dPrzu0YZ",
     );
 
-    const courseId = this.$route.params;
+    // const courseId = this.$route.params;
   },
 };
 </script>

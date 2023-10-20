@@ -220,6 +220,7 @@ export default {
       interval: {},
       videoEnded: false,
       successMessage: false,
+      coursemap:new Map()
     };
   },
   methods: {
@@ -239,7 +240,7 @@ export default {
       this.selectedIndex = index;
       this.currentVideo = this.course.lessons[index].videos[i];
     },
-    handleVideoEnded() {
+    async handleVideoEnded() {
       this.videoEnded = true;
       this.interval = setInterval(() => {
         if (this.timeToNextVideo === 0) {
@@ -251,10 +252,26 @@ export default {
         }
         this.timeToNextVideo -= 1;
       }, 1000);
+      if(localStorage.getItem("type")==="student"){
+        
+        const res = await this.$store.dispatch("updateCompletionStatus",{
+          section:this.selectedIndex,
+          videoNumber:this.selectedI
+        })
+        console.log("PPPPPPP",res)
+      }
     },
   },
   async created() {
     this.course = await this.getCourse();
+   
+    for(var i=0;i<this.student.enrolled.length;i++){
+      for(var j=0;this.student.enrolled[i].progress.length;j++){
+        this.coursemap.set(toString(this.course.enrolled[i].progress.section)+","+toString(this.course.enrolled[i].progress.section),1)
+      }
+    }
+
+    console.log(this.coursemap)
     this.instructor = this.course.instructor;
     if (this.$route.query.payment === "success") {
       this.successMessage = true;

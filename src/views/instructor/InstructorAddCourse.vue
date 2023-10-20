@@ -1,3 +1,5 @@
+<!-- Page to allow instructor to add a new course. Fills in details like title, -->
+
 <template>
   <navbar></navbar>
   <section id="add-course">
@@ -40,7 +42,6 @@
         class="input"
       ></v-file-input>
 
-      <!-- <v-text-field v-model="courseMaterials" label="Categories"></v-text-field> -->
 
       <v-btn type="submit" block class="mt-2">Submit</v-btn>
     </v-form>

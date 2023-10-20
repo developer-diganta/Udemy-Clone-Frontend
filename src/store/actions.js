@@ -248,4 +248,41 @@ export default {
       console.log(error);
     }
   },
+  async deleteSection({commit},{courseId, sectionId}){
+    try{
+      console.log(localStorage.getItem("token"))
+      await axios.delete(`${backend_url}/instructor/section/delete`, {
+        data: {
+          email: localStorage.getItem("email"),
+          courseId,
+          token: localStorage.getItem("token"),
+          sectionId,
+          instructorId: localStorage.getItem("_id"),
+        }
+      });
+    }catch(error){
+      console.log(error)
+    }
+  },
+  async updateCompletionStatus({commit},{section,videoNumber}){
+    try{
+      const res = await axios.patch(`${backend_url}/student/statusupdate`, {
+        email: localStorage.getItem("email"),
+          section,
+          token: localStorage.getItem("token"),
+          videoNumber,
+          instructorId: localStorage.getItem("_id"),
+      })
+    }catch(error){
+      console.log(error)
+    }
+  },
+  async getStudentProfile({commit}){
+    try{
+      const res = axios.get(`${backend_url}/student?id=${localStorage.getItem(_id)}`)
+      return res;
+    }catch(error){
+      console.log(error)
+    }
+  }
 };

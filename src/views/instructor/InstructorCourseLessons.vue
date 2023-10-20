@@ -42,10 +42,10 @@
             name="file"
             density="compact"
             class="input"
-            v-if="typeOfUpload === 'lecture'"
             v-model="files"
-          ></v-file-input>
-
+            v-if="typeOfUpload === 'lecture'"
+            ></v-file-input>
+            
           <v-select
             label="Select"
             v-model="select"
@@ -89,7 +89,15 @@
         class="ml-4 list-style-none"
       >
         <li>
-          <h4>{{ index + 1 + ". " + lesson.title }}</h4>
+          <div
+          @click="deleteSection(index)"
+          icon="mdi-minus"
+          size="x-small"
+          variant="text"
+        >
+          X
+        </div>
+        <h4>{{ index + 1 + ". " + lesson.title }}</h4>
           <!-- {{lesson}} -->
           <ul
             v-for="(subsection, i) in lesson.videos"
@@ -186,6 +194,17 @@ export default {
   },
 
   methods: {
+    async deleteSection(index){
+      try{
+        const res = await this.$store.dispatch("deleteSection",{
+          courseId:this.courseID,
+          sectionId: index
+        })
+        this.initialLoad();
+      }catch(error){
+        console.log(error)
+      }
+    },
     handleSubmit() {
       if (this.typeOfUpload === "lecture") {
         this.videoUpload();
