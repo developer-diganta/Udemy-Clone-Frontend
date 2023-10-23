@@ -142,6 +142,7 @@ export default {
       console.log(res);
       return res.data.course;
     } catch (error) {
+      console.log("123",error)
       return error;
     }
   },
@@ -281,6 +282,59 @@ export default {
     try{
       const res = axios.get(`${backend_url}/student?id=${localStorage.getItem(_id)}`)
       return res;
+    }catch(error){
+      console.log(error)
+    }
+  },
+  async addQuestion({commit},{
+    title,
+    description,
+    courseId
+  }){
+    const res = await axios.patch(`${backend_url}/student/course/question`, {
+      email: localStorage.getItem("email"),
+        token: localStorage.getItem("token"),
+        _id: localStorage.getItem("_id"),
+        title,
+        description,
+        courseId
+    })
+  },
+  async submitAnswer({commit},{
+    answer,
+    courseId,
+    questionId
+  }){
+    try{
+      console.log(answer)
+      console.log(courseId)
+      console.log(questionId)
+      const res = await axios.patch(`${backend_url}/student/course/question/answer`,{
+        email: localStorage.getItem("email"),
+        token: localStorage.getItem("token"),
+        _id: localStorage.getItem("_id"),
+        answer,
+        courseId,
+        questionId
+      })
+    }catch(error){
+      console.log(error)
+    }
+  },
+  async submitReview({commit},{
+    rating,
+    review,
+    courseId
+  }){
+    try{
+      const res = await axios.patch(`${backend_url}/student/course/review`,{
+        email: localStorage.getItem("email"),
+        token: localStorage.getItem("token"),
+        _id: localStorage.getItem("_id"),
+        rating,
+        courseId,
+        review
+      })
     }catch(error){
       console.log(error)
     }

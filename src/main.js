@@ -6,9 +6,14 @@ import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+import { VDataIterator } from 'vuetify/labs/VDataIterator'
+
 
 const vuetify = createVuetify({
-  components,
+  components:{
+    VDataIterator,
+    ...components
+  },
   directives,
   theme: {
     themes: {
