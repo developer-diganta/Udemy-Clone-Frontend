@@ -115,16 +115,24 @@
               </v-window-item>
 
               <v-window-item value="qa">
-                <question-answer-form :courseId="course._id"></question-answer-form>
+                <question-answer-form
+                  :courseId="course._id"
+                ></question-answer-form>
 
                 <h3 class="mt-5">Previously Asked Questions</h3>
-                <iterable :items="course.questionAnswers"  page="1" itemsPerPage="3"></iterable> 
-
+                <iterable
+                  :items="course.questionAnswers"
+                  page="1"
+                  itemsPerPage="3"
+                ></iterable>
               </v-window-item>
 
               <v-window-item value="announcements"> Three </v-window-item>
-              <v-window-item value="reviews"> 
-                <reviews :totalRating="course.rating" :reviews="course.reviews"></reviews>  
+              <v-window-item value="reviews">
+                <reviews
+                  :totalRating="course.rating"
+                  :reviews="course.reviews"
+                ></reviews>
               </v-window-item>
 
               <v-window-item value="coursecontents">
@@ -204,12 +212,19 @@
 import VideoPlayer from "@/components/Video/VideoPlayer.vue";
 import Navbar from "@/components/Navbar/Navbar.vue";
 import QuestionAnswer from "@/components/Course/QuestionAnswer.vue";
-import QuestionAnswerForm from '@/components/Course/QuestionAnswerForm.vue';
-import Iterable from '@/components/Common/Iterable.vue';
-import Reviews from '@/components/Course/Reviews.vue';
+import QuestionAnswerForm from "@/components/Course/QuestionAnswerForm.vue";
+import Iterable from "@/components/Common/Iterable.vue";
+import Reviews from "@/components/Course/Reviews.vue";
 
 export default {
-  components: { VideoPlayer, Navbar, QuestionAnswer, QuestionAnswerForm, Iterable, Reviews },
+  components: {
+    VideoPlayer,
+    Navbar,
+    QuestionAnswer,
+    QuestionAnswerForm,
+    Iterable,
+    Reviews,
+  },
   data() {
     return {
       course: {},
@@ -225,12 +240,12 @@ export default {
       interval: {},
       videoEnded: false,
       successMessage: false,
-      coursemap:new Map(),
+      coursemap: new Map(),
       page: 1,
-    items: Array.from({ length: 15 }, (k, v) => ({
-      title: 'Item ' + v + 1,
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum unde voluptatem!',
-    })),
+      items: Array.from({ length: 15 }, (k, v) => ({
+        title: "Item " + v + 1,
+        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum unde voluptatem!",
+      })),
     };
   },
   methods: {
@@ -238,18 +253,17 @@ export default {
       this.successMessage = false;
     },
     async getCourse() {
-      try{
+      try {
         const res = await this.$store.dispatch("fetchSingleCourse", {
           courseId: this.$route.query.courseId,
         });
-        console.log(res.lessons)
+        console.log(res.lessons);
         this.currentVideo = res.lessons[0]?.videos[0];
         this.course = res;
         console.log(this.course);
         // return res;
-
-      }catch(error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
       }
     },
     loadNewLecture(index, i) {
@@ -269,21 +283,20 @@ export default {
         }
         this.timeToNextVideo -= 1;
       }, 1000);
-      if(localStorage.getItem("type")==="student"){
-        
-        const res = await this.$store.dispatch("updateCompletionStatus",{
-          section:this.selectedIndex,
-          videoNumber:this.selectedI
-        })
-        console.log("PPPPPPP",res)
+      if (localStorage.getItem("type") === "student") {
+        const res = await this.$store.dispatch("updateCompletionStatus", {
+          section: this.selectedIndex,
+          videoNumber: this.selectedI,
+        });
+        console.log("PPPPPPP", res);
       }
     },
   },
   async created() {
-    console.log("HERE AM I")
+    console.log("HERE AM I");
     await this.getCourse();
-    console.log(this.course)
-    // const student = await 
+    console.log(this.course);
+    // const student = await
     // for(var i=0;i<this.student.enrolled.length;i++){
     //   for(var j=0;this.student.enrolled[i].progress.length;j++){
     //     this.coursemap.set(toString(this.course.enrolled[i].progress.section)+","+toString(this.course.enrolled[i].progress.section),1)

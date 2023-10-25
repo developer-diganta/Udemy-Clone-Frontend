@@ -8,7 +8,7 @@
 <script>
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import backend_url from '@/globals/globals';
+import backend_url from "@/globals/globals";
 export default {
   props: ["courseId", "priceId"],
   data() {
@@ -27,7 +27,7 @@ export default {
           studentId: localStorage.getItem("_id"),
           courseId: this.courseId,
           token: localStorage.getItem("token"),
-          email: localStorage.getItem("email")
+          email: localStorage.getItem("email"),
         },
       );
       console.log(session.data.url);

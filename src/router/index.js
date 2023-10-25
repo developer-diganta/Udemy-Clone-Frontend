@@ -11,6 +11,12 @@ import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons
 import StudentHomePage from "../views/student/StudentHomePage";
 import StudentEnrollPage from "../views/student/StudentEnrollPage";
 import StudentCoursePage from "../views/student/StudentCoursePage";
+import AdminHomePage from "../views/admin/AdminHomePage";
+import AdminCourses from "../views/admin/AdminCourses";
+import Admin from "../views/admin/Admin";
+import AdminInstructors from "../views/admin/AdminInstructors";
+import AdminStudents from "../views/admin/AdminStudents";
+
 
 import App from "../App";
 
@@ -18,6 +24,28 @@ const routes = [
   {
     path: "/",
     redirect: "/signup/email/instructor",
+  },
+  {
+    path: "/admin",
+    component: Admin,
+    children: [
+      {
+        path: "home",
+        component: AdminHomePage,
+      },
+      {
+        path: "courses",
+        component: AdminCourses,
+      },
+      {
+        path:"instructors",
+        component: AdminInstructors
+      },
+      {
+        path:"students",
+        component: AdminStudents
+      }
+    ],
   },
   {
     path: "/otp",

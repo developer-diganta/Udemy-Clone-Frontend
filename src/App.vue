@@ -22,8 +22,7 @@ export default {
   list-style-type: none;
 }
 
-.m-2{
-  margin:5px !important
+.m-2 {
+  margin: 5px !important;
 }
-
 </style>

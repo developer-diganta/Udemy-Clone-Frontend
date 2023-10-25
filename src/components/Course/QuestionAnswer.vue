@@ -19,19 +19,29 @@
       <v-card-text>
         {{ questionAnswers.description }}
       </v-card-text>
-      <v-card width="500" class="m-2 ml-auto mr-auto" v-for="(answer,index) in questionAnswers.answers" :key="index">
-        <v-card-text >
-          {{answer.answer}}
+      <v-card
+        width="500"
+        class="m-2 ml-auto mr-auto"
+        v-for="(answer, index) in questionAnswers.answers"
+        :key="index"
+      >
+        <v-card-text>
+          {{ answer.answer }}
         </v-card-text>
-        <v-card-text>By {{answer.answerer}}, {{getPeriod(answer.answeredOn)}}</v-card-text>
+        <v-card-text
+          >By {{ answer.answerer }},
+          {{ getPeriod(answer.answeredOn) }}</v-card-text
+        >
       </v-card>
       <v-form
         @submit.prevent
         v-if="answerFormActivated"
-        style="margin-left:5%;margin-right:5%"
+        style="margin-left: 5%; margin-right: 5%"
       >
         <v-textarea v-model="answer" label="Your Answer"></v-textarea>
-        <v-btn type="submit" block class="mt-2" @click="submitAnswer">Submit</v-btn>
+        <v-btn type="submit" block class="mt-2" @click="submitAnswer"
+          >Submit</v-btn
+        >
       </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -65,28 +75,24 @@ export default {
       answerFormActivated: false,
     };
   },
-  methods:{
-    async submitAnswer(){
+  methods: {
+    async submitAnswer() {
       const res = await this.$store.dispatch("submitAnswer", {
-        answer:this.answer,
-        courseId:this.$route.query.courseId,
-        questionId:this.questionAnswers._id
-      })
+        answer: this.answer,
+        courseId: this.$route.query.courseId,
+        questionId: this.questionAnswers._id,
+      });
     },
-    getPeriod(time){
-
-
-return moment(time).fromNow()
-    }
+    getPeriod(time) {
+      return moment(time).fromNow();
+    },
   },
   watch: {
     dialog() {
       if (this.dialog === false) this.answerFormActivated = false;
     },
   },
-  computed:{
-
-  }
+  computed: {},
 };
 </script>
 <style>

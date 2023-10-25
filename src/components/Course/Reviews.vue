@@ -5,9 +5,7 @@
     height="auto"
     width="auto"
   >
-    <div class="d-flex justify-center mt-auto text-h5 ">
-      Rating overview
-    </div>
+    <div class="d-flex justify-center mt-auto text-h5">Rating overview</div>
 
     <div class="d-flex align-center flex-column my-auto">
       <div class="text-h2 mt-5">
@@ -68,7 +66,9 @@
           v-model="personalReview"
           label="Your Review"
         ></v-textarea>
-        <v-btn type="submit" block class="mt-2" @click="submitReview">Submit</v-btn>
+        <v-btn type="submit" block class="mt-2" @click="submitReview"
+          >Submit</v-btn
+        >
       </v-form>
     </div>
   </v-card>
@@ -94,14 +94,14 @@ export default {
   },
   methods: {
     async submitReview() {
-      try{
-        await this.$store.dispatch("submitReview",{
-            rating:this.givenRating,
-            review: this.personalReview,
-            courseId:this.$route.query.courseId
-        })
-      }catch(error){
-        console.log(error)
+      try {
+        await this.$store.dispatch("submitReview", {
+          rating: this.givenRating,
+          review: this.personalReview,
+          courseId: this.$route.query.courseId,
+        });
+      } catch (error) {
+        console.log(error);
       }
     },
   },
@@ -109,7 +109,7 @@ export default {
     totalRatings() {
       return this.reviewss.reduce(
         (rating, review) => rating + review.rating,
-        0
+        0,
       );
     },
   },

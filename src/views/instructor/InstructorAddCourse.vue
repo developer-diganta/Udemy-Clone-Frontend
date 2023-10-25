@@ -42,7 +42,6 @@
         class="input"
       ></v-file-input>
 
-
       <v-btn type="submit" block class="mt-2">Submit</v-btn>
     </v-form>
   </section>

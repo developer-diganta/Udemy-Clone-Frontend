@@ -1,40 +1,40 @@
 <template>
-    <h4>Ask your Question</h4>
-    <v-form @submit.prevent="addQuestion">
-        <v-text-field
-        density="compact"
-          v-model="title"
-          :rules="rules"
-          label="Question Title. Keep it brief and to the point"
-        ></v-text-field>
+  <h4>Ask your Question</h4>
+  <v-form @submit.prevent="addQuestion">
+    <v-text-field
+      density="compact"
+      v-model="title"
+      :rules="rules"
+      label="Question Title. Keep it brief and to the point"
+    ></v-text-field>
 
-        <v-textarea v-model="description" clearable label="Describe your question in detail"></v-textarea>
+    <v-textarea
+      v-model="description"
+      clearable
+      label="Describe your question in detail"
+    ></v-textarea>
 
-        <v-btn type="submit" block class="mt-2">Submit</v-btn>
-      </v-form>
-      
+    <v-btn type="submit" block class="mt-2">Submit</v-btn>
+  </v-form>
 </template>
 <script>
 export default {
-    props:["courseId"],
-    data(){
-        return{
-            title:"",
-            description:"",
-           
-        }
+  props: ["courseId"],
+  data() {
+    return {
+      title: "",
+      description: "",
+    };
+  },
+  methods: {
+    async addQuestion() {
+      await this.$store.dispatch("addQuestion", {
+        title: this.title,
+        description: this.description,
+        courseId: this.courseId,
+      });
     },
-    methods:{
-        async addQuestion(){
-            await this.$store.dispatch("addQuestion",{
-                title:this.title,
-                description: this.description,
-                courseId: this.courseId
-            })
-        }
-    }
-}
+  },
+};
 </script>
-<style scoped>
-    
-</style>
+<style scoped></style>

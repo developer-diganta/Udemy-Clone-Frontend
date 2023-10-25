@@ -1,44 +1,43 @@
 <template>
   <navbar></navbar>
 
-
   <v-sheet
-  elevation="12"
-  max-width="600"
-  rounded="lg"
-  width="100%"
-  class="pa-4 text-center mx-auto paymentFailure"
-  v-if="failureMessage"
+    elevation="12"
+    max-width="600"
+    rounded="lg"
+    width="100%"
+    class="pa-4 text-center mx-auto paymentFailure"
+    v-if="failureMessage"
   >
-  <v-icon
-    class="mb-5"
-    color="error"
-    icon="mdi-close-circle"
-    size="112"
-  ></v-icon>
-
-  <h2 class="text-h5 mb-6">Payment Failed!</h2>
-
-  <p class="mb-4 text-medium-emphasis text-body-2">
-    Oops! An error occurred during the transaction. In case any funds were deducted, it would be refunded within 72 hours.
-  </p>
-
-  <v-divider class="mb-4"></v-divider>
-
-  <div class="text-end">
-    <v-btn
-      class="text-none"
+    <v-icon
+      class="mb-5"
       color="error"
-      rounded
-      variant="flat"
-      width="90"
-      @click="hideFailure"
-    >
-      Close
-    </v-btn>
-  </div>
-</v-sheet>
+      icon="mdi-close-circle"
+      size="112"
+    ></v-icon>
 
+    <h2 class="text-h5 mb-6">Payment Failed!</h2>
+
+    <p class="mb-4 text-medium-emphasis text-body-2">
+      Oops! An error occurred during the transaction. In case any funds were
+      deducted, it would be refunded within 72 hours.
+    </p>
+
+    <v-divider class="mb-4"></v-divider>
+
+    <div class="text-end">
+      <v-btn
+        class="text-none"
+        color="error"
+        rounded
+        variant="flat"
+        width="90"
+        @click="hideFailure"
+      >
+        Close
+      </v-btn>
+    </div>
+  </v-sheet>
 
   <v-row class="container-secondary">
     <v-col cols="12" md="8">
@@ -165,11 +164,11 @@ export default {
       instructor: {},
       currentVideo: {},
       stripe: null,
-      failureMessage:false
+      failureMessage: false,
     };
   },
   methods: {
-    hideFailure(){
+    hideFailure() {
       this.failureMessage = false;
     },
     async getCourse() {
@@ -199,11 +198,11 @@ export default {
 };
 </script>
 <style scoped>
-  .paymentFailure{
-    position: absolute;
-    z-index: 99999;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 20%;
-  }
+.paymentFailure {
+  position: absolute;
+  z-index: 99999;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20%;
+}
 </style>
