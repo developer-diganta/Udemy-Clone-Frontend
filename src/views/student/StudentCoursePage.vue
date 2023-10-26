@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navbar></navbar>
     <v-sheet
       elevation="12"
       max-width="600"
@@ -42,7 +41,7 @@
         <div id="video-area">
           <video-player
             @video-ended="handleVideoEnded"
-            :currentVideo="currentVideo.videoLink"
+            :currentVideo="currentVideo?.videoLink"
           >
           </video-player>
           <div class="loader" v-if="videoEnded">
@@ -124,6 +123,7 @@
                   :items="course.questionAnswers"
                   page="1"
                   itemsPerPage="3"
+                  type="qa"
                 ></iterable>
               </v-window-item>
 
@@ -259,6 +259,7 @@ export default {
         });
         console.log(res.lessons);
         this.currentVideo = res.lessons[0]?.videos[0];
+
         this.course = res;
         console.log(this.course);
         // return res;

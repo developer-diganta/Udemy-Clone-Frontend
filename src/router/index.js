@@ -3,6 +3,7 @@ import EmailForm from "../views/common/EmailForm.vue";
 import InstructorSignUp from "../views/instructor/InstructorSignup.vue";
 import StudentSignUp from "../views/student/StudentSignup.vue";
 import SignInForm from "../views/common/SignIn";
+import SearchResultsPage from "../views/common/SearchResultsPage";
 import InstructorHomePage from "../views/instructor/InstructorHomePage";
 import InstructorProfile from "../views/instructor/InstructorProfile";
 import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
@@ -11,12 +12,16 @@ import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons
 import StudentHomePage from "../views/student/StudentHomePage";
 import StudentEnrollPage from "../views/student/StudentEnrollPage";
 import StudentCoursePage from "../views/student/StudentCoursePage";
+import StudentProfilePage from "../views/student/StudentProfilePage";
+import StudentEnrolledCourses from "../views/student/StudentEnrolledCourses";
+import Student from "../views/student/Student";
 import AdminHomePage from "../views/admin/AdminHomePage";
 import AdminCourses from "../views/admin/AdminCourses";
 import Admin from "../views/admin/Admin";
 import AdminInstructors from "../views/admin/AdminInstructors";
 import AdminStudents from "../views/admin/AdminStudents";
-
+import AdminRevenue from "../views/admin/AdminRevenue";
+import AdminSignIn from "../views/admin/AdminSignIn";
 
 import App from "../App";
 
@@ -38,15 +43,24 @@ const routes = [
         component: AdminCourses,
       },
       {
-        path:"instructors",
-        component: AdminInstructors
+        path: "instructors",
+        component: AdminInstructors,
       },
       {
-        path:"students",
-        component: AdminStudents
-      }
+        path: "students",
+        component: AdminStudents,
+      },
+      {
+        path: "revenue",
+        component: AdminRevenue,
+      },
     ],
   },
+  {
+    path: "/admin/signin",
+    component: AdminSignIn,
+  },
+
   {
     path: "/otp",
     name: "EmailForm",
@@ -96,6 +110,38 @@ const routes = [
     path: "/instructor/profile",
     component: InstructorProfile,
   },
+
+  {
+    path: "/student",
+    component: Student,
+    children: [
+      {
+        path: "enroll/:id",
+        name: "StudentEnroll",
+        component: StudentEnrollPage,
+      },
+      {
+        path: "home",
+        component: StudentHomePage,
+      },
+      {
+        path: "learn",
+        component: StudentCoursePage,
+      },
+      {
+        path: "search",
+        component: SearchResultsPage,
+      },
+      {
+        path: "profile",
+        component: StudentProfilePage,
+      },
+      {
+        path: "enrolledCourses",
+        component: StudentEnrolledCourses,
+      },
+    ],
+  },
   {
     path: "/student/signup",
     name: "StudentSignUp",
@@ -107,11 +153,6 @@ const routes = [
         next("/student/signup/email");
       }
     },
-  },
-  {
-    path: "/student/enroll/:id",
-    name: "StudentEnroll",
-    component: StudentEnrollPage,
   },
 
   {
@@ -134,25 +175,10 @@ const routes = [
     },
   },
 
-  {
-    path: "/student/home",
-    component: StudentHomePage,
-    beforeEnter: (to, from, next) => {
-      if (localStorage.getItem("type") === "student") {
-        next();
-      } else {
-        next("/signin/student");
-      }
-    },
-  },
-  {
-    path: "/student/enroll/:id",
-    component: StudentEnrollPage,
-  },
-  {
-    path: "/student/learn",
-    component: StudentCoursePage,
-  },
+  // {
+  //   path: "/student/enroll/:id",
+  //   component: StudentEnrollPage,
+  // },
 ];
 
 const otpValidationIsComplete = () => {

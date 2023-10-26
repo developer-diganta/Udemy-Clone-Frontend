@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default {
   async searchResultsFromAPI({ commit }, searchKey) {
+    console.log;
     try {
       const res = await axios.get(
         `${backend_url}/courses/fuzzysearch?search=${searchKey}`,
@@ -281,8 +282,9 @@ export default {
   async getStudentProfile({ commit }) {
     try {
       const res = axios.get(
-        `${backend_url}/student?id=${localStorage.getItem(_id)}`,
+        `${backend_url}/student?id=${localStorage.getItem("_id")}`,
       );
+      console.log(res);
       return res;
     } catch (error) {
       console.log(error);
@@ -336,12 +338,24 @@ export default {
     const courses = await axios.get(`${backend_url}/courses/all`);
     return courses.data;
   },
-  async getAllStudents({commit}){
+  async getAllStudents({ commit }) {
     const students = await axios.get(`${backend_url}/admin/students`);
     return students.data;
   },
-  async getAllInstructors({commit}){
+  async getAllInstructors({ commit }) {
     const instructors = await axios.get(`${backend_url}/admin/instructors`);
     return instructors.data;
-  }
+  },
+  async getRevenue({ commit }) {
+    const revenue = await axios.post(`${backend_url}/getpayments`);
+    return revenue.data;
+  },
+  async adminSignIn({ commit }, { userName, password }) {
+    const res = await axios.post(`${backend_url}/admin/signin`, {
+      userName,
+      password,
+    });
+
+    return res.data;
+  },
 };

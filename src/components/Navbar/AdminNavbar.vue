@@ -6,6 +6,8 @@
         :rail="rail"
         permanent
         @click="rail = false"
+        color="primaryTheme"
+        style="color: white !important"
       >
         <v-list-item
           prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
@@ -48,11 +50,11 @@
             value="students"
           ></v-list-item>
           <v-list-item
-          prepend-icon="mdi-cash"
-          @click="adminRoute('revenue')"
-          title="Revenue"
-          value="revenue"
-        ></v-list-item>
+            prepend-icon="mdi-cash"
+            @click="adminRoute('revenue')"
+            title="Revenue"
+            value="revenue"
+          ></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main></v-main>

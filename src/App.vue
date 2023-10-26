@@ -25,4 +25,12 @@ export default {
 .m-2 {
   margin: 5px !important;
 }
+
+.centered {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

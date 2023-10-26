@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form id="search">
+    <form id="search" @submit.prevent="search">
       <input
         type="text"
         placeholder="Search Courses"
@@ -69,6 +69,16 @@ export default {
       this.searchKey = e.target.value;
       this.onInput();
     },
+    search() {
+      this.$router.push(`/student/search?searchQuery=${this.searchKey}`);
+    },
+  },
+  beforeRouteUpdate(to, from, next) {
+    // This hook is called when the route is changing but the component is being reused.
+    // You can refetch data here.
+    this.searchKey = to.query.searchQuery || ""; // Update searchKey from the new route
+    this.onInput(); // Re-fetch data
+    next(); // Don't forget to call next() to continue the route navigation.
   },
   mounted() {
     document.addEventListener("click", this.clearSearchResultsOnOutsideClick);

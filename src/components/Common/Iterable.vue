@@ -6,19 +6,82 @@
         class="ml-auto mr-2"
         variant="tonal"
         size="small"
-        @click="sortItems(1)"
+        @click="sortItems(1, 'askedOn')"
+        v-if="type === 'qa'"
       ></v-btn>
       <v-btn
         icon="mdi-sort-calendar-descending"
         class="mr-2"
         variant="tonal"
         size="small"
-        @click="sortItems(-1)"
+        @click="sortItems(-1, 'askedOn')"
+        v-if="type === 'qa'"
       ></v-btn>
+
+      <div>
+        Filters:
+        <v-btn
+          class="ml-auto mr-2"
+          variant="tonal"
+          size="small"
+          @click="sortItems(1, 'price')"
+          v-if="type === 'search'"
+          >Price Lowest To Highest</v-btn
+        >
+
+        <v-btn
+          class="mr-2"
+          variant="tonal"
+          size="small"
+          @click="sortItems(-1, 'price')"
+          v-if="type === 'search'"
+          >Price Highest To Lowest</v-btn
+        >
+
+        <v-btn
+          class="ml-auto mr-2"
+          variant="tonal"
+          size="small"
+          @click="sortItems(1, 'rating')"
+          v-if="type === 'search'"
+          >Ratings</v-btn
+        >
+
+        <v-btn
+          class="ml-auto mr-2"
+          variant="tonal"
+          size="small"
+          @click="sortItems(1, 'enrollments')"
+          v-if="type === 'search'"
+          >Most Enrolled</v-btn
+        >
+      </div>
     </div>
-    <v-card border v-for="(item, index) in currentItems" :key="index">
-      <question-answer :questionAnswers="item"></question-answer>
-    </v-card>
+
+    <div v-if="type === 'qa'">
+      <v-card border v-for="(item, index) in currentItems" :key="index">
+        <question-answer :questionAnswers="item"></question-answer>
+      </v-card>
+    </div>
+
+    <div v-if="type === 'search'">
+      <v-row>
+        <v-col
+          cols="12"
+          md="3"
+          style="margin: 10px"
+          v-for="(item, index) in currentItems"
+          :key="index"
+        >
+          <course-card
+            v-if="type === 'search'"
+            type="all"
+            :course="item"
+          ></course-card>
+        </v-col>
+      </v-row>
+    </div>
+
     <div class="iterable-buttons d-flex gap-2">
       <v-btn
         v-for="index in totalPages"
@@ -37,10 +100,11 @@
 
 <script>
 import QuestionAnswer from "../Course/QuestionAnswer.vue";
+import CourseCard from "@/components/Course/CourseCard.vue";
 
 export default {
-  components: { QuestionAnswer },
-  props: ["items", "page", "itemsPerPage"],
+  components: { QuestionAnswer, CourseCard },
+  props: ["items", "page", "itemsPerPage", "type"],
   data() {
     return {
       currentPage: 0,
@@ -54,19 +118,21 @@ export default {
       this.currentPage = index - 1;
       this.updateCurrentItems();
     },
-    sortItems(order) {
+    sortItems(order, field) {
+      console.log("field");
       switch (order) {
         case 1:
           this.itemsCopy = this.itemsCopy.sort(
-            (a, b) => new Date(a.askedOn) - new Date(b.askedOn),
+            (a, b) => new Date(a[field]) - new Date(b[field]),
           );
           break;
         case -1:
           this.itemsCopy = this.itemsCopy.sort(
-            (a, b) => new Date(b.askedOn) - new Date(a.askedOn),
+            (a, b) => new Date(b[field]) - new Date(a[field]),
           );
           break;
       }
+      console.log(this.itemsCopy);
       this.updateCurrentItems();
     },
     updateCurrentItems() {
@@ -86,6 +152,7 @@ export default {
     },
   },
   created() {
+    console.log(this.items);
     this.itemsCopy = [...this.items];
     this.updateCurrentItems();
   },

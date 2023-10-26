@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" lg="3" style="margin: 10px">
+  <v-col cols="12" lg="4" style="margin: 10px">
     <v-card color="primaryTheme" variant="elevated">
       <v-card-item>
         <div>

@@ -1,30 +1,43 @@
 <template lang="">
-  <h1 class="text-center mb-4">Courses</h1>
+  <v-breadcrumbs :items="['admin', 'courses']"></v-breadcrumbs>
   <v-row class="justify-center">
     <v-col cols="12" lg="5">
-      <pie
-        :labels="['Pending Courses', 'Published Courses']"
-        :data="[pendingCourses, publishedCourses]"
-      ></pie>
+      <v-sheet :elevation="6" class="pb-5" rounded>
+        <pie
+          :labels="['Pending Courses', 'Published Courses']"
+          :data="[pendingCourses, publishedCourses]"
+          title="Course Status"
+        ></pie>
+      </v-sheet>
     </v-col>
 
     <v-col cols="12" lg="5">
-      <bar
-        :totalCourses="totalCourses"
-        :pendingCourses="pendingCourses"
-        :publishedCourses="publishedCourses"
-      ></bar>
+      <v-sheet :elevation="6" class="pt-16 pb-16" rounded>
+        <bar
+          :totalCourses="totalCourses"
+          :pendingCourses="pendingCourses"
+          :publishedCourses="publishedCourses"
+        ></bar>
+      </v-sheet>
     </v-col>
 
     <v-col cols="12" lg="5">
-      <line-graph
-        :yearData="thisYear"
-        title="Courses Created This Year"
-      ></line-graph>
+      <v-sheet :elevation="6" class="pt-8 pb-9" rounded>
+        <line-graph
+          :yearData="thisYear"
+          title="Courses Created This Year"
+        ></line-graph>
+      </v-sheet>
     </v-col>
 
     <v-col cols="12" lg="5">
-      <pie :labels="pieLabels" :data="pieData"></pie>
+      <v-sheet :elevation="6" class="pb-5" rounded>
+        <pie
+          :labels="pieLabels"
+          :data="pieData"
+          title="Category Distribution"
+        ></pie>
+      </v-sheet>
     </v-col>
   </v-row>
 </template>

@@ -1,6 +1,4 @@
 <template>
-  <navbar></navbar>
-
   <v-sheet
     elevation="12"
     max-width="600"

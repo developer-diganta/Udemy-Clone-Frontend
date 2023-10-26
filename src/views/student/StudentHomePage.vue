@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navbar></navbar>
     <section id="student-homepage">
       <h3 style="text-align: center">Explore the trending courses</h3>
       <v-row no-gutters>

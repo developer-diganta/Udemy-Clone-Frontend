@@ -17,13 +17,12 @@ export default {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins:{
+        plugins: {
           title: {
-          display: true,
-          text: this.title
-        }
-
-        }
+            display: true,
+            text: this.title,
+          },
+        },
       },
     };
   },
