@@ -59,19 +59,13 @@ export default {
     async signInSubmit(e) {
       console.log(this.email);
       try {
-        const res = await this.$store.dispatch("signInSubmit", {
+        await this.$store.dispatch("user/signInSubmit", {
           email: this.email,
           password: this.password,
           endPoint: this.endPoint,
         });
-        localStorage.clear();
-        localStorage.setItem("email", res.data.email);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("_id", res.data._id);
-        localStorage.setItem("type", this.type);
         this.credentialsMismatch = false;
         this.credentialsMatch = true;
-        this.$store.commit("user/setUserName", { name: res.data.name });
         this.$router.push(`/${this.type}/home`);
       } catch (error) {
         console.log(error);

@@ -90,24 +90,13 @@ const submit = async () => {
   try {
     console.log("here");
 
-    const res = await store.dispatch("instructorSignUp", {
+    await store.dispatch("user/instructorSignUp", {
       email: email.value.value,
       name: name.value.value,
       password: password.value.value,
       bio: bio.value.value,
       profileImage: profileImage._value,
     });
-    console.log(res.data);
-    // const token = res.headers.authorization.split(" ")[1];
-    localStorage.clear();
-    // localStorage.setItem("token", token);
-    if (res.data._id) {
-      localStorage.setItem("_id", res.data._id);
-    } else if (res.data.otpValidation === 0) {
-      localStorage.setItem("otpValidation", res.data.otpValidation);
-    }
-    localStorage.setItem("email", res.data.email);
-    localStorage.setItem("type", res.data.type);
     router.push("/otp");
   } catch (error) {
     console.log(error);

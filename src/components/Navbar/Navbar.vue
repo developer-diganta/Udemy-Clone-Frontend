@@ -28,10 +28,20 @@
 
   <nav class="d-none d-lg-block">
     <div class="navbar-content container">
-      <h3>Udemy Clone</h3>
+      <h3 @click="redirectToHome" class="pointer">Udemy Clone</h3>
       <ul>
         <li>
           <search></search>
+        </li>
+        
+        <li v-if="$store.state.user.type==='instructor'">
+          <v-btn
+            @click="redirectToAddCourse"
+            color="primaryTheme"
+            style="color: white"
+            icon="mdi-plus"
+            size="x-small"
+          ></v-btn>
         </li>
         <li>
           <v-menu>
@@ -54,36 +64,40 @@
             </v-list>
           </v-menu>
         </li>
-        <li>
-          <v-btn
-            @click="redirectToAddCourse"
-            style="background-color: #008080; color: white"
-            icon="mdi-plus"
-            size="x-small"
-          ></v-btn>
-        </li>
+
         <li>
           <v-menu>
             <template v-slot:activator="{ props }">
               <v-btn
                 style="background-color: #008080; color: white"
+
                 icon="mdi-account"
                 size="x-small"
                 v-bind="props"
               ></v-btn>
             </template>
             <v-list>
+              <v-list-item-title class="nav-profile">
+                <span style="font-size:18px;font-weight:bold">{{$store.state.user.name}}</span>
+                <br/>
+                {{ $store.state.user.email }}
+              </v-list-item-title>
+              <v-divider></v-divider>
               <v-list-item
                 v-for="(item, index) in account"
                 :key="index"
                 :value="index"
               >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-title  @click="redirect(item.title)">{{ item.title }}</v-list-item-title>
+
+
               </v-list-item>
             </v-list>
           </v-menu>
         </li>
-        <li @click="logout">Logout</li>
+
+
+        <!-- <li @click="logout">Logout</li> -->
         <!-- <li>B</li>
         <li>C</li> -->
       </ul>
@@ -111,6 +125,12 @@ ul {
   margin-left: auto;
   gap: 20px;
 }
+
+.nav-profile{
+  padding:10%;
+  font-size:12px;
+}
+
 </style>
 
 <script>
@@ -123,13 +143,7 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    account: [
-      { title: "Profile" },
-      { title: "Courses" },
-      { title: "Revenue" },
-      { title: "Statistics" },
-      { title: "Logout" },
-    ],
+
   }),
 
   methods: {
@@ -139,7 +153,34 @@ export default {
     async logout() {
       await this.$store.dispatch("logout");
     },
+    async redirect(title){
+      if(title==="Logout"){
+        await this.logout()
+      }else{
+        this.$router.push(`/${this.$store.state.user.type}/${title.split(' ').join('').toLowerCase()}`)
+      }
+    },
+    redirectToHome(){
+      this.$router.push(`/${this.$store.state.user.type}/home`)
+    },
   },
+
+  computed:{
+      account(){
+      const baseAccount = [
+        { title: "Profile" },
+        { title: "Logout" },
+      ]
+
+      if(this.$store.state.user.type==="student"){
+        baseAccount.splice(1,0,{
+          title:"Enrolled Courses"
+        })
+      }
+      return baseAccount
+      }
+
+    },
 
   watch: {
     group() {

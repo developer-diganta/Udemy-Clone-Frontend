@@ -1,14 +1,65 @@
 <template>
   <div class="ml-6 p-5 qa" @click="dialog = true">
     <p class="font-weight-bold">{{ questionAnswers.title }}</p>
-    <p>
+    <!-- <p>
       {{
         questionAnswers.description.length > 100
           ? questionAnswers.description.substring(0, 100) + "..."
           : questionAnswers.description
       }}
-    </p>
+    </p> -->
     <p>By {{ questionAnswers.askedBy }}, {{ dt }}</p>
+
+    <v-card>
+      <!-- <v-card-title>{{ questionAnswers.title }}</v-card-title>
+      <v-divider></v-divider> -->
+
+      <v-card-text>
+        {{ questionAnswers.description }}
+      </v-card-text>
+      <v-card
+        width="500"
+        class="m-2 ml-auto mr-auto"
+        v-for="(answer, index) in questionAnswers.answers"
+        :key="index"
+      >
+        <v-card-text>
+          {{ answer.answer }}
+        </v-card-text>
+        <v-card-text
+          >By {{ answer.answerer }},
+          {{ getPeriod(answer.answeredOn) }}</v-card-text
+        >
+      </v-card>
+      <v-form
+        @submit.prevent
+        v-if="answerFormActivated"
+        style="margin-left: 5%; margin-right: 5%"
+      >
+        <v-textarea v-model="answer" label="Your Answer"></v-textarea>
+        <v-btn type="submit" block class="mt-2" @click="submitAnswer"
+          >Submit</v-btn
+        >
+      </v-form>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn
+          color="green-darken-1"
+          variant="text"
+          @click="answerFormActivated = true"
+          v-if="answerFormActivated === false"
+        >
+          <!-- @click="dialog = false" -->
+          Answer
+        </v-btn>
+        <v-btn color="green-darken-1" variant="text" @click="dialog = false">
+          Close
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+
+
   </div>
   <v-divider></v-divider>
   <v-dialog v-model="dialog" width="auto">
@@ -67,6 +118,7 @@ import moment from "moment";
 
 export default {
   props: ["questionAnswers"],
+  emits: ['qa-reloaded'],
   data() {
     return {
       dt: moment(this.questionAnswers.askedOn).fromNow(),
@@ -82,6 +134,10 @@ export default {
         courseId: this.$route.query.courseId,
         questionId: this.questionAnswers._id,
       });
+      console.log("UPDATE",res.data)
+      this.$emit('qa-reloaded', res.data.questionAnswers);
+      this.answerFormActivated=false;
+      this.dialog=true
     },
     getPeriod(time) {
       return moment(time).fromNow();

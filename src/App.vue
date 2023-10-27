@@ -3,9 +3,18 @@
 </template>
 
 <script>
+import axios from "axios";
 import CheckOut from "./views/common/CheckOut.vue";
+import backend_url from "./globals/globals";
 export default {
   components: { CheckOut },
+  async created() {
+    if (this.$store.state.user.name == "") {
+      const res = await this.$store.dispatch("getStudentProfile");
+      console.log(res.data.name);
+      this.$store.commit("user/setUserName", res.data.name);
+    }
+  },
 };
 </script>
 
@@ -32,5 +41,9 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.pointer {
+  cursor: pointer;
 }
 </style>

@@ -1,14 +1,15 @@
 <template>
   <div>
-    <section id="student-homepage">
+    <section id="student-homepage" class="container mt-4">
       <h3 style="text-align: center">Explore the trending courses</h3>
+      <v-divider></v-divider>
       <v-row no-gutters>
         <v-col
           v-for="(course, index) in trendingCoursesList"
           :key="index"
           cols="12"
           align="center"
-          lg="3"
+          lg="4"
         >
           <v-sheet class="ma-2 pa-2">
             <course-card :course="course" type="all"></course-card>
@@ -17,13 +18,15 @@
       </v-row>
 
       <h3 style="text-align: center">Your Courses</h3>
+      <v-divider></v-divider>
+
       <v-row no-gutters>
         <v-col
           v-for="(course, index) in enrolledCoursesList"
           :key="index"
           cols="12"
           align="center"
-          lg="3"
+          lg="4"
         >
           <v-sheet class="ma-2 pa-2">
             <course-card :course="course" type="enrolled"></course-card>

@@ -120,10 +120,12 @@
 
                 <h3 class="mt-5">Previously Asked Questions</h3>
                 <iterable
-                  :items="course.questionAnswers"
+                  :items="questionAnswers"
                   page="1"
                   itemsPerPage="3"
                   type="qa"
+                  @qa-fresh="handleQAChange"
+                  :key="questionAnswers"
                 ></iterable>
               </v-window-item>
 
@@ -242,13 +244,17 @@ export default {
       successMessage: false,
       coursemap: new Map(),
       page: 1,
-      items: Array.from({ length: 15 }, (k, v) => ({
-        title: "Item " + v + 1,
-        text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore voluptatibus! Eaque cupiditate minima, at placeat totam, magni doloremque veniam neque porro libero rerum unde voluptatem!",
-      })),
+      questionAnswers:[]
     };
   },
   methods: {
+    async handleQAChange(data) {
+      console.log("inHandleQAChange")
+
+        this.questionAnswers = await data;
+
+      console.log(this.questionAnswers)
+},
     hideSuccess() {
       this.successMessage = false;
     },
@@ -262,6 +268,7 @@ export default {
 
         this.course = res;
         console.log(this.course);
+        this.questionAnswers = this.course.questionAnswers
         // return res;
       } catch (error) {
         console.log(error);
@@ -297,14 +304,6 @@ export default {
     console.log("HERE AM I");
     await this.getCourse();
     console.log(this.course);
-    // const student = await
-    // for(var i=0;i<this.student.enrolled.length;i++){
-    //   for(var j=0;this.student.enrolled[i].progress.length;j++){
-    //     this.coursemap.set(toString(this.course.enrolled[i].progress.section)+","+toString(this.course.enrolled[i].progress.section),1)
-    //   }
-    // }
-
-    // console.log(this.coursemap)
     this.instructor = this.course.instructor;
     if (this.$route.query.payment === "success") {
       this.successMessage = true;

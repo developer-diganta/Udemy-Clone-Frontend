@@ -58,9 +58,9 @@
       </div>
     </div>
 
-    <div v-if="type === 'qa'">
+    <div v-if="type === 'qa'" :key="currentItems">
       <v-card border v-for="(item, index) in currentItems" :key="index">
-        <question-answer :questionAnswers="item"></question-answer>
+        <question-answer :questionAnswers="item" @qa-reloaded="qaFresh"></question-answer>
       </v-card>
     </div>
 
@@ -104,6 +104,7 @@ import CourseCard from "@/components/Course/CourseCard.vue";
 
 export default {
   components: { QuestionAnswer, CourseCard },
+  emits:["qa-fresh"],
   props: ["items", "page", "itemsPerPage", "type"],
   data() {
     return {
@@ -140,6 +141,9 @@ export default {
       const endIndex = startIndex + parseInt(this.itemsPerPage);
       this.currentItems = this.itemsCopy.slice(startIndex, endIndex);
     },
+    qaFresh(data){
+      this.$emit("qa-fresh",data)
+    }
   },
   computed: {
     totalPages() {

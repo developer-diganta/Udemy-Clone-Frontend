@@ -80,16 +80,16 @@ const routes = [
     path: "/instructor/signup",
     name: "InstructorSignUp",
     component: InstructorSignUp,
-    beforeEnter: (to, from, next) => {
-      if (
-        otpValidationIsComplete() &&
-        localStorage.getItem("type") === "instructor"
-      ) {
-        next();
-      } else {
-        next("/instructor/signup/email");
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if (
+    //     otpValidationIsComplete() &&
+    //     localStorage.getItem("type") === "instructor"
+    //   ) {
+    //     next();
+    //   } else {
+    //     next("/instructor/signup/email");
+    //   }
+    // },
   },
   {
     path: "/instructor/home",
@@ -137,7 +137,7 @@ const routes = [
         component: StudentProfilePage,
       },
       {
-        path: "enrolledCourses",
+        path: "enrolledcourses",
         component: StudentEnrolledCourses,
       },
     ],
@@ -205,21 +205,21 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const userType = localStorage.getItem("type");
+// router.beforeEach((to, from, next) => {
+//   const userType = localStorage.getItem("type");
 
-  // Check if the route has the "/instructor" prefix
-  if (to.path.startsWith("/instructor")) {
-    // Check if the user type is "instructor"
-    if (userType === "instructor" && otpValidationIsComplete()) {
-      next(); // Proceed to the route
-    } else {
-      next("/instructor/signup/email"); // Redirect to the email signup page for instructors
-    }
-  } else {
-    // For routes without the "/instructor" prefix, no specific check is needed
-    next();
-  }
-});
+//   // Check if the route has the "/instructor" prefix
+//   if (to.path.startsWith("/instructor")) {
+//     // Check if the user type is "instructor"
+//     if (userType === "instructor" && otpValidationIsComplete()) {
+//       next(); // Proceed to the route
+//     } else {
+//       next("/instructor/signup/email"); // Redirect to the email signup page for instructors
+//     }
+//   } else {
+//     // For routes without the "/instructor" prefix, no specific check is needed
+//     next();
+//   }
+// });
 
 export default router;

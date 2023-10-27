@@ -7,6 +7,9 @@
     height="400"
     @ended="handleVideoEnd"
     oncontextmenu="return false;"
+    muted
+    @error="handleVideoError"
+
   >
     <source :src="videoUrl" type="video/mp4" />
     Your browser does not support the video tag.
@@ -39,6 +42,9 @@ export default {
     handleVideoEnd() {
       this.$emit("video-ended");
     },
+  handleVideoError(){
+    alert("Video source error")
+  }
   },
   watch: {
     currentVideo: function (newVideo) {
@@ -54,7 +60,11 @@ export default {
     },
   },
   async mounted() {
-    this.initVideoPlayer();
+    try{
+      this.initVideoPlayer();
+    }catch(error){
+      console.log("UNHANDLED")
+    }
   },
 };
 </script>

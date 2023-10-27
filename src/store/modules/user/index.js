@@ -7,7 +7,10 @@ export default {
   state() {
     return {
       name: "",
-      id: "",
+      _id: localStorage.getItem("_id") || "",
+      email: localStorage.getItem("email") || "",
+      token: localStorage.getItem("token") || "",
+      type: localStorage.getItem("type") || "",
     };
   },
   mutations,

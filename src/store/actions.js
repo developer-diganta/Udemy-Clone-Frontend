@@ -13,31 +13,7 @@ export default {
       return error;
     }
   },
-  async studentSignUp({ commit }, { email, name, password }) {
-    console.log(name);
-    console.log(password);
-    try {
-      const res = await axios.post(`${backend_url}/student`, {
-        name,
-        password,
-        email,
-      });
-      return res;
-    } catch (error) {
-      return error;
-    }
-  },
-  async instructorSignUp({ commit }, data) {
-    console.log(data);
-    try {
-      const res = await axios.post(`${backend_url}/instructor`, {
-        ...data,
-      });
-      return res;
-    } catch (error) {
-      return error;
-    }
-  },
+
   async emailFormSubmit({ commit }, { email }) {
     console.log("P", email);
     try {
@@ -64,26 +40,17 @@ export default {
       return error;
     }
   },
-  async signInSubmit({ commit }, { email, password, endPoint }) {
-    console.log(email);
-    try {
-      const res = await axios.post(`${backend_url}/${endPoint}/login`, {
-        email,
-        password,
-      });
-      console.log(res);
-      return res;
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  },
-  async addCourseInstructor({ commit }, { course }) {
+
+  /* adds course by instructor action
+     accepts course details (apart from lesson materials)
+  */
+
+  async addCourseInstructor({ commit, rootState }, { course }) {
     try {
       const res = await axios.post(`${backend_url}/instructor/course/add`, {
-        email: localStorage.getItem("email"),
-        _id: localStorage.getItem("_id"),
-        token: localStorage.getItem("token"),
+        email: rootState.user.email,
+        _id: rootState.user._id,
+        token: rootState.user.token,
         course,
       });
       return res;
@@ -91,13 +58,18 @@ export default {
       return error;
     }
   },
-  async instructorCourseViewOne({ commit }, { courseId, router }) {
-    console.log(courseId);
+
+  /* single course view action for instructor
+    fetches a course using course id from backend
+    accepts courseId
+  */
+
+  async instructorCourseViewOne({ commit, rootState }, { courseId, router }) {
     try {
       const res = await axios.post(`${backend_url}/instructor/course/viewone`, {
-        email: localStorage.getItem("email"),
+        email: rootState.user.email,
         courseId,
-        token: localStorage.getItem("token"),
+        token: rootState.user.token,
       });
       return res;
     } catch (error) {
@@ -109,24 +81,33 @@ export default {
       return error;
     }
   },
+
+  /* video deletion action 
+     action that deletes a video from the course based on its position
+     accepts courseId, subsection id and the video imdex inside the subsection
+  */
+
   async deleteVideo(
-    { commit },
+    { commit, rootState },
     { courseId, subsectionToBeUpdated, indexOfVideo },
   ) {
     try {
       await axios.post(`${backend_url}/instructor/videos/delete`, {
-        email: localStorage.getItem("email"),
+        email: rootState.user.email,
         courseId,
-        token: localStorage.getItem("token"),
+        token: rootState.user.token,
         subsectionToBeUpdated,
         indexOfVideo,
-        intructorId: localStorage.getItem("_id"),
+        intructorId: rootState.user._id,
       });
       return res;
     } catch (error) {
       return error;
     }
   },
+
+  /* action to fetch trending courses */
+
   async fetchTrendingCourses({ commit }) {
     try {
       const res = await axios.get(
@@ -137,22 +118,30 @@ export default {
       return error;
     }
   },
+
+  /*action to fetch single course
+    accepts courseId
+  */
   async fetchSingleCourse({ commit }, { courseId }) {
     try {
       const res = await axios.get(`${backend_url}/course/${courseId}`);
-      console.log(res);
+
       return res.data.course;
     } catch (error) {
-      console.log("123", error);
       return error;
     }
   },
-  async fetchSelfCourses({ commit }) {
+
+  /* action to fetch the courses of an instructor 
+     
+  */
+
+  async fetchSelfCourses({ commit, rootState }) {
     try {
-      const type = localStorage.getItem("type");
-      const id = localStorage.getItem("_id");
-      const email = localStorage.getItem("email");
-      const token = localStorage.getItem("token");
+      const type = rootState.user.type;
+      const id = rootState.user._id;
+      const email = rootState.user.email;
+      const token = rootState.user.token;
       const response = await axios.post(
         `${backend_url}/instructor/selfcourses`,
         {
@@ -167,10 +156,14 @@ export default {
       console.log(error);
     }
   },
-  async addSection({ commit }, { index, title, id }) {
+
+  /* action to add a section to a course
+    accepts index, title and the course id
+  */
+  async addSection({ commit, rootState }, { index, title, id }) {
     try {
-      const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
+      const token = rootState.user.token;
+      const email = rootState.user.email;
       const response = await axios.post(
         `${backend_url}/instructor/course/lesson/section/add`,
         {
@@ -186,12 +179,12 @@ export default {
       console.log(error);
     }
   },
-  async getInstructorProfile({ commit }) {
+  async getInstructorProfile({ commit, rootState }) {
     console.log("here");
     try {
-      const id = localStorage.getItem("_id");
-      const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
+      const id = rootState.user._id;
+      const token = rootState.user.token;
+      const email = rootState.user.email;
       const res = await axios.post(`${backend_url}/instructor/profile`, {
         token,
         id,
@@ -202,11 +195,11 @@ export default {
       console.log(error);
     }
   },
-  async updateInstructorProfile({ commit }, payload) {
+  async updateInstructorProfile({ commit, rootState }, payload) {
     try {
-      const id = localStorage.getItem("_id");
-      const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
+      const id = rootState.user._id;
+      const token = rootState.user.token;
+      const email = rootState.user.email;
       payload.id = id;
       payload.token = token;
       payload.email = email;
@@ -219,11 +212,11 @@ export default {
       console.log(error);
     }
   },
-  async logout({ commit, state }) {
+  async logout({ commit, rootState }) {
     try {
-      const id = localStorage.getItem("_id");
-      const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
+      const id = rootState.user._id;
+      const token = rootState.user.token;
+      const email = rootState.user.email;
       const r = await axios.patch(`${backend_url}/instructor/logout`, {
         id,
         token,
@@ -234,11 +227,11 @@ export default {
       console.log(error);
     }
   },
-  async fetchEnrolledCourses({ commit }) {
+  async fetchEnrolledCourses({ commit, rootState }) {
     try {
-      const id = localStorage.getItem("_id");
-      const token = localStorage.getItem("token");
-      const email = localStorage.getItem("email");
+      const id = rootState.user._id;
+      const token = rootState.user.token;
+      const email = rootState.user.email;
       const res = await axios.post(`${backend_url}/student/enrolledcourses`, {
         id,
         token,
@@ -250,57 +243,58 @@ export default {
       console.log(error);
     }
   },
-  async deleteSection({ commit }, { courseId, sectionId }) {
+  async deleteSection({ commit, rootState }, { courseId, sectionId }) {
     try {
-      console.log(localStorage.getItem("token"));
+      console.log(rootState.user.token);
       await axios.delete(`${backend_url}/instructor/section/delete`, {
         data: {
-          email: localStorage.getItem("email"),
+          email: rootState.user.email,
           courseId,
-          token: localStorage.getItem("token"),
+          token: rootState.user.token,
           sectionId,
-          instructorId: localStorage.getItem("_id"),
+          instructorId: rootState.user._id,
         },
       });
     } catch (error) {
       console.log(error);
     }
   },
-  async updateCompletionStatus({ commit }, { section, videoNumber }) {
+  async updateCompletionStatus(
+    { commit, rootState },
+    { section, videoNumber },
+  ) {
     try {
       const res = await axios.patch(`${backend_url}/student/statusupdate`, {
-        email: localStorage.getItem("email"),
+        email: rootState.user.email,
         section,
-        token: localStorage.getItem("token"),
+        token: rootState.user.token,
         videoNumber,
-        instructorId: localStorage.getItem("_id"),
+        instructorId: rootState.user._id,
       });
     } catch (error) {
       console.log(error);
     }
   },
-  async getStudentProfile({ commit }) {
+  async getStudentProfile({ commit, rootState }) {
     try {
-      const res = axios.get(
-        `${backend_url}/student?id=${localStorage.getItem("_id")}`,
-      );
+      const res = axios.get(`${backend_url}/student?id=${rootState.user._id}`);
       console.log(res);
       return res;
     } catch (error) {
       console.log(error);
     }
   },
-  async addQuestion({ commit }, { title, description, courseId }) {
+  async addQuestion({ commit, rootState }, { title, description, courseId }) {
     const res = await axios.patch(`${backend_url}/student/course/question`, {
-      email: localStorage.getItem("email"),
-      token: localStorage.getItem("token"),
-      _id: localStorage.getItem("_id"),
+      email: rootState.user.email,
+      token: rootState.user.token,
+      _id: rootState.user._id,
       title,
       description,
       courseId,
     });
   },
-  async submitAnswer({ commit }, { answer, courseId, questionId }) {
+  async submitAnswer({ commit, rootState }, { answer, courseId, questionId }) {
     try {
       console.log(answer);
       console.log(courseId);
@@ -308,24 +302,25 @@ export default {
       const res = await axios.patch(
         `${backend_url}/student/course/question/answer`,
         {
-          email: localStorage.getItem("email"),
-          token: localStorage.getItem("token"),
-          _id: localStorage.getItem("_id"),
+          email: rootState.user.email,
+          token: rootState.user.token,
+          _id: rootState.user._id,
           answer,
           courseId,
           questionId,
         },
       );
+      return res;
     } catch (error) {
       console.log(error);
     }
   },
-  async submitReview({ commit }, { rating, review, courseId }) {
+  async submitReview({ commit, rootState }, { rating, review, courseId }) {
     try {
       const res = await axios.patch(`${backend_url}/student/course/review`, {
-        email: localStorage.getItem("email"),
-        token: localStorage.getItem("token"),
-        _id: localStorage.getItem("_id"),
+        email: rootState.user.email,
+        token: rootState.user.token,
+        _id: rootState.user._id,
         rating,
         courseId,
         review,

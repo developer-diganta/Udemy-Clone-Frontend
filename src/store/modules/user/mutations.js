@@ -1,10 +1,17 @@
 export default {
-  setUserName(state, payload) {
-    console.log("here");
-    state.name = payload.name;
-    console.log(state.name, ":", payload.name);
+  setUserName(state, name) {
+    state.name = name;
   },
-  setUserId(state) {
-    state.id = localStorage.getItem("_id");
+  setUserId(state, _id) {
+    state._id = _id;
+  },
+  setUserType(state, type) {
+    state.type = type;
+  },
+  setUserToken(state, token) {
+    state.token = token;
+  },
+  setUserEmail(state, email) {
+    state.email = email;
   },
 };
