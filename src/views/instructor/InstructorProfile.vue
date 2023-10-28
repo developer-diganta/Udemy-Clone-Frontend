@@ -1,5 +1,4 @@
 <template>
-  <navbar></navbar>
   <v-sheet class="d-flex justify-center flex-column align-center mt-6">
     <v-card
       class="d-flex justify-center flex-column align-center p-3"

@@ -22,13 +22,24 @@ import AdminInstructors from "../views/admin/AdminInstructors";
 import AdminStudents from "../views/admin/AdminStudents";
 import AdminRevenue from "../views/admin/AdminRevenue";
 import AdminSignIn from "../views/admin/AdminSignIn";
-
+import AdminCourseStatus from "../views/admin/AdminCourseStatus";
+import Instructor from "../views/instructor/Instructor";
+import store from "@/store";
 import App from "../App";
 
 const routes = [
   {
     path: "/",
     redirect: "/signup/email/instructor",
+  },
+
+
+/* ADMIN ROUTES */
+
+
+  {
+    path: "/admin/signin",
+    component: AdminSignIn,
   },
   {
     path: "/admin",
@@ -54,12 +65,63 @@ const routes = [
         path: "revenue",
         component: AdminRevenue,
       },
+      {
+        path:"coursestatus",
+        component:AdminCourseStatus
+      },
+      {
+        path:"course",
+        component: StudentCoursePage
+      }
     ],
   },
+
+  /* Instructor Routes */
   {
-    path: "/admin/signin",
-    component: AdminSignIn,
+    path: "/instructor/signup",
+    name: "InstructorSignUp",
+    component: InstructorSignUp,
   },
+  {
+    path: "/instructor",
+    component: Instructor,
+    beforeEnter: async (to, from, next) => {
+      const instructorStatus = await store.dispatch("verifyToken");
+      console.log(instructorStatus);
+      if (instructorStatus.data === "registered") {
+        next();
+      } else if (instructorStatus.data === "pending") {
+        next("/otp");
+      } else {
+        next("/signin/instructor");
+      }
+    },
+    children: [
+      {
+        path: "/instructor/home",
+        component: InstructorHomePage,
+      },
+      {
+        path: "/instructor/profile",
+        component: InstructorProfile,
+      },
+      {
+        path: "/instructor/course/view/:id",
+        component: InstructorCourse,
+      },
+
+      {
+        path: "/instructor/course/lesson/:id",
+        component: InstructorCourseLessons,
+      },
+
+      {
+        path: "/instructor/course/add",
+        component: InstructorAddCourse,
+      },
+    ],
+  },
+
 
   {
     path: "/otp",
@@ -71,49 +133,25 @@ const routes = [
     path: "/signin/:id",
     name: "SignIn",
     component: SignInForm,
-    // beforeEnter:(to, from, next) => {
+  },
 
-    // }
-  },
-  /* Instructor Routes */
-  {
-    path: "/instructor/signup",
-    name: "InstructorSignUp",
-    component: InstructorSignUp,
-    // beforeEnter: (to, from, next) => {
-    //   if (
-    //     otpValidationIsComplete() &&
-    //     localStorage.getItem("type") === "instructor"
-    //   ) {
-    //     next();
-    //   } else {
-    //     next("/instructor/signup/email");
-    //   }
-    // },
-  },
-  {
-    path: "/instructor/home",
-    name: "InstructorHomePage",
-    component: InstructorHomePage,
-    beforeEnter: (to, from, next) => {
-      const instructorStatus = instructorLoggedIn();
-      if (instructorStatus === "validated") {
-        next();
-      } else if (instructorStatus === "otpLeft") {
-        next("/otp");
-      } else {
-        next("/signin/instructor");
-      }
-    },
-  },
-  {
-    path: "/instructor/profile",
-    component: InstructorProfile,
-  },
+
+  /* Student Routes */
 
   {
     path: "/student",
     component: Student,
+    beforeEnter: async (to, from, next) => {
+      const studentStatus = await store.dispatch("verifyToken");
+      console.log(studentStatus);
+      if (studentStatus.data === "registered") {
+        next();
+      } else if (studentStatus.data === "pending") {
+        next("/otp");
+      } else {
+        next("/signin/student");
+      }
+    },
     children: [
       {
         path: "enroll/:id",
@@ -154,57 +192,30 @@ const routes = [
       }
     },
   },
-
-  {
-    path: "/instructor/course/view/:id",
-    component: InstructorCourse,
-  },
-  {
-    path: "/instructor/course/lesson/:id",
-    component: InstructorCourseLessons,
-  },
-  {
-    path: "/instructor/course/add",
-    component: InstructorAddCourse,
-    beforeEnter: (to, from, next) => {
-      if (instructorLoggedIn()) {
-        next();
-      } else {
-        next("/signin/instructor");
-      }
-    },
-  },
-
-  // {
-  //   path: "/student/enroll/:id",
-  //   component: StudentEnrollPage,
-  // },
 ];
-
-const otpValidationIsComplete = () => {
-  return true;
-  // return localStorage.getItem('otpValidated');
-};
-
-const instructorLoggedIn = () => {
-  const _id = localStorage.getItem("_id");
-  const email = localStorage.getItem("email");
-  const type = localStorage.getItem("type");
-  const otpValidation = localStorage.getItem("otpValidation");
-  if (_id && email && type === "instructor") {
-    return "validated";
-  } else if (otpValidation === "0") {
-    return "otpLeft";
-  } else {
-    return "expired";
-  }
-};
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
+export default router;
+
+// beforeEnter: (to, from, next) => {
+//   if (
+//     otpValidationIsComplete() &&
+//     localStorage.getItem("type") === "instructor"
+//   ) {
+//     next();
+//   } else {
+//     next("/instructor/signup/email");
+//   }
+// },
+
+// {
+//   path: "/student/enroll/:id",
+//   component: StudentEnrollPage,
+// },
 // router.beforeEach((to, from, next) => {
 //   const userType = localStorage.getItem("type");
 
@@ -221,5 +232,40 @@ const router = createRouter({
 //     next();
 //   }
 // });
+// {
+//   path: "/instructor/home",
+//   name: "InstructorHomePage",
+//   component: InstructorHomePage,
+//   beforeEnter: (to, from, next) => {
+//     const instructorStatus = instructorLoggedIn();
+//     if (instructorStatus === "validated") {
+//       next();
+//     } else if (instructorStatus === "otpLeft") {
+//       next("/otp");
+//     } else {
+//       next("/signin/instructor");
+//     }
+//   },
+// },
+// {
+//   path: "/instructor/profile",
+//   component: InstructorProfile,
+// },
+// const otpValidationIsComplete = () => {
+//   return true;
+//   // return localStorage.getItem('otpValidated');
+// };
 
-export default router;
+// const instructorLoggedIn = () => {
+//   const _id = localStorage.getItem("_id");
+//   const email = localStorage.getItem("email");
+//   const type = localStorage.getItem("type");
+//   const otpValidation = localStorage.getItem("otpValidation");
+//   if (_id && email && type === "instructor") {
+//     return "validated";
+//   } else if (otpValidation === "0") {
+//     return "otpLeft";
+//   } else {
+//     return "expired";
+//   }
+// };

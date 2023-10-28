@@ -2,6 +2,18 @@ import backend_url from "@/globals/globals";
 import axios from "axios";
 
 export default {
+  async verifyToken({commit,rootState}){
+    try{
+      
+      const res = await axios.post(`${backend_url}/${rootState.user.type}/verify`,{
+        email:rootState.user.email,
+        token:rootState.user.token
+      })
+      return res;
+    }catch(error){
+      return error
+    }
+  },
   async searchResultsFromAPI({ commit }, searchKey) {
     console.log;
     try {
@@ -350,7 +362,28 @@ export default {
       userName,
       password,
     });
-
     return res.data;
   },
+  async fetchInstructorName({commit},id){
+    const res = await axios.get(`${backend_url}/admin/instructorname/${id}`)
+    console.log(res.data)
+    return res.data;
+  },
+  async updateCourseStatus({commit}, id){
+    const res = await axios.patch(`${backend_url}/admin/course/status`,{
+      courseId:id
+    })
+    return res
+  },
+  async publishCourse({commit, rootState}, courseId){
+    const id = rootState.user._id;
+    const token = rootState.user.token;
+    const email = rootState.user.email;
+    const res = await axios.patch(`${backend_url}/instructor/status`,{
+      id,
+      token,
+      email,
+      courseId:courseId
+    })
+  }
 };

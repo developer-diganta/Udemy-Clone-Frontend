@@ -1,6 +1,5 @@
 <template>
   <div>
-    <navbar></navbar>
     <h3 class="text-center">Course Details - {{ title }}</h3>
     <v-form v-model="valid">
       <v-container>

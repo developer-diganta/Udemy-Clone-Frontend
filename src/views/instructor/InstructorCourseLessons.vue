@@ -1,11 +1,41 @@
 <template>
-  <navbar></navbar>
   <h3 class="text-center">{{ course.title }} (Edit Mode: Instructor)</h3>
-  <v-row style="padding: 30px; max-height: 80vh; overflow: hidden">
+  <v-row style="padding: 30px; max-height: 80vh; ">
     <v-col cols="12" md="8" justify-center d-flex>
-      <v-app>
-        <video-player :currentVideo="currentVideo"></video-player>
-      </v-app>
+      <div>
+        <v-app style="min-height: 0 !important;">
+          <video-player :currentVideo="currentVideo"></video-player>
+        </v-app>
+      </div>
+      <div>
+        <v-card>
+          <v-card-title class="text-center">Summary</v-card-title>
+          <v-divider></v-divider>
+          <v-table fixed-header>
+            <tbody>
+              <tr v-for="(entry, key) in courseSummary" :key="key">
+                <td>{{ key }}</td>
+                <td>{{ entry }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+          <v-divider></v-divider>
+        </v-card>
+        <div>
+          <v-btn style="width:100%" class="mt-2"
+          @click="publish"
+          color="secondaryCoral"
+            >
+            <span v-if="course.status==='pending'">
+            Submit For Review
+            </span>
+            <span v-if="course.status==='published'">
+              Under Review
+              </span>
+            </v-btn
+          >
+        </div>
+      </div>
     </v-col>
     <v-col cols="12" md="4" style="max-height: 80vh; overflow-y: scroll">
       <!-- <v-btn>ADD</v-btn> -->
@@ -194,6 +224,10 @@ export default {
   },
 
   methods: {
+    async publish(){
+      const res = await this.$store.dispatch("publishCourse", this.courseID)
+      this.initialLoad()
+    },
     async deleteSection(index) {
       try {
         const res = await this.$store.dispatch("deleteSection", {
@@ -274,12 +308,12 @@ export default {
             },
             onUploadProgress: (progressEvent) => {
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total,
+                (progressEvent.loaded * 100) / progressEvent.total
               );
               console.log(`Upload Progress: ${percentCompleted}%`);
               this.dialog = false;
             },
-          },
+          }
         );
 
         console.log("Files uploaded successfully:", response.data);
@@ -304,6 +338,7 @@ export default {
         const res = await this.$store.dispatch("instructorCourseViewOne", {
           courseId: this.courseID,
         });
+        console.log("COURSE HERE ->", res.data);
         for (let i = 0; i < res.data.course.lessons.length; i++) {
           for (let j = 0; j < res.data.course.lessons[i].videos.length; j++) {
             this.videosList.push({
@@ -326,6 +361,7 @@ export default {
         console.log(error);
       }
     },
+
   },
   watch: {
     typeOfUpload() {
@@ -355,6 +391,19 @@ export default {
       }
     },
   },
+  computed: {
+    courseSummary() {
+      return {
+        Title: this.course.title,
+        Description: this.course.description,
+        Price: this.course.price,
+        "Total Videos": this.course.lessons?.reduce((total, lesson) => {
+          return total + (lesson.videos?.length || 0);
+        }, 0),
+      };
+      console.log(this.courseSummary);
+    },
+  },
   async mounted() {
     await this.initialLoad();
   },
@@ -367,6 +416,9 @@ export default {
 .video-add {
   background: white;
   padding: 10px;
+}
+tr {
+  text-align: center !important;
 }
 .add-modal {
 }

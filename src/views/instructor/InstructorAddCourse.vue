@@ -1,7 +1,6 @@
 <!-- Page to allow instructor to add a new course. Fills in details like title, -->
 
 <template>
-  <navbar></navbar>
   <section id="add-course">
     <h3>Please fill in the course details</h3>
     <v-form @submit.prevent="addCourse" id="add-course-form">

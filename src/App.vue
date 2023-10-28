@@ -46,4 +46,7 @@ export default {
 .pointer {
   cursor: pointer;
 }
+.v-application__wrap{
+  min-height: 0 !important;
+}
 </style>
