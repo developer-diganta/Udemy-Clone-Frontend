@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3 class="text-center">Course Details - {{ title }}</h3>
-    <v-form v-model="valid">
+    <v-form v-model="valid" @submit.prevent="submit">
       <v-container>
         <v-row>
           <v-col cols="12" md="4">
@@ -218,6 +218,21 @@ export default {
     };
   },
   methods: {
+    async submit(){
+      const updates = {
+        title:this.title,
+        description:this.description,
+        categories: this.categories,
+        price: this.price,
+        discount: this.discount,
+        thumbnail: this.thumbnail,
+        requirements: this.requirements,
+        courseMaterials: this.courseMaterials
+      }
+      await this.$store.dispatch("editCourse",{
+        updates,courseId:this.courseID
+      })
+    },
     redirectAddLessons() {
       this.$router.push(`/instructor/course/lesson/${this.courseID}`);
     },
@@ -247,6 +262,7 @@ export default {
     addCategory() {
       console.log(this.newCategory);
       this.categories.push(this.newCategory);
+      console.log(this.categories)
       this.newCategory = "";
     },
     selectClick(event) {

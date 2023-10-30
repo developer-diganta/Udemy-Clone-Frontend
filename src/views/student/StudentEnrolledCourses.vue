@@ -12,7 +12,6 @@
         <course-card type="enrolled" :course="course"></course-card>
       </v-col>
     </v-row>
-
   </div>
 </template>
 <script>

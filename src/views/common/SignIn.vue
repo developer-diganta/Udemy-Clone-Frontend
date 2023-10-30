@@ -59,14 +59,17 @@ export default {
     async signInSubmit(e) {
       console.log(this.email);
       try {
-        await this.$store.dispatch("user/signInSubmit", {
+        const res = await this.$store.dispatch("user/signInSubmit", {
           email: this.email,
           password: this.password,
           endPoint: this.endPoint,
+          router: this.$router,
         });
         this.credentialsMismatch = false;
         this.credentialsMatch = true;
-        this.$router.push(`/${this.type}/home`);
+        console.log(this.type);
+        if (res === "otp") this.$router.push("/otp");
+        else this.$router.push(`/${this.type}/home`);
       } catch (error) {
         console.log(error);
         this.errorMessage = error;

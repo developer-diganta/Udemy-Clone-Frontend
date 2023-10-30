@@ -1,8 +1,63 @@
-<template>
+<template lang="">
   <div class="container">
+    <p class="text-h5">Unpublished Courses</p>
+    <v-divider></v-divider>
+    <div v-if="!pendingCourses.length" class="text-center" >Create a New Course</div>
+    <v-row class="mt-4 mb-4">
+
+
+      <v-col
+        cols="12"
+        md="4"
+        v-for="(course, index) in pendingCourses"
+        :key="index"
+      >
+        <v-card class="mx-auto" max-width="400">
+          <v-img
+            class="align-end text-white"
+            height="200"
+            :src="course.thumbnail"
+            cover
+          >
+            <div class="image-overlay"></div>
+            <v-card-title style="word-wrap: break-word"
+              ><span class="overlay-text"
+                >{{ course.title.substring(0, 30)
+                }}{{ course.title.length > 10 ? "..." : "" }}</span
+              ></v-card-title
+            >
+          </v-img>
+          <v-card-subtitle class="pt-4">
+            {{ course.instructor.name }}
+          </v-card-subtitle>
+
+          <v-card-text>
+            <div>Rs. {{ course.price }}</div>
+
+            <div>
+              Created On : {{ moment(course.createdAt).format("DD/MM/YYYY") }}
+            </div>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn color="orange" @click="redirect(course._id)">
+              View Course
+            </v-btn>
+
+            <v-btn color="orange" @click="publish(course._id)">
+              Publish
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <p class="text-h5">Pending For Review</p>
     <v-divider></v-divider>
+    <div v-if="!publishedCourses.length" class="text-center" >No Published(Pending for Review) Courses</div>
     <v-row class="mt-4 mb-4">
+
+
       <v-col
         cols="12"
         md="4"
@@ -41,8 +96,8 @@
               View Course
             </v-btn>
 
-            <v-btn color="orange" @click="activate(course._id)">
-              Activate
+            <v-btn color="orange" @click="publish(course._id)">
+              Publish
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -59,6 +114,7 @@
         v-for="(course, index) in activeCourses"
         :key="index"
       >
+      <p v-if="!activeCourses.length">No Active Courses</p>
         <v-card class="mx-auto" max-width="400">
           <v-img
             class="align-end text-white"
@@ -75,7 +131,7 @@
             >
           </v-img>
           <v-card-subtitle class="pt-4">
-            {{ course.instructor.name }}
+            {{ username }}
           </v-card-subtitle>
 
           <v-card-text>
@@ -90,6 +146,10 @@
             <v-btn color="orange" @click="redirect(course._id)">
               View Course
             </v-btn>
+
+            <v-btn color="orange" @click="activate(course._id)">
+                View Stats
+              </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -104,7 +164,7 @@ export default {
   data() {
     return {
       allCourses: [],
-      moment,
+      moment
     };
   },
   computed: {
@@ -114,21 +174,23 @@ export default {
     activeCourses() {
       return this.allCourses.filter((course) => course.status === "active");
     },
+    pendingCourses(){
+        return this.allCourses.filter((course=>course.status==="pending"))
+    },
+    username(){
+       return this.$store.state.user.name
+    }
   },
   methods: {
     async fetchAllCourses() {
-      this.allCourses = await this.$store.dispatch("getAllCourses");
-    },
-    instructorName(id) {
-      return this.$store.dispatch("fetchInstructorName", id);
+      this.allCourses = (await this.$store.dispatch("fetchSelfCourses")).data;
+      console.log("PPP", this.allCourses);
     },
     redirect(id) {
-      this.$router.push(`/admin/course?courseId=${id}`);
+      this.$router.push(`/instructor/course/view/${id}`);
     },
-    async activate(id) {
-      const res = await this.$store.dispatch(`updateCourseStatus`, {
-        id,
-      });
+    async publish(id) {
+        const res = await this.$store.dispatch("publishCourse", id);
       console.log(res);
       this.fetchAllCourses();
     },

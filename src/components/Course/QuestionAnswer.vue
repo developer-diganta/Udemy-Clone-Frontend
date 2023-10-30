@@ -58,8 +58,6 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-
-
   </div>
   <v-divider></v-divider>
   <v-dialog v-model="dialog" width="auto">
@@ -118,7 +116,7 @@ import moment from "moment";
 
 export default {
   props: ["questionAnswers"],
-  emits: ['qa-reloaded'],
+  emits: ["qa-reloaded"],
   data() {
     return {
       dt: moment(this.questionAnswers.askedOn).fromNow(),
@@ -134,10 +132,10 @@ export default {
         courseId: this.$route.query.courseId,
         questionId: this.questionAnswers._id,
       });
-      console.log("UPDATE",res.data)
-      this.$emit('qa-reloaded', res.data.questionAnswers);
-      this.answerFormActivated=false;
-      this.dialog=true
+      console.log("UPDATE", res.data);
+      this.$emit("qa-reloaded", res.data.questionAnswers);
+      this.answerFormActivated = false;
+      this.dialog = true;
     },
     getPeriod(time) {
       return moment(time).fromNow();

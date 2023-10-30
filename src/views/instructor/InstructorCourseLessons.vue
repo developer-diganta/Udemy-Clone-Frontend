@@ -1,9 +1,9 @@
 <template>
   <h3 class="text-center">{{ course.title }} (Edit Mode: Instructor)</h3>
-  <v-row style="padding: 30px; max-height: 80vh; ">
+  <v-row style="padding: 30px; max-height: 80vh">
     <v-col cols="12" md="8" justify-center d-flex>
       <div>
-        <v-app style="min-height: 0 !important;">
+        <v-app style="min-height: 0 !important">
           <video-player :currentVideo="currentVideo"></video-player>
         </v-app>
       </div>
@@ -22,18 +22,23 @@
           <v-divider></v-divider>
         </v-card>
         <div>
-          <v-btn style="width:100%" class="mt-2"
-          @click="publish"
-          color="secondaryCoral"
-            >
-            <span v-if="course.status==='pending'">
-            Submit For Review
-            </span>
-            <span v-if="course.status==='published'">
-              Under Review
-              </span>
-            </v-btn
+          <v-btn
+            style="width: 100%"
+            class="mt-2"
+            @click="publish"
+            v-if="course.status === 'pending' || course.status === 'published'"
+            color="secondaryCoral"
           >
+            <span v-if="course.status === 'pending'"> Submit For Review </span>
+            <span v-if="course.status === 'published'"> Under Review </span>
+          </v-btn>
+          <div
+            v-if="course.status === 'active'"
+            class="text-center bg-green mt-2"
+            style="padding: 5px"
+          >
+            Course Active
+          </div>
         </div>
       </div>
     </v-col>
@@ -125,9 +130,11 @@
             size="x-small"
             variant="text"
           >
-            X
+            <span class="cursor-pointer">X</span>
+            <h4 style="display: inline">
+              {{ index + 1 + ". " + lesson.title }}
+            </h4>
           </div>
-          <h4>{{ index + 1 + ". " + lesson.title }}</h4>
           <!-- {{lesson}} -->
           <ul
             v-for="(subsection, i) in lesson.videos"
@@ -140,6 +147,7 @@
                 icon="mdi-minus"
                 size="x-small"
                 variant="text"
+                class="cursor-pointer"
               >
                 X
               </div>
@@ -147,6 +155,7 @@
                 variant="text"
                 @click="loadCurrentVideo(subsection.videoLink)"
                 style="margin-left: 8px"
+                class="cursor-pointer"
               >
                 {{ i + 1 + ". " + subsection.title }}
               </div>
@@ -224,9 +233,9 @@ export default {
   },
 
   methods: {
-    async publish(){
-      const res = await this.$store.dispatch("publishCourse", this.courseID)
-      this.initialLoad()
+    async publish() {
+      const res = await this.$store.dispatch("publishCourse", this.courseID);
+      this.initialLoad();
     },
     async deleteSection(index) {
       try {
@@ -280,6 +289,7 @@ export default {
         });
         this.alertSuccess = true;
         this.successMessage = "Video Deleted";
+        
         this.initialLoad();
       } catch (error) {
         this.alertFailure = true;
@@ -308,12 +318,12 @@ export default {
             },
             onUploadProgress: (progressEvent) => {
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent.total
+                (progressEvent.loaded * 100) / progressEvent.total,
               );
               console.log(`Upload Progress: ${percentCompleted}%`);
               this.dialog = false;
             },
-          }
+          },
         );
 
         console.log("Files uploaded successfully:", response.data);
@@ -361,7 +371,6 @@ export default {
         console.log(error);
       }
     },
-
   },
   watch: {
     typeOfUpload() {
@@ -421,5 +430,8 @@ tr {
   text-align: center !important;
 }
 .add-modal {
+}
+.cursor-pointer {
+  cursor: pointer;
 }
 </style>

@@ -87,7 +87,7 @@ name.value.value = "John";
 password.value.value = "Abc@1234";
 const submit = async () => {
   try {
-    const res = await store.dispatch("studentSignUp", {
+    const res = await store.dispatch("user/studentSignUp", {
       email: email.value.value,
       name: name.value.value,
       password: password.value.value,
@@ -103,6 +103,7 @@ const submit = async () => {
 
     localStorage.setItem("email", res.data.email);
     localStorage.setItem("type", res.data.type);
+
     router.push("/otp");
   } catch (error) {
     console.log(error);

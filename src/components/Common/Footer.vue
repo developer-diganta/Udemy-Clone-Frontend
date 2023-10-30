@@ -1,5 +1,5 @@
 <template>
-    <v-layout class="layout">
+  <v-layout class="layout">
     <v-footer class="footer">
       <v-row justify="center" no-gutters>
         <v-btn
@@ -17,34 +17,26 @@
         </v-col>
       </v-row>
     </v-footer>
-    </v-layout>
-  </template>
-  <script>
-    export default {
-      data: () => ({
-        links: [
-          'Home',
-          'About Us',
-          'Team',
-          'Services',
-          'Blog',
-          'Contact Us',
-        ],
-      }),
-    }
-  </script>
-  <style scoped>
-.footer{
-    background: #008080;
-    padding-top:5%;
-    width: 100%;
+  </v-layout>
+</template>
+<script>
+export default {
+  data: () => ({
+    links: ["Home", "About Us", "Team", "Services", "Blog", "Contact Us"],
+  }),
+};
+</script>
+<style scoped>
+.footer {
+  background: #008080;
+  padding-top: 5%;
+  width: 100%;
 
-    bottom: 0;
-    
+  bottom: 0;
 }
-.layout{
-    bottom:0;
-    margin-top:auto !important;
-    height:100%
+.layout {
+  bottom: 0;
+  margin-top: auto !important;
+  height: 100%;
 }
 </style>

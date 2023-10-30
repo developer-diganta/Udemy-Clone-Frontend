@@ -9,10 +9,27 @@ import backend_url from "./globals/globals";
 export default {
   components: { CheckOut },
   async created() {
-    if (this.$store.state.user.name == "") {
-      const res = await this.$store.dispatch("getStudentProfile");
-      console.log(res.data.name);
-      this.$store.commit("user/setUserName", res.data.name);
+    if (
+      this.$store.state.user.name == "" &&
+      localStorage.getItem("type") === "student"
+    ) {
+      try {
+        const res = await this.$store.dispatch("getStudentProfile");
+        console.log(res.data.name);
+        this.$store.commit("user/setUserName", res.data.name);
+      } catch (error) {
+        return 0;
+      }
+    } else if (
+      this.$store.state.user.name == "" &&
+      localStorage.getItem("type") === "instructor"
+    ) {
+      try {
+        const res = await this.$store.dispatch("getInstructorProfile");
+        this.$store.commit("user/setUserName", res.data.name);
+      } catch (error) {
+        return 0;
+      }
     }
   },
 };
@@ -46,7 +63,7 @@ export default {
 .pointer {
   cursor: pointer;
 }
-.v-application__wrap{
+.v-application__wrap {
   min-height: 0 !important;
 }
 </style>

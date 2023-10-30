@@ -55,13 +55,14 @@ export default {
       takes in email, password and endPoint(instructor, student or admin)
     */
 
-  async signInSubmit({ commit }, { email, password, endPoint }) {
+  async signInSubmit({ commit }, { email, password, endPoint, router }) {
     console.log(email);
     try {
       const res = await axios.post(`${backend_url}/${endPoint}/login`, {
         email,
         password,
       });
+
       localStorage.clear();
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("token", res.data.token);
@@ -72,8 +73,15 @@ export default {
       commit("setUserType", res.data.type);
       commit("setUserToken", res.data.token);
       commit("setUserEmail", res.data.email);
+      console.log(res);
+      if (res.data.status === "pending") {
+        console.log("HERE");
+        console.log(router);
+        return "otp";
+      }
+      return "home";
     } catch (error) {
-      console.log(error);
+      console.log(error.data);
       return error;
     }
   },

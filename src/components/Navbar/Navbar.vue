@@ -26,15 +26,15 @@
     </v-layout>
   </v-card>
 
-  <nav class="d-none d-lg-block">
+  <nav class="d-none d-lg-block" style="box-shadow: 0px 0px 2px 1px #008080">
     <div class="navbar-content container">
       <h3 @click="redirectToHome" class="pointer">Udemy Clone</h3>
       <ul>
         <li>
           <search></search>
         </li>
-        
-        <li v-if="$store.state.user.type==='instructor'">
+
+        <li v-if="$store.state.user.type === 'instructor'">
           <v-btn
             @click="redirectToAddCourse"
             color="primaryTheme"
@@ -44,25 +44,15 @@
           ></v-btn>
         </li>
         <li>
-          <v-menu>
-            <template v-slot:activator="{ props }">
+
               <v-btn
                 style="background-color: #008080; color: white"
                 icon="mdi-school"
                 size="x-small"
                 v-bind="props"
+                @click="redirectToAllCourses"
               ></v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="(item, index) in account"
-                :key="index"
-                :value="index"
-              >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+
         </li>
 
         <li>
@@ -70,7 +60,6 @@
             <template v-slot:activator="{ props }">
               <v-btn
                 style="background-color: #008080; color: white"
-
                 icon="mdi-account"
                 size="x-small"
                 v-bind="props"
@@ -78,8 +67,10 @@
             </template>
             <v-list>
               <v-list-item-title class="nav-profile">
-                <span style="font-size:18px;font-weight:bold">{{$store.state.user.name}}</span>
-                <br/>
+                <span style="font-size: 18px; font-weight: bold">{{
+                  $store.state.user.name
+                }}</span>
+                <br />
                 {{ $store.state.user.email }}
               </v-list-item-title>
               <v-divider></v-divider>
@@ -88,14 +79,13 @@
                 :key="index"
                 :value="index"
               >
-                <v-list-item-title  @click="redirect(item.title)">{{ item.title }}</v-list-item-title>
-
-
+                <v-list-item-title @click="redirect(item.title)">{{
+                  item.title
+                }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
         </li>
-
 
         <!-- <li @click="logout">Logout</li> -->
         <!-- <li>B</li>
@@ -126,11 +116,10 @@ ul {
   gap: 20px;
 }
 
-.nav-profile{
-  padding:10%;
-  font-size:12px;
+.nav-profile {
+  padding: 10%;
+  font-size: 12px;
 }
-
 </style>
 
 <script>
@@ -143,44 +132,47 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-
   }),
 
   methods: {
     redirectToAddCourse() {
       this.$router.push("/instructor/course/add");
     },
-    async logout() {
-      await this.$store.dispatch("logout");
+    redirectToAllCourses(){
+      this.$router.push("/instructor/courseslist")
     },
-    async redirect(title){
-      if(title==="Logout"){
-        await this.logout()
-      }else{
-        this.$router.push(`/${this.$store.state.user.type}/${title.split(' ').join('').toLowerCase()}`)
+    async logout() {
+      await this.$store.dispatch("logout", this.$router);
+    },
+    async redirect(title) {
+      if (title === "Logout") {
+        await this.logout();
+      } else {
+        this.$router.push(
+          `/${this.$store.state.user.type}/${title
+            .split(" ")
+            .join("")
+            .toLowerCase()}`,
+        );
       }
     },
-    redirectToHome(){
-      this.$router.push(`/${this.$store.state.user.type}/home`)
+    redirectToHome() {
+      this.$router.push(`/${this.$store.state.user.type}/home`);
     },
   },
 
-  computed:{
-      account(){
-      const baseAccount = [
-        { title: "Profile" },
-        { title: "Logout" },
-      ]
+  computed: {
+    account() {
+      const baseAccount = [{ title: "Profile" }, { title: "Logout" }];
 
-      if(this.$store.state.user.type==="student"){
-        baseAccount.splice(1,0,{
-          title:"Enrolled Courses"
-        })
+      if (this.$store.state.user.type === "student") {
+        baseAccount.splice(1, 0, {
+          title: "Enrolled Courses",
+        });
       }
-      return baseAccount
-      }
-
+      return baseAccount;
     },
+  },
 
   watch: {
     group() {

@@ -244,17 +244,17 @@ export default {
       successMessage: false,
       coursemap: new Map(),
       page: 1,
-      questionAnswers:[]
+      questionAnswers: [],
     };
   },
   methods: {
     async handleQAChange(data) {
-      console.log("inHandleQAChange")
+      console.log("inHandleQAChange");
 
-        this.questionAnswers = await data;
+      this.questionAnswers = await data;
 
-      console.log(this.questionAnswers)
-},
+      console.log(this.questionAnswers);
+    },
     hideSuccess() {
       this.successMessage = false;
     },
@@ -268,7 +268,7 @@ export default {
 
         this.course = res;
         console.log(this.course);
-        this.questionAnswers = this.course.questionAnswers
+        this.questionAnswers = this.course.questionAnswers;
         // return res;
       } catch (error) {
         console.log(error);

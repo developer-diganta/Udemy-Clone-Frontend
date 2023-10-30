@@ -9,6 +9,7 @@ import InstructorProfile from "../views/instructor/InstructorProfile";
 import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
 import InstructorCourse from "../views/instructor/InstructorCourse";
 import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons";
+import InstructorCourseList from "../views/instructor/InstructorCourseList";
 import StudentHomePage from "../views/student/StudentHomePage";
 import StudentEnrollPage from "../views/student/StudentEnrollPage";
 import StudentCoursePage from "../views/student/StudentCoursePage";
@@ -33,9 +34,7 @@ const routes = [
     redirect: "/signup/email/instructor",
   },
 
-
-/* ADMIN ROUTES */
-
+  /* ADMIN ROUTES */
 
   {
     path: "/admin/signin",
@@ -66,13 +65,13 @@ const routes = [
         component: AdminRevenue,
       },
       {
-        path:"coursestatus",
-        component:AdminCourseStatus
+        path: "coursestatus",
+        component: AdminCourseStatus,
       },
       {
-        path:"course",
-        component: StudentCoursePage
-      }
+        path: "course",
+        component: StudentCoursePage,
+      },
     ],
   },
 
@@ -98,30 +97,44 @@ const routes = [
     },
     children: [
       {
-        path: "/instructor/home",
+        path: "home",
         component: InstructorHomePage,
       },
       {
-        path: "/instructor/profile",
+        path: "profile",
         component: InstructorProfile,
       },
       {
-        path: "/instructor/course/view/:id",
+        path: "course/view/:id",
         component: InstructorCourse,
+        beforeEnter: async (to, from, next) => {
+          const verifyCourseOwnership = await store.dispatch(
+            "verifyCourseOwnership",
+            to.params.id,
+          );
+          if (verifyCourseOwnership) {
+            next();
+          } else {
+            next("404");
+          }
+        },
       },
 
       {
-        path: "/instructor/course/lesson/:id",
+        path: "course/lesson/:id",
         component: InstructorCourseLessons,
       },
 
       {
-        path: "/instructor/course/add",
+        path: "course/add",
         component: InstructorAddCourse,
+      },
+      {
+        path: "courseslist",
+        component: InstructorCourseList,
       },
     ],
   },
-
 
   {
     path: "/otp",
@@ -135,20 +148,25 @@ const routes = [
     component: SignInForm,
   },
 
-
   /* Student Routes */
 
   {
     path: "/student",
     component: Student,
     beforeEnter: async (to, from, next) => {
-      const studentStatus = await store.dispatch("verifyToken");
-      console.log(studentStatus);
-      if (studentStatus.data === "registered") {
-        next();
-      } else if (studentStatus.data === "pending") {
-        next("/otp");
-      } else {
+      try {
+        const studentStatus = await store.dispatch("verifyToken");
+        console.log(studentStatus);
+
+        if (studentStatus.data === "registered") {
+          next();
+        } else if (studentStatus.data === "pending") {
+          next("/otp");
+        } else {
+          next("/signin/student");
+        }
+      } catch (error) {
+        console.log("llll");
         next("/signin/student");
       }
     },
@@ -184,13 +202,13 @@ const routes = [
     path: "/student/signup",
     name: "StudentSignUp",
     component: StudentSignUp,
-    beforeEnter: (to, from, next) => {
-      if (otpValidationIsComplete()) {
-        next();
-      } else {
-        next("/student/signup/email");
-      }
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if (otpValidationIsComplete()) {
+    //     next();
+    //   } else {
+    //     next("/student/signup/email");
+    //   }
+    // },
   },
 ];
 

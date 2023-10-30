@@ -73,6 +73,8 @@ export default {
         updatedProfile,
       );
       console.log(res);
+      this.bio = res.data.bio;
+      this.profileImage = res.data.profileImage;
     },
     handleFileChange(event) {
       this.imgChanged = true;
@@ -86,9 +88,9 @@ export default {
     async getInstructorProfile() {
       const res = await this.$store.dispatch("getInstructorProfile");
       console.log(res);
-      this.name = res.data.instructor.name;
-      this.bio = res.data.instructor.bio;
-      this.profileImage = res.data.instructor.profileImage;
+      this.name = res.data.name;
+      this.bio = res.data.bio;
+      this.profileImage = res.data.profileImage;
     },
     changed(event) {
       console.log(event.target.value);
