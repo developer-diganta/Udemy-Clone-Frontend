@@ -20,10 +20,10 @@ import "video.js/dist/video-js.css";
 export default {
   props: ["currentVideo"],
   data() {
-    return {
-      videoUrl:
-        "http://localhost:3000/api/instructor/videos/1697093252891-4K YouTube Promo.mp4",
-    };
+    // return {
+    //   videoUrl:
+    //     "",
+    // };
   },
   methods: {
     initVideoPlayer() {
@@ -45,9 +45,16 @@ export default {
       alert("Video source error");
     },
   },
+  computed: {
+    videoUrl() {
+      return "http://localhost:3000/api/instructor/videos/" + this.currentVideo;
+    },
+  },
   watch: {
     currentVideo: function (newVideo) {
+      console.log(newVideo);
       if (this.player) {
+        console.log("http://localhost:3000/api/instructor/videos/" + newVideo);
         this.player.src({
           src: "http://localhost:3000/api/instructor/videos/" + newVideo,
           type: "video/mp4",

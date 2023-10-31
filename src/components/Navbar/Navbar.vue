@@ -44,15 +44,13 @@
           ></v-btn>
         </li>
         <li>
-
-              <v-btn
-                style="background-color: #008080; color: white"
-                icon="mdi-school"
-                size="x-small"
-                v-bind="props"
-                @click="redirectToAllCourses"
-              ></v-btn>
-
+          <v-btn
+            style="background-color: #008080; color: white"
+            icon="mdi-school"
+            size="x-small"
+            v-bind="props"
+            @click="redirectToAllCourses"
+          ></v-btn>
         </li>
 
         <li>
@@ -138,8 +136,8 @@ export default {
     redirectToAddCourse() {
       this.$router.push("/instructor/course/add");
     },
-    redirectToAllCourses(){
-      this.$router.push("/instructor/courseslist")
+    redirectToAllCourses() {
+      this.$router.push("/instructor/courseslist");
     },
     async logout() {
       await this.$store.dispatch("logout", this.$router);

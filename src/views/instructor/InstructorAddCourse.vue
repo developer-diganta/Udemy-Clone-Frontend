@@ -1,47 +1,70 @@
 <!-- Page to allow instructor to add a new course. Fills in details like title, -->
 
 <template>
+  <div style="padding:3%;background:black; color:white" class="mb-5"><h1>Create Course</h1></div>
   <section id="add-course">
-    <h3>Please fill in the course details</h3>
-    <v-form @submit.prevent="addCourse" id="add-course-form">
-      <v-text-field
-        v-model="title"
-        :rules="titleRules"
-        label="Title"
-      ></v-text-field>
-      <v-textarea
-        label="Description"
-        rows="2"
-        v-model="description"
-        class="input"
-      ></v-textarea>
-      <v-text-field
-        v-model="singleCategory"
-        @click.insert="addCategory"
-        label="Categories"
-      ></v-text-field>
+    
+    <h3>Please fill in the new course details</h3>
+    <v-divider width="100px"></v-divider>
+    <v-form
+      @submit.prevent="addCourse"
+      id="add-course-form"
+      @input="formEdited = true"
+    >
+      <v-sheet :elevation="6" style="padding: 3%" rounded>
+        <v-text-field
+          v-model="title"
+          :rules="titleRules"
+          label="Title"
+        ></v-text-field>
+        <v-textarea
+          label="Description"
+          rows="2"
+          v-model="description"
+          class="input"
+        ></v-textarea>
+        <div class="mb-3">
+          <v-chip v-for="(category, index) in categories" :key="index">{{
+            category
+          }}</v-chip>
+        </div>
+        <v-text-field v-model="singleCategory" label="Categories">
+          <template v-if="singleCategory.length" v-slot:append>
+            <v-icon @click.prevent="addCategory" color="primaryTheme">
+              mdi-plus
+            </v-icon>
+          </template>
+        </v-text-field>
 
-      <v-text-field
-        type="number"
-        v-model="price"
-        label="Price"
-        :rules="priceRules"
-      ></v-text-field>
-      <v-text-field
-        type="number"
-        v-model="discount"
-        label="Discount"
-        :rules="discountRules"
-      ></v-text-field>
+        <v-text-field
+          type="number"
+          v-model="price"
+          label="Price (₹)"
+          :rules="priceRules"
+        ></v-text-field>
+        <v-text-field
+          type="number"
+          v-model="discount"
+          label="Discount (%)"
+          :rules="discountRules"
+        ></v-text-field>
 
-      <v-file-input
-        label="Thumbnail"
-        chips
-        accept="image/*"
-        class="input"
-      ></v-file-input>
+        <v-file-input
+          label="Thumbnail"
+          chips
+          accept="image/*"
+          class="input"
+        ></v-file-input>
 
-      <v-btn type="submit" block class="mt-2">Submit</v-btn>
+        <v-btn
+          type="submit"
+          block
+          class="mt-2"
+          color="primaryTheme"
+          :disabled="!formEdited"
+          >Submit</v-btn
+        >
+      </v-sheet>
     </v-form>
   </section>
 </template>
@@ -49,6 +72,9 @@
 import Navbar from "../../components/Navbar/Navbar.vue";
 import axios from "axios";
 import backend_url from "@/globals/globals";
+import titleValidation from "../../utils/validation-rules/titleValidation";
+import priceValidation from "../../utils/validation-rules/priceValidation";
+import discountValidation from "../../utils/validation-rules/discountValidation";
 export default {
   components: {
     Navbar,
@@ -60,33 +86,11 @@ export default {
     description: "",
     categories: [],
     singleCategory: "",
-    titleRules: [
-      (value) => {
-        if (
-          value.length >= 4 &&
-          value.length <= 50 &&
-          /^[a-zA-Z0-9]+$/.test(value.replace(/\s/g, ""))
-        )
-          return true;
-
-        if (value.length < 4 || value.length > 50)
-          return "Title length should be between 4 and 50 characters";
-        else if (!/^[a-zA-Z0-9]+$/.test(value.replace(/\s/g, "")))
-          return "Invalid Characters";
-      },
-    ],
-    priceRules: [
-      (value) => {
-        if (isNaN(value)) return "Should be a number";
-        return true;
-      },
-    ],
-    discountRules: [
-      (value) => {
-        if (value >= 10 && value <= 100) return true;
-        return "Discount should be between 10 and 100";
-      },
-    ],
+    formEdited: false,
+    newCategory: "a",
+    titleRules: [titleValidation],
+    priceRules: [priceValidation],
+    discountRules: [discountValidation],
   }),
   methods: {
     async addCourse() {
@@ -126,5 +130,6 @@ export default {
 }
 #add-course-form {
   width: 60%;
+  padding: 2%;
 }
 </style>

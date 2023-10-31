@@ -1,11 +1,12 @@
 <template lang="">
+  <div style="padding:3%;background:black; color:white" class="mb-5"><h1>My Courses</h1></div>
   <div class="container">
     <p class="text-h5">Unpublished Courses</p>
     <v-divider></v-divider>
-    <div v-if="!pendingCourses.length" class="text-center" >Create a New Course</div>
+    <div v-if="!pendingCourses.length" class="text-center">
+      Create a New Course
+    </div>
     <v-row class="mt-4 mb-4">
-
-
       <v-col
         cols="12"
         md="4"
@@ -44,9 +45,7 @@
               View Course
             </v-btn>
 
-            <v-btn color="orange" @click="publish(course._id)">
-              Publish
-            </v-btn>
+            <v-btn color="orange" @click="publish(course._id)"> Publish </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -54,10 +53,10 @@
 
     <p class="text-h5">Pending For Review</p>
     <v-divider></v-divider>
-    <div v-if="!publishedCourses.length" class="text-center" >No Published(Pending for Review) Courses</div>
+    <div v-if="!publishedCourses.length" class="text-center">
+      No Published(Pending for Review) Courses
+    </div>
     <v-row class="mt-4 mb-4">
-
-
       <v-col
         cols="12"
         md="4"
@@ -96,9 +95,7 @@
               View Course
             </v-btn>
 
-            <v-btn color="orange" @click="publish(course._id)">
-              Publish
-            </v-btn>
+            <v-btn color="orange" @click="publish(course._id)"> Publish </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -114,7 +111,7 @@
         v-for="(course, index) in activeCourses"
         :key="index"
       >
-      <p v-if="!activeCourses.length">No Active Courses</p>
+        <p v-if="!activeCourses.length">No Active Courses</p>
         <v-card class="mx-auto" max-width="400">
           <v-img
             class="align-end text-white"
@@ -148,8 +145,8 @@
             </v-btn>
 
             <v-btn color="orange" @click="activate(course._id)">
-                View Stats
-              </v-btn>
+              View Stats
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -164,7 +161,7 @@ export default {
   data() {
     return {
       allCourses: [],
-      moment
+      moment,
     };
   },
   computed: {
@@ -174,12 +171,12 @@ export default {
     activeCourses() {
       return this.allCourses.filter((course) => course.status === "active");
     },
-    pendingCourses(){
-        return this.allCourses.filter((course=>course.status==="pending"))
+    pendingCourses() {
+      return this.allCourses.filter((course) => course.status === "pending");
     },
-    username(){
-       return this.$store.state.user.name
-    }
+    username() {
+      return this.$store.state.user.name;
+    },
   },
   methods: {
     async fetchAllCourses() {
@@ -189,8 +186,9 @@ export default {
     redirect(id) {
       this.$router.push(`/instructor/course/view/${id}`);
     },
+
     async publish(id) {
-        const res = await this.$store.dispatch("publishCourse", id);
+      const res = await this.$store.dispatch("publishCourse", id);
       console.log(res);
       this.fetchAllCourses();
     },

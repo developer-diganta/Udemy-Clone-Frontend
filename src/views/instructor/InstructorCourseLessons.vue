@@ -2,10 +2,13 @@
   <h3 class="text-center">{{ course.title }} (Edit Mode: Instructor)</h3>
   <v-row style="padding: 30px; max-height: 80vh">
     <v-col cols="12" md="8" justify-center d-flex>
-      <div>
+      <div v-if="currentVideo" :key="course">
         <v-app style="min-height: 0 !important">
           <video-player :currentVideo="currentVideo"></video-player>
         </v-app>
+      </div>
+      <div v-else>
+        <h3 class="text-center">No videos to play</h3>
       </div>
       <div>
         <v-card>
@@ -83,6 +86,17 @@
 
           <v-select
             label="Select"
+            v-model="lectureSection"
+            v-if="typeOfUpload === 'lecture'"
+            :items="sectionsList.map((section) => section)"
+            item-title="title"
+            variant="outlined"
+            return-object
+            @change.prevent="handleVideoSelection"
+          ></v-select>
+
+          <v-select
+            label="Select"
             v-model="select"
             v-if="typeOfUpload === 'lecture'"
             :items="videosList.map((video) => video)"
@@ -123,19 +137,23 @@
         :key="index"
         class="ml-4 list-style-none"
       >
-        <li>
-          <div
-            @click="deleteSection(index)"
-            icon="mdi-minus"
-            size="x-small"
-            variant="text"
-          >
-            <span class="cursor-pointer">X</span>
-            <h4 style="display: inline">
+        <li style="margin-top: 7px">
+          <div>
+            <h3 style="display: inline">
               {{ index + 1 + ". " + lesson.title }}
-            </h4>
+            </h3>
+            <div
+              @click="deleteSection(index)"
+              icon="mdi-minus"
+              size="x-small"
+              variant="text"
+              class="cursor-pointer cross-btn d-inline"
+              style="padding-left:0px; margin-top:0px;"
+            >
+              X
+            </div>
           </div>
-          <!-- {{lesson}} -->
+
           <ul
             v-for="(subsection, i) in lesson.videos"
             :key="i"
@@ -143,21 +161,22 @@
           >
             <li class="d-flex p-2" style="padding: 5px; margin-top: 7px">
               <div
+                variant="text"
+                @click="loadCurrentVideo(subsection.videoLink)"
+                style="margin-left: 8px"
+                class="cursor-pointer video-name"
+              >
+                {{ i + 1 + ". " + subsection.title }}
+              </div>
+              <div
                 @click="deleteVideo(index, i)"
                 icon="mdi-minus"
                 size="x-small"
                 variant="text"
-                class="cursor-pointer"
+                class="cursor-pointer cross-btn d-inline"
+                style="height:18px;width:18px; font-size:12px"
               >
                 X
-              </div>
-              <div
-                variant="text"
-                @click="loadCurrentVideo(subsection.videoLink)"
-                style="margin-left: 8px"
-                class="cursor-pointer"
-              >
-                {{ i + 1 + ". " + subsection.title }}
               </div>
             </li>
           </ul>
@@ -193,7 +212,7 @@ export default {
   data() {
     return {
       course: {},
-      sectionSelect: {},
+      sectionSelect: null,
       alertSuccess: false,
       alertFailure: false,
       successMessage: "",
@@ -214,6 +233,7 @@ export default {
       sectionsList: [],
       select: "",
       materialPosition: "after",
+      lectureSection: null,
       firstNameRules: [
         (value) => {
           if (value?.length > 3) return true;
@@ -233,6 +253,10 @@ export default {
   },
 
   methods: {
+    resetForm() {
+      this.title = "";
+      this.files = null;
+    },
     async publish() {
       const res = await this.$store.dispatch("publishCourse", this.courseID);
       this.initialLoad();
@@ -258,14 +282,26 @@ export default {
     async sectionUpload() {
       console.log(this.title);
       console.log(this.sectionSelect);
+      console.log(this.selectionSelect);
+      if (this.sectionSelect === null) {
+        this.sectionSelect = {
+          index: 0,
+        };
+        this.materialPosition = "after";
+      }
+
       const res = await this.$store.dispatch("addSection", {
-        index: this.sectionSelect.index,
+        index:
+          this.materialPosition === "before"
+            ? this.sectionSelect.index - 1
+            : this.sectionSelect.index,
         title: this.title,
         id: this.course._id,
       });
 
       console.log(res);
       await this.initialLoad();
+      this.resetForm();
     },
     setAddMaterialActivated(index, i) {
       console.log(index, i);
@@ -289,8 +325,9 @@ export default {
         });
         this.alertSuccess = true;
         this.successMessage = "Video Deleted";
-        
+
         this.initialLoad();
+        this.resetForm();
       } catch (error) {
         this.alertFailure = true;
         this.failureMessage = error;
@@ -330,6 +367,7 @@ export default {
 
         this.successMessage = "Video Uploaded";
         this.initialLoad();
+        this.resetForm();
       } catch (error) {
         this.alertFailure = true;
         this.failureMessage = error;
@@ -339,46 +377,56 @@ export default {
 
     loadCurrentVideo(video) {
       this.currentVideo = video;
-      console.log(video);
     },
 
     async initialLoad() {
+      this.dialog = false;
       this.courseID = this.$route.params.id;
       try {
         const res = await this.$store.dispatch("instructorCourseViewOne", {
           courseId: this.courseID,
         });
-        console.log("COURSE HERE ->", res.data);
-        for (let i = 0; i < res.data.course.lessons.length; i++) {
-          for (let j = 0; j < res.data.course.lessons[i].videos.length; j++) {
-            this.videosList.push({
-              i,
-              j,
-              video: res.data.course.lessons[i].videos[j],
-            });
-          }
-        }
 
         this.sectionsList = res.data.course.lessons.map((lesson, index) => ({
           index,
           title: lesson.title,
         }));
 
+        this.setCourseDetails(res);
+        if (this.course.lessons[0]?.videos[0]?.videoLink) {
+          this.loadCurrentVideo(this.course.lessons[0]?.videos[0]?.videoLink);
+        }
         console.log(this.sectionsList);
         console.log(this.videosList);
-        this.setCourseDetails(res);
       } catch (error) {
         console.log(error);
       }
     },
   },
   watch: {
+    lectureSection() {
+      console.log(this.lectureSection);
+      console.log(this.course.lessons[this.lectureSection.index]);
+      this.videosList = [];
+      for (
+        let j = 0;
+        j < this.course.lessons[this.lectureSection.index].videos.length;
+        j++
+      ) {
+        this.videosList.push({
+          i: this.lectureSection.index,
+          j,
+          video: this.course.lessons[this.lectureSection.index].videos[j],
+        });
+      }
+      this.subsectionToBeUpdated = this.lectureSection.index;
+    },
     typeOfUpload() {
       console.log(this.typeOfUpload);
     },
     select() {
       console.log(this.select);
-      this.subsectionToBeUpdated = this.select.i;
+      // this.subsectionToBeUpdated = this.select.i;
       if (this.materialPosition === "before") {
         this.videoToAddAfter = this.select.j - 1;
         console.log(this.videoToAddAfter);
@@ -433,5 +481,31 @@ tr {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.cross-btn {
+  background: red;
+  color: white;
+  font-weight: 700;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 100%;
+  height: 20px;
+  width: 20px;
+  font-size: 14px;
+  text-align: center;
+  margin-left: 10px;
+  box-shadow: 0px 0px 5px 0px red;
+  margin-top:2px;
+}
+.cross-btn:hover {
+  box-shadow: none;
+}
+.video-name{
+  padding-top:2px;
+  padding-bottom:2px;
+}
+
+.video-name:hover{
+  background: rgb(207, 207, 207);
 }
 </style>

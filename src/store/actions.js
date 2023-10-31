@@ -2,18 +2,21 @@ import backend_url from "@/globals/globals";
 import axios from "axios";
 
 export default {
-  async verifyToken({commit,rootState}){
-    try{
-        console.log("[[]", rootState.user)
-      const res = await axios.post(`${backend_url}/${rootState.user.type}/verify`,{
-        email:rootState.user.email,
-        token:rootState.user.token
-      })
-      console.log(res)
+  async verifyToken({ commit, rootState }) {
+    try {
+      console.log("[[]", rootState.user);
+      const res = await axios.post(
+        `${backend_url}/${rootState.user.type}/verify`,
+        {
+          email: rootState.user.email,
+          token: rootState.user.token,
+        },
+      );
+      console.log(res);
       return res;
-    }catch(error){
-      console.log("HEREREREERERERERE")
-      throw new Error("Not verified")
+    } catch (error) {
+      console.log("HEREREREERERERERE");
+      throw new Error("Not verified");
     }
   },
   async searchResultsFromAPI({ commit }, searchKey) {
@@ -58,7 +61,6 @@ export default {
   /* adds course by instructor action
      accepts course details (apart from lesson materials)
   */
- 
 
   async addCourseInstructor({ commit, rootState }, { course }) {
     try {
@@ -74,20 +76,16 @@ export default {
     }
   },
 
-
-
   /* single course view action for instructor
     fetches a course using course id from backend
     accepts courseId
   */
   /**
-   * 
-   * @param {number} param0 id  
-   * @param {*} param1 
-   * @returns 
+   *
+   * @param {number} param0 id
+   * @param {*} param1
+   * @returns
    */
-
-
 
   async instructorCourseViewOne({ commit, rootState }, { courseId, router }) {
     try {
@@ -176,7 +174,7 @@ export default {
           token,
         },
       );
-      console.log(response)
+      console.log(response);
       return response;
     } catch (error) {
       console.log(error);
@@ -223,7 +221,6 @@ export default {
   },
   async updateInstructorProfile({ commit, rootState }, payload) {
     try {
-
       const id = rootState.user._id;
       const token = rootState.user.token;
       const email = rootState.user.email;
@@ -235,10 +232,10 @@ export default {
         { updates: payload, id, token, email },
       );
 
-      commit("user/setUserName",res.data.name, { root: true })
-      commit("user/setUserEmail",res.data.email, { root: true })
+      commit("user/setUserName", res.data.name, { root: true });
+      commit("user/setUserEmail", res.data.email, { root: true });
 
-      console.log(rootState.user.name)
+      console.log(rootState.user.name);
       return res;
     } catch (error) {
       console.log(error);
@@ -249,13 +246,16 @@ export default {
       const id = rootState.user._id;
       const token = rootState.user.token;
       const email = rootState.user.email;
-      const r = await axios.patch(`${backend_url}/${rootState.user.type}/logout`, {
-        id,
-        token,
-        email,
-      });
+      const r = await axios.patch(
+        `${backend_url}/${rootState.user.type}/logout`,
+        {
+          id,
+          token,
+          email,
+        },
+      );
       localStorage.clear();
-      router.push("/")
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -310,7 +310,9 @@ export default {
   },
   async getStudentProfile({ commit, rootState }) {
     try {
-      const res = await axios.get(`${backend_url}/student?id=${rootState.user._id}`);
+      const res = await axios.get(
+        `${backend_url}/student?id=${rootState.user._id}`,
+      );
       console.log(res);
       return res;
     } catch (error) {
@@ -318,9 +320,11 @@ export default {
       console.log(error);
     }
   },
-  async getInstructorProfile({commit,rootState}){
+  async getInstructorProfile({ commit, rootState }) {
     try {
-      const res = await axios.get(`${backend_url}/instructor?id=${rootState.user._id}`);
+      const res = await axios.get(
+        `${backend_url}/instructor?id=${rootState.user._id}`,
+      );
       console.log(res);
       return res;
     } catch (error) {
@@ -372,10 +376,11 @@ export default {
     } catch (error) {
       console.log(error);
     }
-
   },
   async getTeacherAllCourses({ commit, rootState }) {
-    const courses = await axios.get(`${backend_url}/instructor/courses/all?id=${rootState.user._id}`);
+    const courses = await axios.get(
+      `${backend_url}/instructor/courses/all?id=${rootState.user._id}`,
+    );
     return courses.data;
   },
   async getAllCourses({ commit }) {
@@ -401,53 +406,50 @@ export default {
     });
     return res.data;
   },
-  async fetchInstructorName({commit},id){
-    const res = await axios.get(`${backend_url}/admin/instructorname/${id}`)
-    console.log(res.data)
+  async fetchInstructorName({ commit }, id) {
+    const res = await axios.get(`${backend_url}/admin/instructorname/${id}`);
+    console.log(res.data);
     return res.data;
   },
-  async updateCourseStatus({commit}, id){
-    const res = await axios.patch(`${backend_url}/admin/course/status`,{
-      courseId:id
-    })
-    return res
+  async updateCourseStatus({ commit }, id) {
+    const res = await axios.patch(`${backend_url}/admin/course/status`, {
+      courseId: id,
+    });
+    return res;
   },
-  async publishCourse({commit, rootState}, courseId){
+  async publishCourse({ commit, rootState }, courseId) {
     const id = rootState.user._id;
     const token = rootState.user.token;
     const email = rootState.user.email;
-    const res = await axios.patch(`${backend_url}/instructor/status`,{
+    const res = await axios.patch(`${backend_url}/instructor/status`, {
       id,
       token,
       email,
-      courseId:courseId
-    })
+      courseId: courseId,
+    });
   },
-  async verifyCourseOwnership({commit, rootState}, courseId){
-    try{
-      const res = await axios.post(`${backend_url}/instructor/courseverify`,{
+  async verifyCourseOwnership({ commit, rootState }, courseId) {
+    try {
+      const res = await axios.post(`${backend_url}/instructor/courseverify`, {
         courseId,
-        token:rootState.user.token,
+        token: rootState.user.token,
         email: rootState.user.email,
-        id:rootState.user._id
+        id: rootState.user._id,
       });
-      if(res.data === "allowed")
-      return 1;
-      else return 0
-    }
-    catch(error){
+      if (res.data === "allowed") return 1;
+      else return 0;
+    } catch (error) {
       return 0;
     }
   },
-  async editCourse({commit, rootState},{updates,courseId}){
-    const res = await axios.patch(`${backend_url}/instructor/editcourse`,{
+  async editCourse({ commit, rootState }, { updates, courseId }) {
+    const res = await axios.patch(`${backend_url}/instructor/editcourse`, {
       courseId,
       updates,
-      token:rootState.user.token,
+      token: rootState.user.token,
       email: rootState.user.email,
-      id:rootState.user._id
+      id: rootState.user._id,
     });
-    console.log(res)
-  }
+    console.log(res);
+  },
 };
-

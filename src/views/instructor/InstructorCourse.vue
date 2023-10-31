@@ -1,7 +1,14 @@
 <template>
+  <loader message="Updating Course Details" v-if="loading"></loader>
+  <snack-bar
+    message="Updated Course"
+    :visibility="snackbar"
+    :key="toggleSnackbar"
+  ></snack-bar>
   <div>
     <h3 class="text-center">Course Details - {{ title }}</h3>
-    <v-form v-model="valid" @submit.prevent="submit">
+
+    <v-form v-model="valid" @submit.prevent="submit" @input="formEdited = true">
       <v-container>
         <v-row>
           <v-col cols="12" md="4">
@@ -49,6 +56,7 @@
                 v-model="price"
                 :rules="titleRules"
                 label="Price"
+                density="compact"
               ></v-text-field>
             </v-row>
 
@@ -58,6 +66,7 @@
                 v-model="discount"
                 :rules="discountRules"
                 label="Discount"
+                density="compact"
               ></v-text-field>
             </v-row>
           </v-col>
@@ -68,6 +77,7 @@
               :items="categories"
               label="Categories"
               multiple
+              density="compact"
             >
               <template v-slot:selection="{ item, index }">
                 <v-chip v-if="index < 2">
@@ -77,11 +87,15 @@
                   v-if="index === 2"
                   class="text-grey text-caption align-self-center"
                 >
-                  (+{{ value.length - 2 }} others)
+                  (+{{ categories.length - 2 }} others)
                 </span>
               </template>
             </v-select>
-            <v-text-field v-model="newCategory" label="Add Category">
+            <v-text-field
+              v-model="newCategory"
+              label="Add Category"
+              density="compact"
+            >
               <template v-if="newCategory.length" v-slot:append>
                 <v-icon @click.prevent="addCategory" color="primaryTheme">
                   mdi-plus
@@ -99,10 +113,15 @@
               :key="index"
               v-model="requirements[index]"
               :rules="titleRules"
+              density="compact"
             ></v-text-field>
-            <v-text-field v-model="newCategory" label="Add Category">
-              <template v-if="newCategory.length" v-slot:append>
-                <v-icon @click.prevent="addCategory" color="primaryTheme">
+            <v-text-field
+              v-model="newRequirement"
+              label="Add Requirement"
+              density="compact"
+            >
+              <template v-if="newRequirement.length" v-slot:append>
+                <v-icon @click.prevent="addRequirement" color="primaryTheme">
                   mdi-plus
                 </v-icon>
               </template>
@@ -117,42 +136,36 @@
               :key="index"
               v-model="courseMaterials[index].name"
               :rules="titleRules"
+              density="compact"
             ></v-text-field>
-            <v-text-field v-model="newCategory" label="Add Category">
-              <template v-if="newCategory.length" v-slot:append>
-                <v-icon @click.prevent="addCategory" color="primaryTheme">
+            <v-text-field
+              v-model="newMaterial"
+              label="Add Material"
+              density="compact"
+            >
+              <template v-if="newMaterial.length" v-slot:append>
+                <v-icon @click.prevent="addMaterial" color="primaryTheme">
                   mdi-plus
                 </v-icon>
               </template>
             </v-text-field>
           </v-col>
-          <!-- 
-          
-          <v-col cols="12" md="8">
-            <v-file-input
-              multiple
-              label="File input"
-              @change="videoUpload"
-              name="file"
-            ></v-file-input>
-          </v-col> -->
         </v-row>
       </v-container>
       <div class="text-center pb-10">
         <v-btn
           type="submit"
           style="margin-right: 15px"
-          variant="tonal"
           size="large"
           elevation="4"
           color="primaryTheme"
           rounded="sm"
-          >Submit</v-btn
+          :disabled="formEdited === false"
+          >Update Course</v-btn
         >
         <v-btn
           type="button"
           style="margin-left: 15px"
-          variant="tonal"
           size="large"
           elevation="4"
           color="primaryTheme"
@@ -169,10 +182,14 @@
 import backend_url from "@/globals/globals";
 import Navbar from "../../components/Navbar/Navbar.vue";
 import axios from "axios";
+import Loader from "@/ui/Loader.vue";
+import SnackBar from "@/ui/SnackBar.vue";
 
 export default {
   components: {
     Navbar,
+    Loader,
+    SnackBar,
   },
   data() {
     return {
@@ -185,11 +202,17 @@ export default {
       value: [],
       description: "",
       newCategory: "",
+      loading: false,
+      newMaterial: "",
+      newRequirement: "",
       price: 0,
       discount: 0,
       thumbnail: "",
       requirements: [],
+      toggleSnackbar: false,
       courseMaterials: [],
+      snackbar: false,
+      formEdited: false,
       nameRules: [
         (value) => {
           if (value) return true;
@@ -218,20 +241,30 @@ export default {
     };
   },
   methods: {
-    async submit(){
-      const updates = {
-        title:this.title,
-        description:this.description,
-        categories: this.categories,
-        price: this.price,
-        discount: this.discount,
-        thumbnail: this.thumbnail,
-        requirements: this.requirements,
-        courseMaterials: this.courseMaterials
+    submit() {
+      try {
+        this.loading = true;
+        const updates = {
+          title: this.title,
+          description: this.description,
+          categories: this.categories,
+          price: this.price,
+          discount: this.discount,
+          thumbnail: this.thumbnail,
+          requirements: this.requirements,
+          courseMaterials: this.courseMaterials,
+        };
+        this.$store.dispatch("editCourse", {
+          updates,
+          courseId: this.courseID,
+        });
+        this.loading = false;
+        this.snackbar = true;
+        this.toggleSnackbar = !this.toggleSnackbar;
+      } catch (error) {
+        console.log("SAVE ME FROM ERROR");
+        alert("ERROR");
       }
-      await this.$store.dispatch("editCourse",{
-        updates,courseId:this.courseID
-      })
     },
     redirectAddLessons() {
       this.$router.push(`/instructor/course/lesson/${this.courseID}`);
@@ -262,8 +295,23 @@ export default {
     addCategory() {
       console.log(this.newCategory);
       this.categories.push(this.newCategory);
-      console.log(this.categories)
+      console.log(this.categories);
       this.newCategory = "";
+    },
+
+    /**
+     * adds a new material to the course materials array
+     */
+    addMaterial() {
+      this.courseMaterials.push({
+        name: this.newMaterial,
+      });
+      this.newMaterial = "";
+    },
+
+    addRequirement() {
+      this.requirements.push(this.newRequirement);
+      this.newRequirement = "";
     },
     selectClick(event) {
       console.log(event);

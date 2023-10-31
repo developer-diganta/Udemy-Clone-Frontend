@@ -66,4 +66,11 @@ export default {
 .v-application__wrap {
   min-height: 0 !important;
 }
+
+.center-absolute {
+  position: absolute !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
