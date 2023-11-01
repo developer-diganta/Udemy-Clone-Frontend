@@ -148,7 +148,7 @@
               size="x-small"
               variant="text"
               class="cursor-pointer cross-btn d-inline"
-              style="padding-left:0px; margin-top:0px;"
+              style="padding-left: 0px; margin-top: 0px"
             >
               X
             </div>
@@ -174,7 +174,7 @@
                 size="x-small"
                 variant="text"
                 class="cursor-pointer cross-btn d-inline"
-                style="height:18px;width:18px; font-size:12px"
+                style="height: 18px; width: 18px; font-size: 12px"
               >
                 X
               </div>
@@ -495,17 +495,17 @@ tr {
   text-align: center;
   margin-left: 10px;
   box-shadow: 0px 0px 5px 0px red;
-  margin-top:2px;
+  margin-top: 2px;
 }
 .cross-btn:hover {
   box-shadow: none;
 }
-.video-name{
-  padding-top:2px;
-  padding-bottom:2px;
+.video-name {
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
-.video-name:hover{
+.video-name:hover {
   background: rgb(207, 207, 207);
 }
 </style>

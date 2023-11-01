@@ -27,7 +27,7 @@ export default {
       */
 
   async instructorSignUp({ commit }, data) {
-    console.log(data);
+    console.log(data.socialLinks);
     try {
       const res = await axios.post(`${backend_url}/instructor`, {
         ...data,
@@ -81,7 +81,7 @@ export default {
       }
       return "home";
     } catch (error) {
-      console.log(error.data);
+      console.log(error);
       return error;
     }
   },

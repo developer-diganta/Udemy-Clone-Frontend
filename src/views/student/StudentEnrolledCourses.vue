@@ -1,6 +1,8 @@
 <template>
+  <div style="padding: 3%; background: black; color: white" class="mb-5">
+    <h1>My Courses</h1>
+  </div>
   <div class="container">
-    <p class="text-h4 text-center mt-5">Your Enrolled Courses</p>
     <v-divider></v-divider>
     <v-row class="mt-10">
       <v-col

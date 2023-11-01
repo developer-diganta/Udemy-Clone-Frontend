@@ -39,16 +39,17 @@ export default {
     };
   },
   methods: {
+    /**
+     * fetches search results and stores it in searchResults variable
+     * */
     async fetchSearchResults() {
-      console.log(this.searchQuery);
-      const res = await this.$store.dispatch(
-        "searchResultsFromAPI",
+      console.log(this.$store.state);
+      await this.$store.dispatch(
+        `${this.$store.state.user.type}/searchResultsFromAPI`,
         this.searchQuery,
       );
       this.loading = false;
-      console.log("123");
-      console.log(this.searchQuery);
-      this.searchResults = res.map((course) => course.item);
+      this.searchResults = this.$store.state.student.searchResults.map((course) => course.item);
     },
   },
   watch: {

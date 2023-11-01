@@ -24,9 +24,11 @@ export default {
       this.$store.state.user.name == "" &&
       localStorage.getItem("type") === "instructor"
     ) {
+      console.log("12321421542151253551353");
       try {
-        const res = await this.$store.dispatch("getInstructorProfile");
+        const res = await this.$store.dispatch("getInstructorProfileOnLoad");
         this.$store.commit("user/setUserName", res.data.name);
+        console.log(res);
       } catch (error) {
         return 0;
       }
@@ -72,5 +74,10 @@ export default {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.w-100 {
+  width: 100% !important;
+  background: red;
 }
 </style>

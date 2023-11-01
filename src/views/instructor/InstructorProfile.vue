@@ -1,11 +1,17 @@
 <template>
   <v-sheet class="d-flex justify-center flex-column align-center mt-6">
     <v-card
-      class="d-flex justify-center flex-column align-center p-3"
-      style="width: 40%; padding: 20px"
+      class="d-flex justify-center flex-column align-center mt-1 mb-4"
+      style="width: 70%; padding: 10px"
     >
+      <v-divider></v-divider>
       <h3>Your Profile</h3>
-      <v-form class="form-width" @submit.prevent="submitForm" density="compact">
+      <v-form
+        class="form-width"
+        @submit.prevent="submitForm"
+        density="compact"
+        @input="formEdited = true"
+      >
         <v-text-field
           v-model="name"
           :rules="rules"
@@ -31,12 +37,51 @@
           class="input"
           @change="handleFileChange($event)"
         ></v-file-input>
+        <h4>Your Social Links</h4>
+        <v-row v-for="(social, index) in socialLinks" :key="index">
+          <v-col cols="12" sm="4">
+            <v-text-field
+              v-model="social.name"
+              density="compact"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="1" sm="1"></v-col>
+          <v-col cols="12" sm="7">
+            <v-text-field
+              v-model="social.link"
+              density="compact"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12" sm="4">
+            <v-text-field
+              v-model="newSocialName"
+              density="compact"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="1" sm="1"></v-col>
+          <v-col cols="12" sm="7">
+            <v-row>
+              <v-col cols="12" sm="11">
+                <v-text-field
+                  density="compact"
+                  v-model="newSocialLink"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="1">
+                <v-btn icon="$plus" @click="addSocial"></v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
         <v-btn
           type="submit"
           block
           class="mt-2"
           color="primaryTheme"
           style="width: 10%"
+          :disabled="!formEdited"
           >Submit</v-btn
         >
       </v-form>
@@ -53,13 +98,25 @@ export default {
       bio: "",
       profileImage: "",
       imgChanged: false,
+      socialLinks: [],
+      formEdited: false,
+      newSocialName: "",
+      newSocialLink: "",
     };
   },
   methods: {
+    addSocial() {
+      this.socialLinks.push({
+        name: this.newSocialName,
+        link: this.newSocialLink,
+      });
+      this.newSocialName = this.newSocialLink = "";
+    },
     async submitForm() {
       const updatedProfile = {
         name: this.name,
         bio: this.bio,
+        socialLinks: this.socialLinks,
       };
 
       if (this.imgChanged) {
@@ -75,6 +132,7 @@ export default {
       console.log(res);
       this.bio = res.data.bio;
       this.profileImage = res.data.profileImage;
+      this.socialLinks = res.data.socialLinks;
     },
     handleFileChange(event) {
       this.imgChanged = true;
@@ -88,9 +146,10 @@ export default {
     async getInstructorProfile() {
       const res = await this.$store.dispatch("getInstructorProfile");
       console.log(res);
-      this.name = res.data.name;
-      this.bio = res.data.bio;
-      this.profileImage = res.data.profileImage;
+      this.name = res.data.instructor.name;
+      this.bio = res.data.instructor.bio;
+      this.profileImage = res.data.instructor.profileImage;
+      this.socialLinks = res.data.instructor.socialLinks;
     },
     changed(event) {
       console.log(event.target.value);
@@ -108,6 +167,6 @@ export default {
 </script>
 <style scoped>
 .form-width {
-  width: 60%;
+  width: 90%;
 }
 </style>

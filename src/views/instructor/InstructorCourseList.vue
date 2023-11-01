@@ -1,5 +1,7 @@
 <template lang="">
-  <div style="padding:3%;background:black; color:white" class="mb-5"><h1>My Courses</h1></div>
+  <div style="padding: 3%; background: black; color: white" class="mb-5">
+    <h1>My Courses</h1>
+  </div>
   <div class="container">
     <p class="text-h5">Unpublished Courses</p>
     <v-divider></v-divider>
@@ -144,7 +146,7 @@
               View Course
             </v-btn>
 
-            <v-btn color="orange" @click="activate(course._id)">
+            <v-btn color="orange" @click="stats(course._id)">
               View Stats
             </v-btn>
           </v-card-actions>
@@ -191,6 +193,9 @@ export default {
       const res = await this.$store.dispatch("publishCourse", id);
       console.log(res);
       this.fetchAllCourses();
+    },
+    stats(id) {
+      this.$router.push(`/instructor/course/stat/${id}`);
     },
   },
   async created() {

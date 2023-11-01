@@ -19,6 +19,7 @@ export default {
       throw new Error("Not verified");
     }
   },
+  // done student
   async searchResultsFromAPI({ commit }, searchKey) {
     console.log;
     try {
@@ -52,6 +53,7 @@ export default {
         type,
       });
       console.log(res);
+      commit("user/setUserToken", res.headers.authorization.split(" ")[1]);
       return res;
     } catch (error) {
       return error;
@@ -142,18 +144,7 @@ export default {
     }
   },
 
-  /*action to fetch single course
-    accepts courseId
-  */
-  async fetchSingleCourse({ commit }, { courseId }) {
-    try {
-      const res = await axios.get(`${backend_url}/course/${courseId}`);
 
-      return res.data.course;
-    } catch (error) {
-      return error;
-    }
-  },
 
   /* action to fetch the courses of an instructor 
      
@@ -204,7 +195,7 @@ export default {
     }
   },
   async getInstructorProfile({ commit, rootState }) {
-    console.log("here");
+    console.log(rootState.user.token);
     try {
       const id = rootState.user._id;
       const token = rootState.user.token;
@@ -214,6 +205,7 @@ export default {
         id,
         email,
       });
+      console.log("RRRRRRRR", res);
       return res;
     } catch (error) {
       console.log(error);
@@ -320,7 +312,7 @@ export default {
       console.log(error);
     }
   },
-  async getInstructorProfile({ commit, rootState }) {
+  async getInstructorProfileOnLoad({ commit, rootState }) {
     try {
       const res = await axios.get(
         `${backend_url}/instructor?id=${rootState.user._id}`,
@@ -451,5 +443,15 @@ export default {
       id: rootState.user._id,
     });
     console.log(res);
+  },
+
+  async instructorCoursePurchase({ commit, rootState }, courseId) {
+    const res = await axios.post(`${backend_url}/instructor/course/purchases`, {
+      courseId,
+      token: rootState.user.token,
+      email: rootState.user.email,
+      id: rootState.user._id,
+    });
+    return res;
   },
 };

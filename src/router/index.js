@@ -8,6 +8,7 @@ import InstructorHomePage from "../views/instructor/InstructorHomePage";
 import InstructorProfile from "../views/instructor/InstructorProfile";
 import InstructorAddCourse from "../views/instructor/InstructorAddCourse";
 import InstructorCourse from "../views/instructor/InstructorCourse";
+import InstructorCourseStat from "../views/instructor/InstructorCourseStat";
 import InstructorCourseLessons from "../views/instructor/InstructorCourseLessons";
 import InstructorCourseList from "../views/instructor/InstructorCourseList";
 import StudentHomePage from "../views/student/StudentHomePage";
@@ -107,6 +108,21 @@ const routes = [
       {
         path: "course/view/:id",
         component: InstructorCourse,
+        beforeEnter: async (to, from, next) => {
+          const verifyCourseOwnership = await store.dispatch(
+            "verifyCourseOwnership",
+            to.params.id,
+          );
+          if (verifyCourseOwnership) {
+            next();
+          } else {
+            next("404");
+          }
+        },
+      },
+      {
+        path: "course/stat/:id",
+        component: InstructorCourseStat,
         beforeEnter: async (to, from, next) => {
           const verifyCourseOwnership = await store.dispatch(
             "verifyCourseOwnership",

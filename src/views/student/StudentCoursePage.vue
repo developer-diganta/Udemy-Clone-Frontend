@@ -260,16 +260,15 @@ export default {
     },
     async getCourse() {
       try {
-        const res = await this.$store.dispatch("fetchSingleCourse", {
+        await this.$store.dispatch("common/fetchSingleCourse", {
           courseId: this.$route.query.courseId,
         });
-        console.log(res.lessons);
-        this.currentVideo = res.lessons[0]?.videos[0];
+        console.log( this.$store.state.common.singleCourse)
+        this.currentVideo = this.$store.state.common.singleCourse.lessons[0]?.videos[0];
 
-        this.course = res;
-        console.log(this.course);
+        this.course = this.$store.state.common.singleCourse;
         this.questionAnswers = this.course.questionAnswers;
-        // return res;
+        console.log("KLKLKLLKLKLKLKL",this.course)
       } catch (error) {
         console.log(error);
       }

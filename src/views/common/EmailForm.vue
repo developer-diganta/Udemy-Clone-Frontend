@@ -56,6 +56,7 @@ export default {
         this.otpValidationSuccess = true;
         localStorage.setItem("otpValidation", 1);
         const token = res.headers.authorization.split(" ")[1];
+        console.log("PPPPPPPPP", token);
         localStorage.setItem("token", token);
         console.log(res.data);
         localStorage.setItem("_id", res.data._id);

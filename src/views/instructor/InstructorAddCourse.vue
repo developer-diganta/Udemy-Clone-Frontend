@@ -1,9 +1,10 @@
 <!-- Page to allow instructor to add a new course. Fills in details like title, -->
 
 <template>
-  <div style="padding:3%;background:black; color:white" class="mb-5"><h1>Create Course</h1></div>
+  <div style="padding: 3%; background: black; color: white" class="mb-5">
+    <h1>Create Course</h1>
+  </div>
   <section id="add-course">
-    
     <h3>Please fill in the new course details</h3>
     <v-divider width="100px"></v-divider>
     <v-form

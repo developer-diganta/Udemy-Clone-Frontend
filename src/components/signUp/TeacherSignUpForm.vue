@@ -36,6 +36,37 @@
         class="input"
         @change="handleFileChange($event)"
       ></v-file-input>
+      <div class="input">
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-text-field placeholder="site name" v-model="newProfileAccount">
+            </v-text-field>
+          </v-col>
+          <v-col cols="12" md="8">
+            <v-row>
+              <v-col cols="12" md="10">
+                <v-text-field
+                  placeholder="url"
+                  style="display: inline !important"
+                  v-model="newProfileAccountUrl"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="2">
+                <v-btn icon="$plus" @click="addProfile"></v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </div>
+      <v-row v-for="(profile, index) in socialLinks" :key="index" class="input">
+        <v-col cols="12" sm="4" class="d-inline text-left"
+          >{{ profile.name }}
+        </v-col>
+        <v-col cols="12" sm="1"></v-col>
+        <v-col cols="12" sm="7">
+          <a :href="profile.link">{{ profile.link }}</a>
+        </v-col>
+      </v-row>
 
       <div>
         <v-btn class="me-4" type="submit"> submit </v-btn>
@@ -71,11 +102,23 @@ const bio = useField("bio");
 const email = useField("email");
 const password = useField("password");
 const profileImage = ref(null);
-
+const newProfileAccount = ref("");
+const newProfileAccountUrl = ref("");
+const socialLinks = ref([]);
 name.value.value = "DIGANTA";
 bio.value.value = "safsafsavdaggagda";
 email.value.value = "chrysaor07@gmail.com";
 password.value.value = "Abc@1234";
+
+const addProfile = () => {
+  console.log(newProfileAccount.value);
+  console.log(newProfileAccountUrl.value);
+  socialLinks.value.push({
+    name: newProfileAccount.value,
+    link: newProfileAccountUrl.value,
+  });
+  console.log(socialLinks.value[0]);
+};
 
 const handleFileChange = (event) => {
   const reader = new FileReader();
@@ -96,6 +139,7 @@ const submit = async () => {
       password: password.value.value,
       bio: bio.value.value,
       profileImage: profileImage._value,
+      socialLinks: socialLinks.value,
     });
     router.push("/otp");
   } catch (error) {

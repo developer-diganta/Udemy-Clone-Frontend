@@ -170,11 +170,11 @@ export default {
       this.failureMessage = false;
     },
     async getCourse() {
-      const res = await this.$store.dispatch("fetchSingleCourse", {
+      await this.$store.dispatch("common/fetchSingleCourse", {
         courseId: this.$route.params.id,
       });
-      console.log(res);
-      return res;
+      console.log("{}{}{{}{}{}{}{}{}{}{}",this.$store.state.common.singleCourse)
+      return this.$store.state.common.singleCourse;
     },
   },
   computed: {
