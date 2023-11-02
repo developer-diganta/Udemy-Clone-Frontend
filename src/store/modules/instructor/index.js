@@ -6,9 +6,16 @@ export default {
   namespaced: true,
   state() {
     return {
-      searchResults: [],
-      enrolledCourses: [],
       profile: {},
+      lastCourseAdded: {},
+      currentCourse: {},
+      deletedVideo: {},
+      selfCourses: [],
+      lastSectionAdded:{},
+      deletedSection:{},
+      publishedCourse:{},
+      editedCourse:{},
+      coursePurchases:{}
     };
   },
   mutations,

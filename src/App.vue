@@ -10,14 +10,17 @@ export default {
   components: { CheckOut },
   async created() {
     if (
-      this.$store.state.user.name == "" &&
+      this.$store.state.user.name === "" &&
       localStorage.getItem("type") === "student"
     ) {
       try {
-        const res = await this.$store.dispatch("getStudentProfile");
-        console.log(res.data.name);
-        this.$store.commit("user/setUserName", res.data.name);
+        const res = await this.$store.dispatch("student/getStudentProfile");
+        this.$store.commit(
+          "user/setUserName",
+          this.$store.state.student.profile.name,
+        );
       } catch (error) {
+        console.log(error);
         return 0;
       }
     } else if (
@@ -26,8 +29,8 @@ export default {
     ) {
       console.log("12321421542151253551353");
       try {
-        const res = await this.$store.dispatch("getInstructorProfileOnLoad");
-        this.$store.commit("user/setUserName", res.data.name);
+        await this.$store.dispatch("instructor/getInstructorProfileOnLoad");
+        
         console.log(res);
       } catch (error) {
         return 0;

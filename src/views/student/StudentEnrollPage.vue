@@ -173,7 +173,10 @@ export default {
       await this.$store.dispatch("common/fetchSingleCourse", {
         courseId: this.$route.params.id,
       });
-      console.log("{}{}{{}{}{}{}{}{}{}{}",this.$store.state.common.singleCourse)
+      console.log(
+        "{}{}{{}{}{}{}{}{}{}{}",
+        this.$store.state.common.singleCourse,
+      );
       return this.$store.state.common.singleCourse;
     },
   },

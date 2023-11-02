@@ -10,16 +10,18 @@
     </p> -->
     <p>By {{ questionAnswers.askedBy }}, {{ dt }}</p>
 
-    <v-card>
+    <div>
       <!-- <v-card-title>{{ questionAnswers.title }}</v-card-title>
       <v-divider></v-divider> -->
 
       <v-card-text>
         {{ questionAnswers.description }}
       </v-card-text>
-      <v-card
+      <div     v-if="openReplies">
+      <div
         width="500"
         class="m-2 ml-auto mr-auto"
+        style="border:1px solid black"
         v-for="(answer, index) in questionAnswers.answers"
         :key="index"
       >
@@ -30,7 +32,8 @@
           >By {{ answer.answerer }},
           {{ getPeriod(answer.answeredOn) }}</v-card-text
         >
-      </v-card>
+      </div>
+    </div>
       <v-form
         @submit.prevent
         v-if="answerFormActivated"
@@ -43,7 +46,15 @@
       </v-form>
       <v-card-actions>
         <v-spacer></v-spacer>
-
+        <v-btn
+          color="green-darken-1"
+          variant="text"
+          @click="openReplies=!openReplies"
+          
+        >
+        <span v-if="!openReplies">View Replies</span>
+        <span v-if="openReplies">Close</span>
+      </v-btn>
         <v-btn
           color="green-darken-1"
           variant="text"
@@ -53,14 +64,66 @@
           <!-- @click="dialog = false" -->
           Answer
         </v-btn>
-        <v-btn color="green-darken-1" variant="text" @click="dialog = false">
+        <!-- <v-btn color="green-darken-1" variant="text" @click="dialog = false">
           Close
-        </v-btn>
+        </v-btn> -->
       </v-card-actions>
-    </v-card>
+    </div>
   </div>
   <v-divider></v-divider>
-  <v-dialog v-model="dialog" width="auto">
+
+</template>
+<script>
+import moment from "moment";
+
+export default {
+  props: ["questionAnswers"],
+  emits: ["qa-reloaded"],
+  data() {
+    return {
+      dt: moment(this.questionAnswers.askedOn).fromNow(),
+      dialog: false,
+      answer: "",
+      answerFormActivated: false,
+      openReplies:false
+    };
+  },
+  methods: {
+    async submitAnswer() {
+      const res = await this.$store.dispatch("submitAnswer", {
+        answer: this.answer,
+        courseId: this.$route.query.courseId,
+        questionId: this.questionAnswers._id,
+      });
+      console.log("UPDATE", res.data);
+      this.$emit("qa-reloaded", res.data.questionAnswers);
+      this.answerFormActivated = false;
+    },
+    getPeriod(time) {
+      return moment(time).fromNow();
+    },
+  },
+  watch: {
+    dialog() {
+      if (this.dialog === false) this.answerFormActivated = false;
+    },
+  },
+  computed: {},
+};
+</script>
+<style>
+.qa {
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.qa:hover {
+  background-color: rgb(224, 224, 224);
+}
+</style>
+
+
+  <!-- <v-dialog v-model="dialog" width="auto">
     <v-card>
       <v-card-title>{{ questionAnswers.title }}</v-card-title>
       <v-divider></v-divider>
@@ -101,7 +164,6 @@
           @click="answerFormActivated = true"
           v-if="answerFormActivated === false"
         >
-          <!-- @click="dialog = false" -->
           Answer
         </v-btn>
         <v-btn color="green-darken-1" variant="text" @click="dialog = false">
@@ -109,53 +171,4 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-  </v-dialog>
-</template>
-<script>
-import moment from "moment";
-
-export default {
-  props: ["questionAnswers"],
-  emits: ["qa-reloaded"],
-  data() {
-    return {
-      dt: moment(this.questionAnswers.askedOn).fromNow(),
-      dialog: false,
-      answer: "",
-      answerFormActivated: false,
-    };
-  },
-  methods: {
-    async submitAnswer() {
-      const res = await this.$store.dispatch("submitAnswer", {
-        answer: this.answer,
-        courseId: this.$route.query.courseId,
-        questionId: this.questionAnswers._id,
-      });
-      console.log("UPDATE", res.data);
-      this.$emit("qa-reloaded", res.data.questionAnswers);
-      this.answerFormActivated = false;
-      this.dialog = true;
-    },
-    getPeriod(time) {
-      return moment(time).fromNow();
-    },
-  },
-  watch: {
-    dialog() {
-      if (this.dialog === false) this.answerFormActivated = false;
-    },
-  },
-  computed: {},
-};
-</script>
-<style>
-.qa {
-  padding: 20px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-.qa:hover {
-  background-color: rgb(224, 224, 224);
-}
-</style>
+  </v-dialog> -->

@@ -103,13 +103,18 @@ export default {
           discount: this.discount,
           categories: this.categories,
         };
-        const response = await this.$store.dispatch("addCourseInstructor", {
-          course,
-        });
+        const response = await this.$store.dispatch(
+          "instructor/addCourseInstructor",
+          {
+            course,
+          },
+        );
 
-        console.log(response.data);
+        // console.log(response.data);
 
-        this.$router.push(`/instructor/course/view/${response.data._id}`);
+        this.$router.push(
+          `/instructor/course/view/${this.$store.state.instructor.lastCourseAdded._id}`,
+        );
       } catch (error) {
         console.log(error);
       }

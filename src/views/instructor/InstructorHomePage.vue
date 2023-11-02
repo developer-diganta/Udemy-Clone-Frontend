@@ -32,7 +32,9 @@ export default {
   methods: {
     async fetchTrendingCourses() {
       try {
-        const response = await this.$store.dispatch("common/fetchTrendingCourses");
+        const response = await this.$store.dispatch(
+          "common/fetchTrendingCourses",
+        );
         this.trendingCourses = this.$store.state.common.trendingCourses;
       } catch (error) {
         console.error("Error fetching trending courses:", error);
@@ -40,9 +42,9 @@ export default {
     },
     async fetchSelfCourse() {
       try {
-        const response = await this.$store.dispatch("fetchSelfCourses");
-        console.log(response);
-        this.selfCourses = response.data;
+        await this.$store.dispatch("instructor/fetchSelfCourses");
+        console.log(this.$store.state.instructor.selfCourses);
+        this.selfCourses = this.$store.state.instructor.selfCourses;
       } catch (error) {
         console.error(error);
       }

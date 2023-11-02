@@ -38,7 +38,7 @@ export default {
       return this.students.filter((student) => student.status === "pending");
     },
     verifiedStudents() {
-      return this.students.filter((student) => student.status === "verified");
+      return this.students.filter((student) => student.status === "registered");
     },
     monthlyStudentSignups() {
       const yearData = new Array(12).fill(0);
@@ -55,7 +55,8 @@ export default {
     },
   },
   async created() {
-    this.students = await this.$store.dispatch("getAllStudents");
+    await this.$store.dispatch("admin/getAllStudents");
+    this.students = this.$store.state.admin.allStudents;
     console.log(this.students);
   },
 };

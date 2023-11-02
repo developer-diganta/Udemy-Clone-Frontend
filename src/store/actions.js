@@ -60,233 +60,12 @@ export default {
     }
   },
 
-  /* adds course by instructor action
-     accepts course details (apart from lesson materials)
-  */
-
-  async addCourseInstructor({ commit, rootState }, { course }) {
-    try {
-      const res = await axios.post(`${backend_url}/instructor/course/add`, {
-        email: rootState.user.email,
-        _id: rootState.user._id,
-        token: rootState.user.token,
-        course,
-      });
-      return res;
-    } catch (error) {
-      return error;
-    }
-  },
-
-  /* single course view action for instructor
-    fetches a course using course id from backend
-    accepts courseId
-  */
-  /**
-   *
-   * @param {number} param0 id
-   * @param {*} param1
-   * @returns
-   */
-
-  async instructorCourseViewOne({ commit, rootState }, { courseId, router }) {
-    try {
-      const res = await axios.post(`${backend_url}/instructor/course/viewone`, {
-        email: rootState.user.email,
-        courseId,
-        token: rootState.user.token,
-      });
-      return res;
-    } catch (error) {
-      if (error.response.data.error === "Please authenticate.") {
-        console.log(error);
-        alert("session expired");
-        router.push("/signin/instructor");
-      }
-      return error;
-    }
-  },
-
-  /* video deletion action 
-     action that deletes a video from the course based on its position
-     accepts courseId, subsection id and the video imdex inside the subsection
-  */
-
-  async deleteVideo(
-    { commit, rootState },
-    { courseId, subsectionToBeUpdated, indexOfVideo },
-  ) {
-    try {
-      await axios.post(`${backend_url}/instructor/videos/delete`, {
-        email: rootState.user.email,
-        courseId,
-        token: rootState.user.token,
-        subsectionToBeUpdated,
-        indexOfVideo,
-        intructorId: rootState.user._id,
-      });
-      return res;
-    } catch (error) {
-      return error;
-    }
-  },
-
-  /* action to fetch trending courses */
-
-  async fetchTrendingCourses({ commit }) {
-    try {
-      const res = await axios.get(
-        `${backend_url}/courses?limit=10&sortBy=enrollments&sortOrder=-1`,
-      );
-      return res;
-    } catch (error) {
-      return error;
-    }
-  },
 
 
 
-  /* action to fetch the courses of an instructor 
-     
-  */
-
-  async fetchSelfCourses({ commit, rootState }) {
-    try {
-      const type = rootState.user.type;
-      const id = rootState.user._id;
-      const email = rootState.user.email;
-      const token = rootState.user.token;
-      const response = await axios.post(
-        `${backend_url}/instructor/selfcourses`,
-        {
-          type,
-          id,
-          email,
-          token,
-        },
-      );
-      console.log(response);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
-  /* action to add a section to a course
-    accepts index, title and the course id
-  */
-  async addSection({ commit, rootState }, { index, title, id }) {
-    try {
-      const token = rootState.user.token;
-      const email = rootState.user.email;
-      const response = await axios.post(
-        `${backend_url}/instructor/course/lesson/section/add`,
-        {
-          token,
-          email,
-          id,
-          index,
-          title,
-        },
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  async getInstructorProfile({ commit, rootState }) {
-    console.log(rootState.user.token);
-    try {
-      const id = rootState.user._id;
-      const token = rootState.user.token;
-      const email = rootState.user.email;
-      const res = await axios.post(`${backend_url}/instructor/profile`, {
-        token,
-        id,
-        email,
-      });
-      console.log("RRRRRRRR", res);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  async updateInstructorProfile({ commit, rootState }, payload) {
-    try {
-      const id = rootState.user._id;
-      const token = rootState.user.token;
-      const email = rootState.user.email;
-      payload.id = id;
-
-      payload.email = email;
-      const res = await axios.patch(
-        `${backend_url}/instructor/profile/update`,
-        { updates: payload, id, token, email },
-      );
-
-      commit("user/setUserName", res.data.name, { root: true });
-      commit("user/setUserEmail", res.data.email, { root: true });
-
-      console.log(rootState.user.name);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  async logout({ commit, rootState }, router) {
-    try {
-      const id = rootState.user._id;
-      const token = rootState.user.token;
-      const email = rootState.user.email;
-      const r = await axios.patch(
-        `${backend_url}/${rootState.user.type}/logout`,
-        {
-          id,
-          token,
-          email,
-        },
-      );
-      localStorage.clear();
-      router.push("/");
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  async fetchEnrolledCourses({ commit, rootState }) {
-    try {
-      const id = rootState.user._id;
-      const token = rootState.user.token;
-      const email = rootState.user.email;
-      const res = await axios.post(`${backend_url}/student/enrolledcourses`, {
-        id,
-        token,
-        email,
-      });
-      console.log(res);
-      return res;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-  async deleteSection({ commit, rootState }, { courseId, sectionId }) {
-    try {
-      console.log(rootState.user.token);
-      await axios.delete(`${backend_url}/instructor/section/delete`, {
-        data: {
-          email: rootState.user.email,
-          courseId,
-          token: rootState.user.token,
-          sectionId,
-          instructorId: rootState.user._id,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  },
   async updateCompletionStatus(
     { commit, rootState },
-    { section, videoNumber },
+    { section, videoNumber, courseId },
   ) {
     try {
       const res = await axios.patch(`${backend_url}/student/statusupdate`, {
@@ -295,35 +74,13 @@ export default {
         token: rootState.user.token,
         videoNumber,
         instructorId: rootState.user._id,
+        courseId
       });
     } catch (error) {
       console.log(error);
     }
   },
-  async getStudentProfile({ commit, rootState }) {
-    try {
-      const res = await axios.get(
-        `${backend_url}/student?id=${rootState.user._id}`,
-      );
-      console.log(res);
-      return res;
-    } catch (error) {
-      return 0;
-      console.log(error);
-    }
-  },
-  async getInstructorProfileOnLoad({ commit, rootState }) {
-    try {
-      const res = await axios.get(
-        `${backend_url}/instructor?id=${rootState.user._id}`,
-      );
-      console.log(res);
-      return res;
-    } catch (error) {
-      return 0;
-      console.log(error);
-    }
-  },
+
   async addQuestion({ commit, rootState }, { title, description, courseId }) {
     const res = await axios.patch(`${backend_url}/student/course/question`, {
       email: rootState.user.email,
@@ -369,28 +126,8 @@ export default {
       console.log(error);
     }
   },
-  async getTeacherAllCourses({ commit, rootState }) {
-    const courses = await axios.get(
-      `${backend_url}/instructor/courses/all?id=${rootState.user._id}`,
-    );
-    return courses.data;
-  },
-  async getAllCourses({ commit }) {
-    const courses = await axios.get(`${backend_url}/courses/all`);
-    return courses.data;
-  },
-  async getAllStudents({ commit }) {
-    const students = await axios.get(`${backend_url}/admin/students`);
-    return students.data;
-  },
-  async getAllInstructors({ commit }) {
-    const instructors = await axios.get(`${backend_url}/admin/instructors`);
-    return instructors.data;
-  },
-  async getRevenue({ commit }) {
-    const revenue = await axios.post(`${backend_url}/getpayments`);
-    return revenue.data;
-  },
+
+
   async adminSignIn({ commit }, { userName, password }) {
     const res = await axios.post(`${backend_url}/admin/signin`, {
       userName,
@@ -398,28 +135,8 @@ export default {
     });
     return res.data;
   },
-  async fetchInstructorName({ commit }, id) {
-    const res = await axios.get(`${backend_url}/admin/instructorname/${id}`);
-    console.log(res.data);
-    return res.data;
-  },
-  async updateCourseStatus({ commit }, id) {
-    const res = await axios.patch(`${backend_url}/admin/course/status`, {
-      courseId: id,
-    });
-    return res;
-  },
-  async publishCourse({ commit, rootState }, courseId) {
-    const id = rootState.user._id;
-    const token = rootState.user.token;
-    const email = rootState.user.email;
-    const res = await axios.patch(`${backend_url}/instructor/status`, {
-      id,
-      token,
-      email,
-      courseId: courseId,
-    });
-  },
+
+
   async verifyCourseOwnership({ commit, rootState }, courseId) {
     try {
       const res = await axios.post(`${backend_url}/instructor/courseverify`, {
@@ -434,24 +151,206 @@ export default {
       return 0;
     }
   },
-  async editCourse({ commit, rootState }, { updates, courseId }) {
-    const res = await axios.patch(`${backend_url}/instructor/editcourse`, {
-      courseId,
-      updates,
-      token: rootState.user.token,
-      email: rootState.user.email,
-      id: rootState.user._id,
-    });
-    console.log(res);
-  },
-
-  async instructorCoursePurchase({ commit, rootState }, courseId) {
-    const res = await axios.post(`${backend_url}/instructor/course/purchases`, {
-      courseId,
-      token: rootState.user.token,
-      email: rootState.user.email,
-      id: rootState.user._id,
-    });
-    return res;
-  },
 };
+
+
+  // async fetchTrendingCourses({ commit }) {
+  //   try {
+  //     const res = await axios.get(
+  //       `${backend_url}/courses?limit=10&sortBy=enrollments&sortOrder=-1`,
+  //     );
+  //     return res;
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // },
+
+
+// async editCourse({ commit, rootState }, { updates, courseId }) {
+//   const res = await axios.patch(`${backend_url}/instructor/editcourse`, {
+//     courseId,
+//     updates,
+//     token: rootState.user.token,
+//     email: rootState.user.email,
+//     id: rootState.user._id,
+//   });
+//   console.log(res);
+// },
+
+// async instructorCoursePurchase({ commit, rootState }, courseId) {
+//   const res = await axios.post(`${backend_url}/instructor/course/purchases`, {
+//     courseId,
+//     token: rootState.user.token,
+//     email: rootState.user.email,
+//     id: rootState.user._id,
+//   });
+//   return res;
+// },
+
+
+  // async publishCourse({ commit, rootState }, courseId) {
+  //   const id = rootState.user._id;
+  //   const token = rootState.user.token;
+  //   const email = rootState.user.email;
+  //   const res = await axios.patch(`${backend_url}/instructor/status`, {
+  //     id,
+  //     token,
+  //     email,
+  //     courseId: courseId,
+  //   });
+  // },
+
+  /* video deletion action 
+     action that deletes a video from the course based on its position
+     accepts courseId, subsection id and the video imdex inside the subsection
+  */
+
+  // async deleteVideo(
+  //   { commit, rootState },
+  //   { courseId, subsectionToBeUpdated, indexOfVideo },
+  // ) {
+  //   try {
+  //     await axios.post(`${backend_url}/instructor/videos/delete`, {
+  //       email: rootState.user.email,
+  //       courseId,
+  //       token: rootState.user.token,
+  //       subsectionToBeUpdated,
+  //       indexOfVideo,
+  //       intructorId: rootState.user._id,
+  //     });
+  //     return res;
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // },
+
+  /* action to fetch trending courses */
+
+  // async getAllStudents({ commit }) {
+  //   const students = await axios.get(`${backend_url}/admin/students`);
+  //   return students.data;
+  // },
+  // async getAllInstructors({ commit }) {
+  //   const instructors = await axios.get(`${backend_url}/admin/instructors`);
+  //   return instructors.data;
+  // },
+  // async getRevenue({ commit }) {
+  //   const revenue = await axios.post(`${backend_url}/getpayments`);
+  //   return revenue.data;
+  // },
+  // async fetchInstructorName({ commit }, id) {
+  //   const res = await axios.get(`${backend_url}/admin/instructorname/${id}`);
+  //   console.log(res.data);
+  //   return res.data;
+  // },
+  // async updateCourseStatus({ commit }, id) {
+  //   const res = await axios.patch(`${backend_url}/admin/course/status`, {
+  //     courseId: id,
+  //   });
+  //   return res;
+  // },
+
+    // async getTeacherAllCourses({ commit, rootState }) {
+  //   const courses = await axios.get(
+  //     `${backend_url}/instructor/courses/all?id=${rootState.user._id}`,
+  //   );
+  //   return courses.data;
+  // },
+
+    // async getStudentProfile({ commit, rootState }) {
+  //   try {
+  //     const res = await axios.get(
+  //       `${backend_url}/student?id=${rootState.user._id}`,
+  //     );
+  //     console.log(res);
+  //     return res;
+  //   } catch (error) {
+  //     return 0;
+  //     console.log(error);
+  //   }
+  // },
+  // async getInstructorProfileOnLoad({ commit, rootState }) {
+  //   try {
+  //     const res = await axios.get(
+  //       `${backend_url}/instructor?id=${rootState.user._id}`,
+  //     );
+  //     console.log(res);
+  //     return res;
+  //   } catch (error) {
+  //     return 0;
+  //     console.log(error);
+  //   }
+  // },
+
+
+  // async getInstructorProfile({ commit, rootState }) {
+  //   console.log(rootState.user.token);
+  //   try {
+  //     const id = rootState.user._id;
+  //     const token = rootState.user.token;
+  //     const email = rootState.user.email;
+  //     const res = await axios.post(`${backend_url}/instructor/profile`, {
+  //       token,
+  //       id,
+  //       email,
+  //     });
+  //     console.log("RRRRRRRR", res);
+  //     return res;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
+  // async updateInstructorProfile({ commit, rootState }, payload) {
+  //   try {
+  //     const id = rootState.user._id;
+  //     const token = rootState.user.token;
+  //     const email = rootState.user.email;
+  //     payload.id = id;
+
+  //     payload.email = email;
+  //     const res = await axios.patch(
+  //       `${backend_url}/instructor/profile/update`,
+  //       { updates: payload, id, token, email },
+  //     );
+
+  //     commit("user/setUserName", res.data.name, { root: true });
+  //     commit("user/setUserEmail", res.data.email, { root: true });
+
+  //     console.log(rootState.user.name);
+  //     return res;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
+  // async fetchEnrolledCourses({ commit, rootState }) {
+  //   try {
+  //     const id = rootState.user._id;
+  //     const token = rootState.user.token;
+  //     const email = rootState.user.email;
+  //     const res = await axios.post(`${backend_url}/student/enrolledcourses`, {
+  //       id,
+  //       token,
+  //       email,
+  //     });
+  //     console.log(res);
+  //     return res;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
+  // async deleteSection({ commit, rootState }, { courseId, sectionId }) {
+  //   try {
+  //     console.log(rootState.user.token);
+  //     await axios.delete(`${backend_url}/instructor/section/delete`, {
+  //       data: {
+  //         email: rootState.user.email,
+  //         courseId,
+  //         token: rootState.user.token,
+  //         sectionId,
+  //         instructorId: rootState.user._id,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },

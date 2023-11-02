@@ -72,11 +72,14 @@ export default {
   },
   methods: {
     async initialLoad() {
-      const res = await this.$store.dispatch("instructorCourseViewOne", {
-        courseId: this.$route.params.id,
-        router: this.$router,
-      });
-      this.course = res.data.course;
+      const res = await this.$store.dispatch(
+        "instructor/instructorCourseViewOne",
+        {
+          courseId: this.$route.params.id,
+          router: this.$router,
+        },
+      );
+      this.course = this.$store.state.instructor.currentCourse;
       this.courseStats = {
         title: this.course.title,
         price: this.course.price,
@@ -86,12 +89,12 @@ export default {
       };
     },
     async loadCourseStats() {
-      const totalPurchases = await this.$store.dispatch(
-        "instructorCoursePurchase",
+      await this.$store.dispatch(
+        "instructor/instructorCoursePurchase",
         this.$route.params.id,
       );
-      console.log(totalPurchases);
-      this.totalPurchases = totalPurchases.data;
+      this.totalPurchases = this.$store.state.instructor.coursePurchases
+
     },
   },
   computed: {

@@ -54,10 +54,10 @@ export default {
     },
 
     async getStudentProfile() {
-      const res = await this.$store.dispatch("getStudentProfile");
+      const res = await this.$store.dispatch("student/getStudentProfile");
       console.log(res);
-      this.name = res.data.name;
-      this.email = res.data.email;
+      this.name = this.$store.state.student.profile.name;
+      this.email = this.$store.state.student.profile.email;
     },
     changed(event) {
       console.log(event.target.value);

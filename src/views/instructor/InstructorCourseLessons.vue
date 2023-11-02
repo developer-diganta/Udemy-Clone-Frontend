@@ -258,12 +258,12 @@ export default {
       this.files = null;
     },
     async publish() {
-      const res = await this.$store.dispatch("publishCourse", this.courseID);
+      await this.$store.dispatch("instructor/publishCourse", this.courseID);
       this.initialLoad();
     },
     async deleteSection(index) {
       try {
-        const res = await this.$store.dispatch("deleteSection", {
+        const res = await this.$store.dispatch("instructor/deleteSection", {
           courseId: this.courseID,
           sectionId: index,
         });
@@ -290,7 +290,7 @@ export default {
         this.materialPosition = "after";
       }
 
-      const res = await this.$store.dispatch("addSection", {
+      await this.$store.dispatch("instructor/addSection", {
         index:
           this.materialPosition === "before"
             ? this.sectionSelect.index - 1
@@ -299,7 +299,6 @@ export default {
         id: this.course._id,
       });
 
-      console.log(res);
       await this.initialLoad();
       this.resetForm();
     },
@@ -318,7 +317,7 @@ export default {
       this.subsectionToBeUpdated = index;
       this.indexOfVideo = i;
       try {
-        const res = await this.$store.dispatch("deleteVideo", {
+        const res = await this.$store.dispatch("instructor/deleteVideo", {
           courseId: this.course,
           subsectionToBeUpdated: this.subsectionToBeUpdated,
           indexOfVideo: this.indexOfVideo,
@@ -383,16 +382,19 @@ export default {
       this.dialog = false;
       this.courseID = this.$route.params.id;
       try {
-        const res = await this.$store.dispatch("instructorCourseViewOne", {
+        await this.$store.dispatch("instructor/instructorCourseViewOne", {
           courseId: this.courseID,
         });
 
-        this.sectionsList = res.data.course.lessons.map((lesson, index) => ({
-          index,
-          title: lesson.title,
-        }));
+        this.sectionsList =
+          this.$store.state.instructor.currentCourse.data.course.lessons.map(
+            (lesson, index) => ({
+              index,
+              title: lesson.title,
+            }),
+          );
 
-        this.setCourseDetails(res);
+        this.setCourseDetails(this.$store.state.instructor.currentCourse);
         if (this.course.lessons[0]?.videos[0]?.videoLink) {
           this.loadCurrentVideo(this.course.lessons[0]?.videos[0]?.videoLink);
         }

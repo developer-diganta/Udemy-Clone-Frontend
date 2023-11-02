@@ -120,16 +120,16 @@ export default {
       this.allCourses = await this.$store.dispatch("getAllCourses");
     },
     instructorName(id) {
-      return this.$store.dispatch("fetchInstructorName", id);
+      this.$store.dispatch("admin/fetchInstructorName", id);
+      return this.$store.state.admin.instructorName;
     },
     redirect(id) {
       this.$router.push(`/admin/course?courseId=${id}`);
     },
     async activate(id) {
-      const res = await this.$store.dispatch(`updateCourseStatus`, {
+      await this.$store.dispatch(`admin/updateCourseStatus`, {
         id,
       });
-      console.log(res);
       this.fetchAllCourses();
     },
   },

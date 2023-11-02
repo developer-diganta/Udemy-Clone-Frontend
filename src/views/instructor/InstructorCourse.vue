@@ -254,7 +254,7 @@ export default {
           requirements: this.requirements,
           courseMaterials: this.courseMaterials,
         };
-        this.$store.dispatch("editCourse", {
+        this.$store.dispatch("instructor/editCourse", {
           updates,
           courseId: this.courseID,
         });
@@ -279,8 +279,8 @@ export default {
       reader.readAsDataURL(event.target.files[0]);
     },
     setCourseDetails(course) {
-      console.log(course.data);
-      this.course = course.data.course;
+      console.log(course);
+      this.course = course;
       this.title = this.course.title;
       this.description = this.course.description;
       console.log(this.course.categories[0]);
@@ -321,12 +321,11 @@ export default {
   async mounted() {
     this.courseID = this.$route.params.id;
     try {
-      const res = await this.$store.dispatch("instructorCourseViewOne", {
+      await this.$store.dispatch("instructor/instructorCourseViewOne", {
         courseId: this.courseID,
         router: this.$router,
       });
-      console.log(res);
-      this.setCourseDetails(res);
+      this.setCourseDetails(this.$store.state.instructor.currentCourse);
     } catch (error) {
       console.log(error);
     }

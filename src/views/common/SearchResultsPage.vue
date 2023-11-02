@@ -49,7 +49,9 @@ export default {
         this.searchQuery,
       );
       this.loading = false;
-      this.searchResults = this.$store.state.student.searchResults.map((course) => course.item);
+      this.searchResults = this.$store.state.student.searchResults.map(
+        (course) => course.item,
+      );
     },
   },
   watch: {

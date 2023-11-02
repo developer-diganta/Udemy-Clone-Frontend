@@ -27,14 +27,13 @@ export default {
   },
   methods: {
     async fetchEnrolledCourses() {
-      const res = await this.$store.dispatch("fetchEnrolledCourses");
-      this.enrolledCourses = res.data;
+      const res = await this.$store.dispatch("student/fetchEnrolledCourses");
+      this.enrolledCourses = this.$store.state.student.enrolledCourses;
     },
   },
 
   async created() {
     await this.fetchEnrolledCourses();
-    console.log(this.enrolledCourses);
   },
 };
 </script>

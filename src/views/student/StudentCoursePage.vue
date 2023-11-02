@@ -59,7 +59,6 @@
           <v-tabs v-model="tab" bg-color="primaryTheme">
             <v-tab value="overview">Overview</v-tab>
             <v-tab value="qa">Q&A</v-tab>
-            <v-tab value="announcements">Announcements</v-tab>
             <v-tab value="reviews">Reviews</v-tab>
             <v-tab class="d-md-none" value="coursecontents"
               >Course Contents</v-tab
@@ -116,20 +115,23 @@
               <v-window-item value="qa">
                 <question-answer-form
                   :courseId="course._id"
+                  @question-submitted="reloadQs"
                 ></question-answer-form>
 
                 <h3 class="mt-5">Previously Asked Questions</h3>
-                <iterable
+                <div v-for="(qa,index) in questionAnswers" :key="index">
+                  <question-answer :questionAnswers="qa" @qa-reloaded="handleQAChange"></question-answer>
+                </div>
+                <!-- <iterable
                   :items="questionAnswers"
                   page="1"
                   itemsPerPage="3"
                   type="qa"
                   @qa-fresh="handleQAChange"
                   :key="questionAnswers"
-                ></iterable>
+                ></iterable> -->
               </v-window-item>
 
-              <v-window-item value="announcements"> Three </v-window-item>
               <v-window-item value="reviews">
                 <reviews
                   :totalRating="course.rating"
@@ -166,7 +168,7 @@
                             : '',
                       }"
                     >
-                      <input type="checkbox" /> {{ i + 1 + ". " + video.title }}
+                      <input type="checkbox" :checked="courseContentsCompleted.includes(index+','+i)"/> {{ i + 1 + ". " + video.title }}
                     </v-list-item>
                   </v-list-group>
                 </v-list>
@@ -202,7 +204,7 @@
                   selectedIndex === index && selectedI === i ? '#6FBEDF' : '',
               }"
             >
-              <input type="checkbox" /> {{ i + 1 + ". " + video.title }}
+              <input type="checkbox" :checked="courseContentsCompleted.includes(index+','+i)" /> {{ i + 1 + ". " + video.title }}
             </v-list-item>
           </v-list-group>
         </v-list>
@@ -245,6 +247,7 @@ export default {
       coursemap: new Map(),
       page: 1,
       questionAnswers: [],
+      courseContentsCompleted:[]
     };
   },
   methods: {
@@ -255,20 +258,25 @@ export default {
 
       console.log(this.questionAnswers);
     },
+    reloadQs(){
+      this.getCourse()
+    },
     hideSuccess() {
       this.successMessage = false;
     },
+    
     async getCourse() {
       try {
         await this.$store.dispatch("common/fetchSingleCourse", {
           courseId: this.$route.query.courseId,
         });
-        console.log( this.$store.state.common.singleCourse)
-        this.currentVideo = this.$store.state.common.singleCourse.lessons[0]?.videos[0];
+        console.log(this.$store.state.common.singleCourse);
+        this.currentVideo =
+          this.$store.state.common.singleCourse.lessons[0]?.videos[0];
 
         this.course = this.$store.state.common.singleCourse;
         this.questionAnswers = this.course.questionAnswers;
-        console.log("KLKLKLLKLKLKLKL",this.course)
+        console.log("KLKLKLLKLKLKLKL", this.course);
       } catch (error) {
         console.log(error);
       }
@@ -276,10 +284,16 @@ export default {
     loadNewLecture(index, i) {
       this.selectedI = i;
       this.selectedIndex = index;
+      if(i>=this.course.lessons[index].videos.length) {
+        this.selectedIndex=index=index+1;
+        this.selectedI=i=0;
+      }
       this.currentVideo = this.course.lessons[index].videos[i];
     },
     async handleVideoEnded() {
       this.videoEnded = true;
+      this.courseContentsCompleted.push(this.selectedIndex+','+this.selectedI)
+
       this.interval = setInterval(() => {
         if (this.timeToNextVideo === 0) {
           clearInterval(this.interval);
@@ -294,15 +308,18 @@ export default {
         const res = await this.$store.dispatch("updateCompletionStatus", {
           section: this.selectedIndex,
           videoNumber: this.selectedI,
+          courseId:this.course._id
         });
-        console.log("PPPPPPP", res);
       }
     },
   },
   async created() {
     console.log("HERE AM I");
     await this.getCourse();
-    console.log(this.course);
+    const student = this.$store.state.student.profile;
+    const completionStatus=student.enrolled
+    const courseStatus = completionStatus.filter((status)=>status.id===this.course._id)
+    this.courseContentsCompleted = courseStatus[0].progress.map((p)=>`${p.section},${p.videoNumber}`)
     this.instructor = this.course.instructor;
     if (this.$route.query.payment === "success") {
       this.successMessage = true;

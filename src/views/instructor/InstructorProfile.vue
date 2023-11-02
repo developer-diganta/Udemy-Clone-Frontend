@@ -125,14 +125,14 @@ export default {
 
       console.log(updatedProfile);
 
-      const res = await this.$store.dispatch(
-        "updateInstructorProfile",
+      await this.$store.dispatch(
+        "instructor/updateInstructorProfile",
         updatedProfile,
       );
-      console.log(res);
-      this.bio = res.data.bio;
-      this.profileImage = res.data.profileImage;
-      this.socialLinks = res.data.socialLinks;
+      // console.log(res);
+      this.bio = this.$store.state.instructor.profile.bio;
+      this.profileImage = this.$store.state.instructor.profile.profileImage;
+      this.socialLinks = this.$store.state.instructor.profile.socialLinks;
     },
     handleFileChange(event) {
       this.imgChanged = true;
@@ -144,12 +144,11 @@ export default {
       reader.readAsDataURL(event.target.files[0]);
     },
     async getInstructorProfile() {
-      const res = await this.$store.dispatch("getInstructorProfile");
-      console.log(res);
-      this.name = res.data.instructor.name;
-      this.bio = res.data.instructor.bio;
-      this.profileImage = res.data.instructor.profileImage;
-      this.socialLinks = res.data.instructor.socialLinks;
+      await this.$store.dispatch("instructor/getInstructorProfile");
+      this.name = this.$store.state.instructor.profile.instructor.name;
+      this.bio = this.$store.state.instructor.profile.instructor.bio;
+      this.profileImage = this.$store.state.instructor.profile.instructor.profileImage;
+      this.socialLinks = this.$store.state.instructor.profile.instructor.socialLinks;
     },
     changed(event) {
       console.log(event.target.value);

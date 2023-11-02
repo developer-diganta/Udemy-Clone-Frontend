@@ -140,7 +140,7 @@ export default {
       this.$router.push("/instructor/courseslist");
     },
     async logout() {
-      await this.$store.dispatch("logout", this.$router);
+      await this.$store.dispatch("common/logout", this.$router);
     },
     async redirect(title) {
       if (title === "Logout") {

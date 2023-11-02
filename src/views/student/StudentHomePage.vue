@@ -95,7 +95,9 @@ export default {
   methods: {
     async fetchTrendingCourses() {
       try {
-        const response = await this.$store.dispatch("common/fetchTrendingCourses");
+        const response = await this.$store.dispatch(
+          "common/fetchTrendingCourses",
+        );
         this.trendingCoursesList = this.$store.state.common.trendingCourses;
       } catch (error) {
         console.error("Error fetching trending courses:", error);
@@ -103,9 +105,10 @@ export default {
     },
     async fetchEnrolledCourses() {
       try {
-        const response = await this.$store.dispatch("fetchEnrolledCourses");
-        this.enrolledCoursesList = response.data;
-        console.log("here");
+        const response = await this.$store.dispatch(
+          "student/fetchEnrolledCourses",
+        );
+        this.enrolledCoursesList = this.$store.state.student.enrolledCourses;
         console.log(this.enrolledCoursesList);
       } catch (error) {
         console.log(error);

@@ -73,12 +73,13 @@ export default {
   },
   methods: {
     async fetchPayments() {
-      const res = await this.$store.dispatch("getRevenue");
-      this.payments = res.sort(
-        (a, b) =>
-          new Date(a.paymentDetails.createdAt) -
-          new Date(b.paymentDetails.createdAt),
-      );
+      await this.$store.dispatch("admin/getRevenue");
+      this.payments = this.$store.getters['admin/sortedRevenue'];
+      // sort(
+      //   (a, b) =>
+      //     new Date(a.paymentDetails.createdAt) -
+      //     new Date(b.paymentDetails.createdAt),
+      // );
       console.log(this.payments);
     },
   },

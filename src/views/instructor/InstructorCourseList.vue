@@ -182,16 +182,15 @@ export default {
   },
   methods: {
     async fetchAllCourses() {
-      this.allCourses = (await this.$store.dispatch("fetchSelfCourses")).data;
-      console.log("PPP", this.allCourses);
+      await this.$store.dispatch("instructor/fetchSelfCourses");
+      this.allCourses = this.$store.state.instructor.selfCourses;
     },
     redirect(id) {
       this.$router.push(`/instructor/course/view/${id}`);
     },
 
     async publish(id) {
-      const res = await this.$store.dispatch("publishCourse", id);
-      console.log(res);
+      await this.$store.dispatch("instructor/publishCourse", id);
       this.fetchAllCourses();
     },
     stats(id) {
