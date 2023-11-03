@@ -46,4 +46,18 @@ export default {
       console.log(error);
     }
   },
+  async submitReview({ commit, rootState }, { rating, review, courseId }) {
+    try {
+      const res = await axios.patch(`${backend_url}/student/course/review`, {
+        email: rootState.user.email,
+        token: rootState.user.token,
+        _id: rootState.user._id,
+        rating,
+        courseId,
+        review,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

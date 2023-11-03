@@ -12,7 +12,6 @@
             class="c-text"
           ></carousel-text>
         </div>
-        <!-- Overlay -->
       </v-carousel-item>
 
       <v-carousel-item
@@ -20,7 +19,6 @@
         cover
       >
         <div class="overlay"></div>
-        <!-- Overlay -->
       </v-carousel-item>
 
       <v-carousel-item
@@ -28,7 +26,6 @@
         cover
       >
         <div class="overlay"></div>
-        <!-- Overlay -->
       </v-carousel-item>
     </v-carousel>
 
@@ -88,34 +85,44 @@ export default {
       enrolledCoursesList: [],
     };
   },
+
   mounted() {
     this.fetchTrendingCourses();
     this.fetchEnrolledCourses();
   },
-  methods: {
-    async fetchTrendingCourses() {
-      try {
-        const response = await this.$store.dispatch(
-          "common/fetchTrendingCourses",
-        );
-        this.trendingCoursesList = this.$store.state.common.trendingCourses;
-      } catch (error) {
-        console.error("Error fetching trending courses:", error);
-      }
-    },
-    async fetchEnrolledCourses() {
-      try {
-        const response = await this.$store.dispatch(
-          "student/fetchEnrolledCourses",
-        );
-        this.enrolledCoursesList = this.$store.state.student.enrolledCourses;
-        console.log(this.enrolledCoursesList);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+
+    methods: {
+  /**
+   * Fetch trending courses and update the trendingCoursesList.
+   */
+  async fetchTrendingCourses() {
+    try {
+      const response = await this.$store.dispatch("common/fetchTrendingCourses");
+      this.trendingCoursesList = this.$store.state.common.trendingCourses;
+      console.log(this.trendingCoursesList, "Trending Courses List");
+    } catch (error) {
+      console.log(error);
+      // Handle errors if the fetch fails
+      // alert("Sorry, we ran into an error");
+    }
   },
-};
+  
+  /**
+   * Fetch enrolled courses and update the enrolledCoursesList.
+   */
+  async fetchEnrolledCourses() {
+    try {
+      const response = await this.$store.dispatch("student/fetchEnrolledCourses");
+      this.enrolledCoursesList = this.$store.state.student.enrolledCourses;
+    } catch (error) {
+      // Handle errors if the fetch fails
+      // alert("Sorry, we ran into an error");
+    }
+  },
+},
+
+  };
+
 </script>
 
 <style>

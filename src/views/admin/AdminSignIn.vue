@@ -1,5 +1,6 @@
 <template>
   <section class="centered">
+    <h3 class="mb-6">Admin Signin</h3>
     <v-sheet width="500px">
       <v-form validate-on="submit lazy" @submit.prevent="submit">
         <v-text-field
@@ -38,6 +39,7 @@ export default {
         userName: this.userName,
         password: this.password,
       });
+      localStorage.clear();
       localStorage.setItem("type", "admin");
       localStorage.setItem("token", res.token);
       localStorage.setItem("userName", res.userName);

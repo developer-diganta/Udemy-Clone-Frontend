@@ -79,7 +79,8 @@ export default {
     },
   },
   async created() {
-    this.courses = await this.$store.dispatch("getAllCourses");
+   await this.$store.dispatch("admin/getAllCourses");
+   this.courses = this.$store.state.admin.allCourses;
     this.totalCourses = this.courses.length;
     this.pendingCourses = this.courses.filter(
       (course) => course.status === "pending",
