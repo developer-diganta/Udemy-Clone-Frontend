@@ -147,8 +147,10 @@ export default {
       await this.$store.dispatch("instructor/getInstructorProfile");
       this.name = this.$store.state.instructor.profile.instructor.name;
       this.bio = this.$store.state.instructor.profile.instructor.bio;
-      this.profileImage = this.$store.state.instructor.profile.instructor.profileImage;
-      this.socialLinks = this.$store.state.instructor.profile.instructor.socialLinks;
+      this.profileImage =
+        this.$store.state.instructor.profile.instructor.profileImage;
+      this.socialLinks =
+        this.$store.state.instructor.profile.instructor.socialLinks;
     },
     changed(event) {
       console.log(event.target.value);

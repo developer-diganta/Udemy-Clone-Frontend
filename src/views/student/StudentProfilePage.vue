@@ -46,11 +46,10 @@ export default {
         name: this.name,
       };
 
-      const res = await this.$store.dispatch(
-        "updateStudentProfile",
+      await this.$store.dispatch(
+        "student/updateStudentProfile",
         updatedProfile,
       );
-      console.log(res);
     },
 
     async getStudentProfile() {

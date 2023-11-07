@@ -92,13 +92,13 @@ export default {
       console.log(error);
     }
   },
-/**
- * Adds a new section to a course lesson by making a POST request to the backend API
- * and updates the store with information about the added section.
- *
- * @param {Object} param0 - An object containing commit and rootState properties.
- * @param {Object} param1 - An object containing the index, title, and id of the section to be added.
- */
+  /**
+   * Adds a new section to a course lesson by making a POST request to the backend API
+   * and updates the store with information about the added section.
+   *
+   * @param {Object} param0 - An object containing commit and rootState properties.
+   * @param {Object} param1 - An object containing the index, title, and id of the section to be added.
+   */
   async addSection({ commit, rootState }, { index, title, id }) {
     try {
       const token = rootState.user.token;
@@ -113,18 +113,18 @@ export default {
           title,
         },
       );
-      commit("setSectionAdd",res.data)
+      commit("setSectionAdd", res.data);
     } catch (error) {
       console.log(error);
     }
   },
 
-/**
- * Fetches the profile information of the authenticated instructor from the backend API
- * and updates the store with the retrieved profile data.
- *
- * @param {Object} param0 - An object containing commit and rootState properties.
- */
+  /**
+   * Fetches the profile information of the authenticated instructor from the backend API
+   * and updates the store with the retrieved profile data.
+   *
+   * @param {Object} param0 - An object containing commit and rootState properties.
+   */
   async getInstructorProfile({ commit, rootState }) {
     console.log(rootState.user.token);
     try {
@@ -137,18 +137,18 @@ export default {
         email,
       });
       console.log("RRRRRRRR", res);
-      commit("setProfile", res.data)
+      commit("setProfile", res.data);
     } catch (error) {
       console.log(error);
     }
   },
-/**
- * Updates the profile information of the authenticated instructor by making a PATCH request
- * to the backend API and updates the store with the modified profile data.
- *
- * @param {Object} param0 - An object containing commit and rootState properties.
- * @param {Object} payload - An object containing the updates to be applied to the instructor's profile.
- */
+  /**
+   * Updates the profile information of the authenticated instructor by making a PATCH request
+   * to the backend API and updates the store with the modified profile data.
+   *
+   * @param {Object} param0 - An object containing commit and rootState properties.
+   * @param {Object} payload - An object containing the updates to be applied to the instructor's profile.
+   */
   async updateInstructorProfile({ commit, rootState }, payload) {
     try {
       const id = rootState.user._id;
@@ -164,63 +164,64 @@ export default {
 
       commit("user/setUserName", res.data.name, { root: true });
       commit("user/setUserEmail", res.data.email, { root: true });
-      console.log(res)
-      commit("setProfile",res.data);
+      console.log(res);
+      commit("setProfile", res.data);
 
       console.log(rootState.user.name);
-
     } catch (error) {
       console.log(error);
     }
   },
-/**
- * Deletes a section from a specific course by making a DELETE request to the backend API
- * and updates the store with information about the deleted section.
- *
- * @param {Object} param0 - An object containing commit and rootState properties.
- * @param {Object} param1 - An object containing courseId and sectionId to identify the section to be deleted.
- */
+  /**
+   * Deletes a section from a specific course by making a DELETE request to the backend API
+   * and updates the store with information about the deleted section.
+   *
+   * @param {Object} param0 - An object containing commit and rootState properties.
+   * @param {Object} param1 - An object containing courseId and sectionId to identify the section to be deleted.
+   */
 
   async deleteSection({ commit, rootState }, { courseId, sectionId }) {
     try {
       console.log(rootState.user.token);
-      const res = await axios.delete(`${backend_url}/instructor/section/delete`, {
-        data: {
-          email: rootState.user.email,
-          courseId,
-          token: rootState.user.token,
-          sectionId,
-          instructorId: rootState.user._id,
+      const res = await axios.delete(
+        `${backend_url}/instructor/section/delete`,
+        {
+          data: {
+            email: rootState.user.email,
+            courseId,
+            token: rootState.user.token,
+            sectionId,
+            instructorId: rootState.user._id,
+          },
         },
-      });
-      commit("setDeletedSection",res)
+      );
+      commit("setDeletedSection", res);
     } catch (error) {
       console.log(error);
     }
   },
-/**
- * Fetches the profile information of the authenticated instructor when the page loads
- * and updates the root store with the instructor's name.
- *
- * @param {Object} param0 - An object containing commit and rootState properties.
- * @returns {Promise} A promise that resolves with the retrieved instructor's profile data
- *                    or rejects with an error if the request fails.
- */
+  /**
+   * Fetches the profile information of the authenticated instructor when the page loads
+   * and updates the root store with the instructor's name.
+   *
+   * @param {Object} param0 - An object containing commit and rootState properties.
+   * @returns {Promise} A promise that resolves with the retrieved instructor's profile data
+   *                    or rejects with an error if the request fails.
+   */
   async getInstructorProfileOnLoad({ commit, rootState }) {
     try {
       const res = await axios.get(
         `${backend_url}/instructor?id=${rootState.user._id}`,
       );
       console.log(res);
-      commit("user/setUserName",res.data.name, { root: true });
+      commit("user/setUserName", res.data.name, { root: true });
     } catch (error) {
       return 0;
       console.log(error);
     }
   },
 
-
-async publishCourse({ commit, rootState }, courseId) {
+  async publishCourse({ commit, rootState }, courseId) {
     const id = rootState.user._id;
     const token = rootState.user.token;
     const email = rootState.user.email;
@@ -230,7 +231,7 @@ async publishCourse({ commit, rootState }, courseId) {
       email,
       courseId: courseId,
     });
-    commit("setPublishedCourse", res.data)
+    commit("setPublishedCourse", res.data);
   },
 
   async editCourse({ commit, rootState }, { updates, courseId }) {

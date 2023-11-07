@@ -11,7 +11,7 @@ const store = createStore({
     student: student,
     common,
     instructor,
-    admin
+    admin,
   },
   actions,
 });

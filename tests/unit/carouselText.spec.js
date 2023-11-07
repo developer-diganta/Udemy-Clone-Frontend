@@ -27,17 +27,15 @@ const vuetify = createVuetify({
 
 describe("CarouselText.vue", () => {
   let wrapper = shallowMount(CarouselText, {
-    props:{
-        text:"Sample Text",
-        subtext:"Sample Subtext"
-    }
+    props: {
+      text: "Sample Text",
+      subtext: "Sample Subtext",
+    },
   });
-  it("carousel text and subtext",()=>{
-      const text = wrapper.get('[class="text-h2 font-weight-black"]')
-      expect(text.text()).toContain('Sample Text')
-      const subtext = wrapper.get('[class="text-body"]')
-      expect(subtext.text()).toContain('Sample Subtext')
-
-  })
-
+  it("carousel text and subtext", () => {
+    const text = wrapper.get('[class="text-h2 font-weight-black"]');
+    expect(text.text()).toContain("Sample Text");
+    const subtext = wrapper.get('[class="text-body"]');
+    expect(subtext.text()).toContain("Sample Subtext");
+  });
 });

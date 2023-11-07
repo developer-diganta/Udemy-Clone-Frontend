@@ -27,14 +27,12 @@ const vuetify = createVuetify({
 
 describe("Loader.vue", () => {
   let wrapper = shallowMount(Loader, {
-    props:{
-        message:"Sample Message",
-    }
+    props: {
+      message: "Sample Message",
+    },
   });
-  it("carousel text and subtext",()=>{
-      const message = wrapper.get('[class="text-align:center"]')
-      expect(message.text()).toContain('Sample Message')
-
-  })
-
+  it("carousel text and subtext", () => {
+    const message = wrapper.get('[class="text-align:center"]');
+    expect(message.text()).toContain("Sample Message");
+  });
 });

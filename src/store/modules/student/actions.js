@@ -60,4 +60,18 @@ export default {
       console.log(error);
     }
   },
+  async updateStudentProfile({ commit, rootState }, updates) {
+    try {
+      const res = await axios.patch(`${backend_url}/student/profile`, {
+        updates,
+        email: rootState.user.email,
+        token: rootState.user.token,
+        _id: rootState.user._id,
+      });
+      commit("setStudentProfile", updates);
+      commit("user/setUserName", updates.name, { root: true });
+    } catch (error) {
+      // alert("Something went wrong")
+    }
+  },
 };

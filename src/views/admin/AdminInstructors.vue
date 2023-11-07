@@ -79,8 +79,8 @@ export default {
     },
   },
   async created() {
-   await this.$store.dispatch("admin/getAllInstructors");
-   this.instructors = this.$store.state.admin.allInstructors;
+    await this.$store.dispatch("admin/getAllInstructors");
+    this.instructors = this.$store.state.admin.allInstructors;
   },
 };
 </script>

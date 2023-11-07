@@ -63,8 +63,8 @@ export default {
     },
   },
   async created() {
-   await this.$store.dispatch("admin/getRevenue");
-   this.revenue = this.$store.state.admin.revenue;
+    await this.$store.dispatch("admin/getRevenue");
+    this.revenue = this.$store.state.admin.revenue;
     console.log(this.revenue);
   },
 };

@@ -20,7 +20,7 @@
 <script>
 export default {
   props: ["courseId"],
-  emits:["question-submitted"],
+  emits: ["question-submitted"],
   data() {
     return {
       title: "",
@@ -34,8 +34,8 @@ export default {
         description: this.description,
         courseId: this.courseId,
       });
-      this.title=this.description=""
-      this.$emit("question-submitted")
+      this.title = this.description = "";
+      this.$emit("question-submitted");
     },
   },
 };

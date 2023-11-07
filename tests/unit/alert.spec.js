@@ -28,32 +28,30 @@ const vuetify = createVuetify({
 describe("Alert.vue", () => {
   let wrapper = shallowMount(Alert, {
     data: () => ({
-        alert: false,
-      }),
-    props:{
-        message:"Sample Alert",
-        variant:"success",
-        title:"Sample Title",
-        reset:true,
-        color:"green"
-    }
+      alert: false,
+    }),
+    props: {
+      message: "Sample Alert",
+      variant: "success",
+      title: "Sample Title",
+      reset: true,
+      color: "green",
+    },
   });
-//   "message", "variant", "title", "reset", "color"
-  it("checks for alert message",()=>{
-      const alert = wrapper.get('[close-label="Close Alert"]')
-      expect(alert.text()).toContain('Sample Alert')
-      const title = alert.attributes("title")
-      expect(title).toContain('Sample Title')
-      const color = alert.attributes("color")
-      expect(color).toContain('green')
-      const variant = alert.attributes("variant")
-      expect(variant).toContain('success')
-  })
-  it("checks for reset",async ()=>{
-    wrapper.setData({ alert: false }); 
-    const resetButton = wrapper.get('[data-value="reset"]'); 
+  //   "message", "variant", "title", "reset", "color"
+  it("checks for alert message", () => {
+    const alert = wrapper.get('[close-label="Close Alert"]');
+    expect(alert.text()).toContain("Sample Alert");
+    const title = alert.attributes("title");
+    expect(title).toContain("Sample Title");
+    const color = alert.attributes("color");
+    expect(color).toContain("green");
+    const variant = alert.attributes("variant");
+    expect(variant).toContain("success");
+  });
+  it("checks for reset", async () => {
+    wrapper.setData({ alert: false });
+    const resetButton = wrapper.get('[data-value="reset"]');
     expect(resetButton.exists()).toBe(true);
-
-  })
-
+  });
 });

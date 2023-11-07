@@ -17,23 +17,23 @@
       <v-card-text>
         {{ questionAnswers.description }}
       </v-card-text>
-      <div     v-if="openReplies">
-      <div
-        width="500"
-        class="m-2 ml-auto mr-auto"
-        style="border:1px solid black"
-        v-for="(answer, index) in questionAnswers.answers"
-        :key="index"
-      >
-        <v-card-text>
-          {{ answer.answer }}
-        </v-card-text>
-        <v-card-text
-          >By {{ answer.answerer }},
-          {{ getPeriod(answer.answeredOn) }}</v-card-text
+      <div v-if="openReplies">
+        <div
+          width="500"
+          class="m-2 ml-auto mr-auto"
+          style="border: 1px solid black"
+          v-for="(answer, index) in questionAnswers.answers"
+          :key="index"
         >
+          <v-card-text>
+            {{ answer.answer }}
+          </v-card-text>
+          <v-card-text
+            >By {{ answer.answerer }},
+            {{ getPeriod(answer.answeredOn) }}</v-card-text
+          >
+        </div>
       </div>
-    </div>
       <v-form
         @submit.prevent
         v-if="answerFormActivated"
@@ -49,12 +49,13 @@
         <v-btn
           color="green-darken-1"
           variant="text"
-          @click="openReplies=!openReplies"
-          
+          @click="openReplies = !openReplies"
         >
-        <span v-if="!openReplies">View Replies</span>
-        <span v-if="openReplies">Close</span>
-      </v-btn>
+          <span v-if="!openReplies" data-value="view-replies"
+            >View Replies</span
+          >
+          <span v-if="openReplies" data-value="close-replies">Close</span>
+        </v-btn>
         <v-btn
           color="green-darken-1"
           variant="text"
@@ -71,7 +72,6 @@
     </div>
   </div>
   <v-divider></v-divider>
-
 </template>
 <script>
 import moment from "moment";
@@ -85,7 +85,7 @@ export default {
       dialog: false,
       answer: "",
       answerFormActivated: false,
-      openReplies:false
+      openReplies: false,
     };
   },
   methods: {
@@ -121,54 +121,3 @@ export default {
   background-color: rgb(224, 224, 224);
 }
 </style>
-
-
-  <!-- <v-dialog v-model="dialog" width="auto">
-    <v-card>
-      <v-card-title>{{ questionAnswers.title }}</v-card-title>
-      <v-divider></v-divider>
-
-      <v-card-text>
-        {{ questionAnswers.description }}
-      </v-card-text>
-      <v-card
-        width="500"
-        class="m-2 ml-auto mr-auto"
-        v-for="(answer, index) in questionAnswers.answers"
-        :key="index"
-      >
-        <v-card-text>
-          {{ answer.answer }}
-        </v-card-text>
-        <v-card-text
-          >By {{ answer.answerer }},
-          {{ getPeriod(answer.answeredOn) }}</v-card-text
-        >
-      </v-card>
-      <v-form
-        @submit.prevent
-        v-if="answerFormActivated"
-        style="margin-left: 5%; margin-right: 5%"
-      >
-        <v-textarea v-model="answer" label="Your Answer"></v-textarea>
-        <v-btn type="submit" block class="mt-2" @click="submitAnswer"
-          >Submit</v-btn
-        >
-      </v-form>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-
-        <v-btn
-          color="green-darken-1"
-          variant="text"
-          @click="answerFormActivated = true"
-          v-if="answerFormActivated === false"
-        >
-          Answer
-        </v-btn>
-        <v-btn color="green-darken-1" variant="text" @click="dialog = false">
-          Close
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog> -->

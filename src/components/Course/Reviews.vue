@@ -5,12 +5,11 @@
     height="auto"
     width="auto"
   >
-  
-  <div class="d-flex justify-center mt-auto text-h5">Rating overview</div>
+    <div class="d-flex justify-center mt-auto text-h5">Rating overview</div>
 
     <div class="d-flex align-center flex-column my-auto">
       <div class="text-h2 mt-5">
-        {{ ((totalRatings / reviews.length)||0).toFixed(1) }}
+        {{ (totalRatings / reviews.length || 0).toFixed(1) }}
         <span class="text-h6 ml-n3">/5</span>
       </div>
       <v-rating
@@ -36,7 +35,7 @@
         ></v-progress-linear>
 
         <template v-slot:prepend>
-          <span>{{ i+1 }}</span>
+          <span>{{ i + 1 }}</span>
           <v-icon icon="mdi-star" class="mx-3"></v-icon>
         </template>
 
@@ -74,20 +73,18 @@
 
       <h3>See what others have to say</h3>
 
-      <div v-for="(review,i) in otherReviews" :key="i">
+      <div v-for="(review, i) in otherReviews" :key="i">
         <review-card :review="review"></review-card>
       </div>
-
     </div>
   </v-card>
-
 </template>
 <script>
-import ReviewCard from '@/ui/ReviewCard.vue';
+import ReviewCard from "@/ui/ReviewCard.vue";
 export default {
   components: { ReviewCard },
   props: ["reviews"],
-  emits:["review-submitted"],
+  emits: ["review-submitted"],
   data() {
     return {
       reviewss: [
@@ -100,10 +97,10 @@ export default {
       ],
 
       labels: ["bad", "so so", "ok", "good", "great"],
-      selfReview:{
-        rating:0,
-        review:""
-      }
+      selfReview: {
+        rating: 0,
+        review: "",
+      },
     };
   },
   methods: {
@@ -114,7 +111,7 @@ export default {
           review: this.selfReview.review,
           courseId: this.$route.query.courseId,
         });
-        this.$emit("review-submitted",this.selfReview)
+        this.$emit("review-submitted", this.selfReview);
       } catch (error) {
         console.log(error);
       }
@@ -122,35 +119,38 @@ export default {
   },
   computed: {
     totalRatings() {
-      try{
-        return this.reviews.reduce(
-          (rating, review) => rating + review.rating,
-          0,
-        )||0;
-
-      }catch(error){
-        console.log(error)
+      try {
+        return (
+          this.reviews.reduce((rating, review) => rating + review.rating, 0) ||
+          0
+        );
+      } catch (error) {
+        console.log(error);
       }
     },
-    otherReviews(){
-      return this.reviews.filter((review)=>review.reviewer!==this.$store.state.user._id)
+    otherReviews() {
+      return this.reviews.filter(
+        (review) => review.reviewer !== this.$store.state.user._id,
+      );
     },
 
-    ratingsGroup(){
+    ratingsGroup() {
       const arr = new Array(5).fill(0);
-      this.reviews.map((review)=>{
-        console.log(Math.ceil(review.rating),"{}")
-        arr[Math.ceil(review.rating)>4?4:Math.ceil(review.rating)-1]++;
-      })
+      this.reviews.map((review) => {
+        console.log(Math.ceil(review.rating), "{}");
+        arr[Math.ceil(review.rating) > 4 ? 4 : Math.ceil(review.rating) - 1]++;
+      });
       return arr;
-    }
+    },
   },
-  created(){
-    const selfReview = this.reviews.filter((review)=>review.reviewer===this.$store.state.user._id);
-    if(selfReview.length){
+  created() {
+    const selfReview = this.reviews.filter(
+      (review) => review.reviewer === this.$store.state.user._id,
+    );
+    if (selfReview.length) {
       this.selfReview = selfReview[0];
     }
-  }
+  },
 };
 </script>
 <style scoped>

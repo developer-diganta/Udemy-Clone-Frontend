@@ -8,8 +8,8 @@ export default {
    */
   async getAllStudents({ commit }) {
     try {
-      const students = await axios.post(`${backend_url}/admin/students`,{
-        token:localStorage.getItem("token")
+      const students = await axios.post(`${backend_url}/admin/students`, {
+        token: localStorage.getItem("token"),
       });
       commit("setAllStudents", students.data);
     } catch (error) {
@@ -23,8 +23,8 @@ export default {
    */
   async getAllInstructors({ commit }) {
     try {
-      const instructors = await axios.post(`${backend_url}/admin/instructors`,{
-        token:localStorage.getItem("token")
+      const instructors = await axios.post(`${backend_url}/admin/instructors`, {
+        token: localStorage.getItem("token"),
       });
       commit("setAllInstructors", instructors.data);
     } catch (error) {
@@ -38,8 +38,8 @@ export default {
    */
   async getRevenue({ commit }) {
     try {
-      const revenue = await axios.post(`${backend_url}/getpayments`,{
-        token:localStorage.getItem("token")
+      const revenue = await axios.post(`${backend_url}/getpayments`, {
+        token: localStorage.getItem("token"),
       });
       commit("setRevenue", revenue.data);
     } catch (error) {
@@ -54,9 +54,12 @@ export default {
    */
   async fetchInstructorName({ commit }, id) {
     try {
-      const res = await axios.post(`${backend_url}/admin/instructorname/${id}`,{
-        token:localStorage.getItem("token")
-      });
+      const res = await axios.post(
+        `${backend_url}/admin/instructorname/${id}`,
+        {
+          token: localStorage.getItem("token"),
+        },
+      );
       commit("setInstructorName", res.data);
     } catch (error) {
       console.error(error);
@@ -72,7 +75,7 @@ export default {
     try {
       const res = await axios.patch(`${backend_url}/admin/course/status`, {
         courseId: id,
-        token:localStorage.getItem("token")
+        token: localStorage.getItem("token"),
       });
       commit("setCourseStatus", res);
     } catch (error) {
@@ -87,7 +90,7 @@ export default {
   async getAllCourses({ commit }) {
     try {
       const courses = await axios.get(`${backend_url}/courses/all`);
-      console.log("))))))))))))))))))))))))",courses)
+      console.log("))))))))))))))))))))))))", courses);
       commit("setAllCourses", courses.data);
     } catch (error) {
       console.error(error);

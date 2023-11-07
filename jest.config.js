@@ -5,20 +5,21 @@
 //   }
 // };
 
-module.exports =  {
+module.exports = {
   preset: "@vue/cli-plugin-unit-jest",
   moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node", "vue"],
 
-    moduleNameMapper: {
-    "axios": "axios/dist/node/axios.cjs",
-    "vuetify": "vuetify/dist/vuetify.js"
+  moduleNameMapper: {
+    axios: "axios/dist/node/axios.cjs",
+    vuetify: "vuetify/dist/vuetify.js",
   },
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    "^.+\\.js$": "babel-jest",
   },
-  transformIgnorePatterns: ['node_modules/(?!(vuetify))'],
+  transformIgnorePatterns: ["node_modules/(?!(vuetify))"],
+  transformIgnorePatterns: ["/node_modules/(?!video.js)"],
   globals: {
-    'ts-jest': {
+    "ts-jest": {
       useESM: true,
     },
   },

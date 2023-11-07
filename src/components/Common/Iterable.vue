@@ -59,7 +59,12 @@
     </div>
 
     <div v-if="type === 'qa'" :key="currentItems">
-      <v-card border v-for="(item, index) in currentItems" :key="index">
+      <v-card
+        border
+        data-value="qa"
+        v-for="(item, index) in currentItems"
+        :key="index"
+      >
         <question-answer
           :questionAnswers="item"
           @qa-reloaded="qaFresh"
@@ -80,6 +85,8 @@
             v-if="type === 'search'"
             type="all"
             :course="item"
+            border
+            data-value="search"
           ></course-card>
         </v-col>
       </v-row>
@@ -161,6 +168,7 @@ export default {
   created() {
     console.log(this.items);
     this.itemsCopy = [...this.items];
+    console.log(this.type);
     this.updateCurrentItems();
   },
 };

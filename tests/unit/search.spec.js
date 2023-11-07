@@ -4,7 +4,7 @@ import SearchForm from "@/ui/Search.vue"; // Replace with your component path
 describe("SearchForm.vue", () => {
   it("renders input, search button, and search results correctly", async () => {
     const wrapper = shallowMount(SearchForm);
-    
+
     // Check if the input element is rendered
     const input = wrapper.find("input");
     expect(input.exists()).toBe(true);
@@ -15,6 +15,5 @@ describe("SearchForm.vue", () => {
 
     // Simulate user input in the input element
     await input.setValue("Sample Search Query");
-
   });
 });

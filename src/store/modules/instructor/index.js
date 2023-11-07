@@ -11,11 +11,11 @@ export default {
       currentCourse: {},
       deletedVideo: {},
       selfCourses: [],
-      lastSectionAdded:{},
-      deletedSection:{},
-      publishedCourse:{},
-      editedCourse:{},
-      coursePurchases:{}
+      lastSectionAdded: {},
+      deletedSection: {},
+      publishedCourse: {},
+      editedCourse: {},
+      coursePurchases: {},
     };
   },
   mutations,

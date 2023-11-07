@@ -27,18 +27,17 @@ const vuetify = createVuetify({
 
 describe("AdminHomeCard.vue", () => {
   let wrapper = shallowMount(AdminHomeCard, {
-    props:{
-        cardTitle:"Sample Card",
-        cardData:"Sample Card Data"
-    }
+    props: {
+      cardTitle: "Sample Card",
+      cardData: "Sample Card Data",
+    },
   });
-  it("checks for card title",()=>{
-      const title = wrapper.get('[class="text-h6 mb-1"]')
-      expect(title.text()).toContain('Sample Card')
-  })
-  it("checks for card data", ()=> {
-    const data = wrapper.get('[class="text-subtitle"')
-    expect(data.text().toContain("Sample Card Data"))
-  })
-
+  it("checks for card title", () => {
+    const title = wrapper.get('[class="text-h6 mb-1"]');
+    expect(title.text()).toContain("Sample Card");
+  });
+  it("checks for card data", () => {
+    const data = wrapper.get('[class="text-subtitle"');
+    expect(data.text().toContain("Sample Card Data"));
+  });
 });

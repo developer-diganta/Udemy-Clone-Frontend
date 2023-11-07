@@ -74,7 +74,7 @@ export default {
   methods: {
     async fetchPayments() {
       await this.$store.dispatch("admin/getRevenue");
-      this.payments = this.$store.getters['admin/sortedRevenue'];
+      this.payments = this.$store.getters["admin/sortedRevenue"];
       // sort(
       //   (a, b) =>
       //     new Date(a.paymentDetails.createdAt) -

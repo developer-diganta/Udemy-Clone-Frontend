@@ -91,38 +91,40 @@ export default {
     this.fetchEnrolledCourses();
   },
 
-    methods: {
-  /**
-   * Fetch trending courses and update the trendingCoursesList.
-   */
-  async fetchTrendingCourses() {
-    try {
-      const response = await this.$store.dispatch("common/fetchTrendingCourses");
-      this.trendingCoursesList = this.$store.state.common.trendingCourses;
-      console.log(this.trendingCoursesList, "Trending Courses List");
-    } catch (error) {
-      console.log(error);
-      // Handle errors if the fetch fails
-      // alert("Sorry, we ran into an error");
-    }
-  },
-  
-  /**
-   * Fetch enrolled courses and update the enrolledCoursesList.
-   */
-  async fetchEnrolledCourses() {
-    try {
-      const response = await this.$store.dispatch("student/fetchEnrolledCourses");
-      this.enrolledCoursesList = this.$store.state.student.enrolledCourses;
-    } catch (error) {
-      // Handle errors if the fetch fails
-      // alert("Sorry, we ran into an error");
-    }
-  },
-},
+  methods: {
+    /**
+     * Fetch trending courses and update the trendingCoursesList.
+     */
+    async fetchTrendingCourses() {
+      try {
+        const response = await this.$store.dispatch(
+          "common/fetchTrendingCourses",
+        );
+        this.trendingCoursesList = this.$store.state.common.trendingCourses;
+        console.log(this.trendingCoursesList, "Trending Courses List");
+      } catch (error) {
+        console.log(error);
+        // Handle errors if the fetch fails
+        // alert("Sorry, we ran into an error");
+      }
+    },
 
-  };
-
+    /**
+     * Fetch enrolled courses and update the enrolledCoursesList.
+     */
+    async fetchEnrolledCourses() {
+      try {
+        const response = await this.$store.dispatch(
+          "student/fetchEnrolledCourses",
+        );
+        this.enrolledCoursesList = this.$store.state.student.enrolledCourses;
+      } catch (error) {
+        // Handle errors if the fetch fails
+        // alert("Sorry, we ran into an error");
+      }
+    },
+  },
+};
 </script>
 
 <style>

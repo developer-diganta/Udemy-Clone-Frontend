@@ -15,7 +15,7 @@
         v-for="(course, index) in pendingCourses"
         :key="index"
       >
-        <v-card class="mx-auto" max-width="400">
+        <v-card class="mx-auto" max-width="400" data-value="pending-courses">
           <v-img
             class="align-end text-white"
             height="200"
@@ -47,7 +47,13 @@
               View Course
             </v-btn>
 
-            <v-btn color="orange" @click="publish(course._id)"> Publish </v-btn>
+            <v-btn
+              color="orange"
+              @click="publish(course._id)"
+              data-value="publish-course-btn"
+            >
+              Publish
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -168,6 +174,9 @@ export default {
   },
   computed: {
     publishedCourses() {
+      console.log(
+        this.allCourses.filter((course) => course.status === "published"),
+      );
       return this.allCourses.filter((course) => course.status === "published");
     },
     activeCourses() {

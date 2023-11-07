@@ -5,7 +5,7 @@
     </h3>
     <div id="sign-up-form" style="width: 50%">
       <v-sheet class="mx-auto">
-        <v-form @submit.prevent="otpValidate">
+        <v-form @submit.prevent="otpValidate" data-value="form">
           <v-text-field v-model="otp" label="OTP"></v-text-field>
           <v-btn type="submit" block class="mt-2">Continue</v-btn>
         </v-form>

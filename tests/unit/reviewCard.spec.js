@@ -27,18 +27,17 @@ const vuetify = createVuetify({
 
 describe("ReviewCard.vue", () => {
   let wrapper = shallowMount(ReviewCard, {
-    props:{
-        review:{
-            rating:5,
-            review:"Good",
-            reviewer:"Sample",
-            createdOn:"2023-11-03T06:36:04.912+00:00"
-        },
-    }
+    props: {
+      review: {
+        rating: 5,
+        review: "Good",
+        reviewer: "Sample",
+        createdOn: "2023-11-03T06:36:04.912+00:00",
+      },
+    },
   });
-  it("carousel text and subtext",()=>{
-      const reviewer = wrapper.get('[data-value="reviewer"]')
-      expect(reviewer.text()).toContain('Sample')
-  })
-
+  it("carousel text and subtext", () => {
+    const reviewer = wrapper.get('[data-value="reviewer"]');
+    expect(reviewer.text()).toContain("Sample");
+  });
 });

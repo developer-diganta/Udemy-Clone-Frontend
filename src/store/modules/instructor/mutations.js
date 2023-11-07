@@ -11,23 +11,23 @@ export default {
   setSelfCourses(state, courses) {
     state.selfCourses = courses;
   },
-  setSectionAdd(state,section){
-    state.lastSectionAdded=section;
+  setSectionAdd(state, section) {
+    state.lastSectionAdded = section;
   },
-  setProfile(state,profile){
-    state.profile=profile;
+  setProfile(state, profile) {
+    state.profile = profile;
   },
-  setDeletedSection(state,section){
+  setDeletedSection(state, section) {
     state.deletedSection = section;
   },
-  setPublishedCourse(state,course){
+  setPublishedCourse(state, course) {
     state.publishedCourse = course;
   },
-  setEditedCourse(state,course){
+  setEditedCourse(state, course) {
     state.editedCourse = course;
   },
-  setCoursePurchases(state,coursePurchases){
-    console.log("??????", coursePurchases)
+  setCoursePurchases(state, coursePurchases) {
+    console.log("??????", coursePurchases);
     state.coursePurchases = coursePurchases;
-  }
+  },
 };

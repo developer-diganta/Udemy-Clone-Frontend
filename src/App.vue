@@ -30,7 +30,7 @@ export default {
       console.log("12321421542151253551353");
       try {
         await this.$store.dispatch("instructor/getInstructorProfileOnLoad");
-        
+
         console.log(res);
       } catch (error) {
         return 0;

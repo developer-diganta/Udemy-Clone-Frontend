@@ -38,7 +38,7 @@ describe("StudentEnrolledCourses.vue", () => {
             enrolledCourses: [],
           },
           actions: {
-            fetchEnrolledCourses, 
+            fetchEnrolledCourses,
           },
         },
       },

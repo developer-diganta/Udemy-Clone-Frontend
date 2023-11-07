@@ -19,6 +19,7 @@ export default {
   },
   methods: {
     async redirect() {
+      console.log("124345436366");
       console.log(this.priceId);
       const session = await axios.post(
         `${backend_url}/create-checkout-session`,

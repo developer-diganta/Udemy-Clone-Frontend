@@ -6,15 +6,15 @@ export default {
   namespaced: true,
   state() {
     return {
-     allCourses:[],
-     allStudents:[],
-     allInstructors:[],
-     revenue:[],
-     instructorName:"",
-     courseStatus:{}
+      allCourses: [],
+      allStudents: [],
+      allInstructors: [],
+      revenue: [],
+      instructorName: "",
+      courseStatus: {},
     };
   },
   mutations,
   actions,
-    getters,
+  getters,
 };

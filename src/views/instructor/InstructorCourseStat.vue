@@ -62,7 +62,7 @@ export default {
   components: { LineGraph },
   data() {
     return {
-      course: null,
+      course: {},
       route: this.$route,
       tab: null,
       courseStats: null,
@@ -72,13 +72,10 @@ export default {
   },
   methods: {
     async initialLoad() {
-      const res = await this.$store.dispatch(
-        "instructor/instructorCourseViewOne",
-        {
-          courseId: this.$route.params.id,
-          router: this.$router,
-        },
-      );
+      await this.$store.dispatch("instructor/instructorCourseViewOne", {
+        courseId: this.$route.params.id,
+        router: this.$router,
+      });
       this.course = this.$store.state.instructor.currentCourse;
       this.courseStats = {
         title: this.course.title,
@@ -93,8 +90,7 @@ export default {
         "instructor/instructorCoursePurchase",
         this.$route.params.id,
       );
-      this.totalPurchases = this.$store.state.instructor.coursePurchases
-
+      this.totalPurchases = this.$store.state.instructor.coursePurchases;
     },
   },
   computed: {
@@ -134,6 +130,7 @@ export default {
   },
   async created() {
     await this.initialLoad();
+    console.log("here");
     this.loadCourseStats();
   },
 };
