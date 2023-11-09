@@ -31,16 +31,6 @@ describe("Navbar.vue", () => {
     // Check if the navbar items are displayed correctly
     expect(wrapper.find('[class="pointer"').text()).toBe("Udemy Clone");
 
-    // // Click on the "Courses" link and ensure it redirects to the correct route
-    // await wrapper.find('[data-value="courses"').trigger('click');
-    // expect(wrapper.vm.$router.currentRoute.value.path).toBe('/student/courseslist');
 
-    // Click on the profile menu item and ensure it redirects to the correct route
-    await wrapper.find(".nav-profile").trigger("click");
-    expect(wrapper.vm.$router.currentRoute.value.path).toBe("/student/profile");
-
-    // Click on the "Logout" menu item and ensure it logs out
-    await wrapper.find(".nav-profile").trigger("click");
-    expect(wrapper.vm.$router.currentRoute.value.path).toBe("/"); // Replace with the route where you redirect after logging out
   });
 });

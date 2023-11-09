@@ -5,6 +5,7 @@ import student from "./modules/student/index";
 import common from "./modules/common/index";
 import instructor from "./modules/instructor/index";
 import admin from "./modules/admin/index";
+import snackbar from "./modules/snackbar";
 const store = createStore({
   modules: {
     user: user,
@@ -12,6 +13,7 @@ const store = createStore({
     common,
     instructor,
     admin,
+    snackbar,
   },
   actions,
 });

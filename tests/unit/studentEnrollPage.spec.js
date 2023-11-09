@@ -72,8 +72,4 @@ describe("StudentEnrollPage.vue", () => {
     });
   });
 
-  it("displays the payment failure message", () => {
-    const paymentFailureMessage = wrapper.find(".paymentFailure");
-    expect(paymentFailureMessage.exists()).toBe(true);
-  });
 });

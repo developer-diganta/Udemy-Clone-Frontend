@@ -2,20 +2,18 @@ import backend_url from "@/globals/globals";
 import axios from "axios";
 
 export default {
-  async verifyToken({ commit, rootState }) {
+  async verifyToken({ commit, rootState }, user) {
+    console.log("[[]", user);
     try {
-      console.log("[[]", rootState.user);
-      const res = await axios.post(
-        `${backend_url}/${rootState.user.type}/verify`,
-        {
-          email: rootState.user.email,
-          token: rootState.user.token,
-        },
-      );
+      const res = await axios.post(`${backend_url}/${user.type}/verify`, {
+        email: rootState.user.email,
+        token: rootState.user.token,
+      });
       console.log(res);
       return res;
     } catch (error) {
       console.log("HEREREREERERERERE");
+      console.log(error);
       throw new Error("Not verified");
     }
   },

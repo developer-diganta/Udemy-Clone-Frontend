@@ -1,36 +1,26 @@
 <template>
-  <v-card class="d-lg-none">
-    <v-layout>
-      <!-- <v-system-bar color="deep-purple darken-3"></v-system-bar> -->
-
-      <v-app-bar prominent>
-        <v-app-bar-nav-icon
-          variant="text"
-          @click.stop="drawer = !drawer"
-        ></v-app-bar-nav-icon>
-
-        <v-toolbar-title>My files</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-
-        <v-btn variant="text" icon="mdi-magnify"></v-btn>
-
-        <v-btn variant="text" icon="mdi-filter"></v-btn>
-
-        <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>
-      </v-app-bar>
-
-      <v-navigation-drawer v-model="drawer" location="bottom" temporary>
-        <v-list :items="items"></v-list>
-      </v-navigation-drawer>
-    </v-layout>
-  </v-card>
-
   <nav class="d-none d-lg-block" style="box-shadow: 0px 0px 2px 1px #008080">
     <div class="navbar-content container">
       <h3 @click="redirectToHome" class="pointer">Udemy Clone</h3>
-      <ul>
+      <ul v-if="navtype===home">
         <li>
+          <search></search>
+        </li>
+        <li>
+          <v-btn color="primaryTheme" @click="()=>dialogControl=true">Sign In
+
+            <user-dialog :dialogControl="dialogControl" :key="dialogControl" @dialog-close="dialogControl=false"  type="signIn" title="Sign In"></user-dialog>
+          </v-btn>
+        </li>
+        <li>
+          <v-btn color="secondaryCoral" style="color:white !important" @click="()=>dialogControlSignUp=true">Sign Up
+
+            <user-dialog :dialogControl="dialogControlSignUp" :key="dialogControlSignUp" @dialog-close="dialogControlSignUp=false"  type="signUp" title="Sign Up"></user-dialog>
+          </v-btn>
+        </li>
+      </ul>
+      <ul v-else>
+        <li v-if="$store.state.user.type === 'student'">
           <search></search>
         </li>
 
@@ -121,15 +111,20 @@ ul {
 </style>
 
 <script>
+import UserDialog from '@/ui/UserDialog.vue';
 import Search from "../../ui/Search.vue";
 
 export default {
+  props:["navtype"],
   components: {
     Search,
+    UserDialog,
   },
   data: () => ({
     drawer: false,
     group: null,
+    dialogControl:false,
+    dialogControlSignUp:false
   }),
 
   methods: {

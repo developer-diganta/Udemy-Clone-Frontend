@@ -72,15 +72,21 @@ export default {
     };
   },
   methods: {
-    async fetchPayments() {
-      await this.$store.dispatch("admin/getRevenue");
-      this.payments = this.$store.getters["admin/sortedRevenue"];
-      // sort(
-      //   (a, b) =>
-      //     new Date(a.paymentDetails.createdAt) -
-      //     new Date(b.paymentDetails.createdAt),
-      // );
-      console.log(this.payments);
+
+
+      async fetchPayments() {
+        try{
+        await this.$store.dispatch("admin/getRevenue");
+        this.payments = this.$store.getters["admin/sortedRevenue"];
+        // sort(
+        //   (a, b) =>
+        //     new Date(a.paymentDetails.createdAt) -
+        //     new Date(b.paymentDetails.createdAt),
+        // );
+        console.log(this.payments);
+    }catch(error){
+      console.log("error")
+    }
     },
   },
   async created() {

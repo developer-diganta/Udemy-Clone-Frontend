@@ -184,20 +184,6 @@
       </ul>
     </v-col>
   </v-row>
-
-  <alert
-    v-if="alertSuccess"
-    :message="successMessage"
-    variant="tonal"
-    color="success"
-  ></alert>
-
-  <alert
-    v-if="alertFailure"
-    :message="failureMessage"
-    variant="tonal"
-    color="error"
-  ></alert>
 </template>
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
@@ -205,10 +191,9 @@ import axios from "axios";
 import backend_url from "@/globals/globals";
 
 import VideoPlayer from "@/components/Video/VideoPlayer.vue";
-import Alert from "@/ui/Alert.vue";
 
 export default {
-  components: { Navbar, VideoPlayer, Alert },
+  components: { Navbar, VideoPlayer },
   data() {
     return {
       course: {},
@@ -233,7 +218,7 @@ export default {
       sectionsList: [],
       select: "",
       materialPosition: "after",
-      lectureSection: null,
+      lectureSection: "",
       firstNameRules: [
         (value) => {
           if (value?.length > 3) return true;
@@ -256,6 +241,9 @@ export default {
     resetForm() {
       this.title = "";
       this.files = null;
+      this.select = "";
+      this.lecture = "";
+      this.sectionSelect = "";
     },
     async publish() {
       await this.$store.dispatch("instructor/publishCourse", this.courseID);
@@ -286,6 +274,7 @@ export default {
       if (this.sectionSelect === null) {
         this.sectionSelect = {
           index: 0,
+          title: "",
         };
         this.materialPosition = "after";
       }
@@ -301,6 +290,10 @@ export default {
 
       await this.initialLoad();
       this.resetForm();
+      this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Section Uploaded",
+        type: "Success",
+      });
     },
     setAddMaterialActivated(index, i) {
       console.log(index, i);
@@ -310,7 +303,8 @@ export default {
       this.dialog = true;
     },
     setCourseDetails(course) {
-      this.course = course.data.course;
+      this.course = this.$store.state.instructor.currentCourse;
+      console.log(this.course);
       this.lessons = this.course.lessons;
     },
     async deleteVideo(index, i) {
@@ -324,13 +318,20 @@ export default {
         });
         this.alertSuccess = true;
         this.successMessage = "Video Deleted";
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "Video Deleted",
+          type: "Success",
+        });
 
         this.initialLoad();
         this.resetForm();
       } catch (error) {
         this.alertFailure = true;
         this.failureMessage = error;
-        console.log(res);
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "There was some error",
+          type: "Error",
+        });
       }
     },
     async videoUpload() {
@@ -367,10 +368,18 @@ export default {
         this.successMessage = "Video Uploaded";
         this.initialLoad();
         this.resetForm();
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "Video Uploaded",
+          type: "Success",
+        });
       } catch (error) {
         this.alertFailure = true;
         this.failureMessage = error;
         console.error("Error uploading files:", error);
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "There was some error",
+          type: "Error",
+        });
       }
     },
 
@@ -381,20 +390,21 @@ export default {
     async initialLoad() {
       this.dialog = false;
       this.courseID = this.$route.params.id;
+
       try {
         await this.$store.dispatch("instructor/instructorCourseViewOne", {
           courseId: this.courseID,
         });
+        console.log(this.$store.state.instructor.currentCourse);
+        this.setCourseDetails();
+        this.sectionsList = this.course.lessons.map((lesson, index) => ({
+          index,
+          title: lesson.title,
+        }));
 
-        this.sectionsList =
-          this.$store.state.instructor.currentCourse.data.course.lessons.map(
-            (lesson, index) => ({
-              index,
-              title: lesson.title,
-            }),
-          );
+        console.log("----------------", this.sectionsList);
 
-        this.setCourseDetails(this.$store.state.instructor.currentCourse);
+        // console.log("IUIUIUIUIU", this.course)
         if (this.course.lessons[0]?.videos[0]?.videoLink) {
           this.loadCurrentVideo(this.course.lessons[0]?.videos[0]?.videoLink);
         }
@@ -464,6 +474,7 @@ export default {
     },
   },
   async mounted() {
+    this.$store.state.instructor.currentCourse = {};
     await this.initialLoad();
   },
 };

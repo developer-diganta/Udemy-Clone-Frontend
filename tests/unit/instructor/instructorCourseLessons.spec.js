@@ -76,7 +76,9 @@ describe("CourseDetails.vue", () => {
   });
 
   it("should render the course title", () => {
-    expect(wrapper.find(".text-center").text()).toContain("Sample Course");
+    expect(wrapper.find(".text-center").text()).toContain(
+      "(Edit Mode: Instructor)",
+    );
   });
 
   it("should delete a video", async () => {

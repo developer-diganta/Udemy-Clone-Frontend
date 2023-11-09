@@ -117,7 +117,8 @@ export default {
   },
   methods: {
     async fetchAllCourses() {
-      this.allCourses = await this.$store.dispatch("getAllCourses");
+      await this.$store.dispatch("admin/getAllCourses");
+      this.allCourses = this.$store.state.admin.allCourses;
     },
     instructorName(id) {
       this.$store.dispatch("admin/fetchInstructorName", id);

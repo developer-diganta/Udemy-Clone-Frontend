@@ -74,4 +74,42 @@ export default {
       // alert("Something went wrong")
     }
   },
+
+  async submitnote({commit,rootState},{
+    header,
+    description,
+    courseId
+  }){
+    try{
+      console.log(courseId)
+      const res = await axios.patch(`${backend_url}/student/submitnote`,{
+        email: rootState.user.email,
+        token: rootState.user.token,
+        _id: rootState.user._id,
+        courseId:courseId,
+        note:{
+          header,
+          description
+        }
+      });
+
+    }catch(error){
+
+    }
+  },
+  async getNotes({commit,rootState},courseId){
+    try{
+      const res = await axios.get(`${backend_url}/student/notes/${courseId}`,{
+        email: rootState.user.email,
+        token: rootState.user.token,
+        _id: rootState.user._id,
+        courseId:courseId,
+      });
+      commit("setNotes",res.data.notes);
+      console.log(res)
+    }catch(error){
+      console.log(error)
+      return error;
+    }
+  }
 };

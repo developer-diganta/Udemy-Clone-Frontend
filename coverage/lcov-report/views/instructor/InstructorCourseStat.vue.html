@@ -1,66 +1,68 @@
+
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>
-      Code coverage report for views/instructor/InstructorCourseStat.vue
-    </title>
+
+<head>
+    <title>Code coverage report for views/instructor/InstructorCourseStat.vue</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
     <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
-      .coverage-summary .sorter {
-        background-image: url(../../sort-arrow-sprite.png);
-      }
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
     </style>
-  </head>
-
-  <body>
-    <div class="wrapper">
-      <div class="pad1">
-        <h1>
-          <a href="../../index.html">All files</a> /
-          <a href="index.html">views/instructor</a> InstructorCourseStat.vue
-        </h1>
-        <div class="clearfix">
-          <div class="fl pad1y space-right2">
-            <span class="strong">92.1% </span>
-            <span class="quiet">Statements</span>
-            <span class="fraction">35/38</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">100% </span>
-            <span class="quiet">Branches</span>
-            <span class="fraction">6/6</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">83.33% </span>
-            <span class="quiet">Functions</span>
-            <span class="fraction">15/18</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">92.1% </span>
-            <span class="quiet">Lines</span>
-            <span class="fraction">35/38</span>
-          </div>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">views/instructor</a> InstructorCourseStat.vue</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">92.1% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>35/38</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/6</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">83.33% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>15/18</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">92.1% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>35/38</span>
+            </div>
+        
+            
         </div>
         <p class="quiet">
-          Press <em>n</em> or <em>j</em> to go to the next uncovered block,
-          <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
         <template id="filterTemplate">
-          <div class="quiet">
-            Filter:
-            <input oninput="onInput()" type="search" id="fileSearch" />
-          </div>
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
         </template>
-      </div>
-      <div class="status-line high"></div>
-      <pre><table class="coverage">
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
@@ -200,11 +202,7 @@
 <a name='L137'></a><a href='#L137'>137</a>
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a>
-<a name='L141'></a><a href='#L141'>141</a>
-<a name='L142'></a><a href='#L142'>142</a>
-<a name='L143'></a><a href='#L143'>143</a>
-<a name='L144'></a><a href='#L144'>144</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L140'></a><a href='#L140'>140</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -343,10 +341,6 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">20x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
   &lt;div&gt;
     &lt;div style="padding: 3%; background: black; color: white"&gt;
@@ -421,13 +415,10 @@ export default {
   },
   methods: {
     async initialLoad() {
-      await this.$store.dispatch(
-        "instructor/instructorCourseViewOne",
-        {
-          courseId: this.$route.params.id,
-          router: this.$router,
-        },
-      );
+      await this.$store.dispatch("instructor/instructorCourseViewOne", {
+        courseId: this.$route.params.id,
+        router: this.$router,
+      });
       this.course = this.$store.state.instructor.currentCourse;
       this.courseStats = {
         title: this.course.title,
@@ -442,8 +433,7 @@ export default {
         "instructor/instructorCoursePurchase",
         this.$route.params.id,
       );
-      this.totalPurchases = this.$store.state.instructor.coursePurchases
-&nbsp;
+      this.totalPurchases = this.$store.state.instructor.coursePurchases;
     },
   },
   computed: {
@@ -455,11 +445,11 @@ export default {
           new Date(
             this.totalPurchases[i].paymentDetails.createdAt,
           ).getFullYear() === this.year
-        ) {<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+        ) {
           const month = new Date(
             this.totalPurchases[i].paymentDetails.createdAt,
           ).getMonth();
-          months[month - 1] += this.totalPurchases[i].paymentDetails.price;
+          months[month - 1] += this.totalPurchases[i]<span class="fstat-no" title="function not covered" >.p</span>aymentDe<span class="cstat-no" title="statement not covered" >tails.price;</span>
         }
       }
       return months;
@@ -475,15 +465,15 @@ export default {
           const month = new Date(
             this.totalPurchases[i].paymentDetails.createdAt,
           ).getMonth();
-          months[month - 1]++;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+          months[month - 1]++;
         }
       }
       return months;
-    },
+    },<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
   },
   async created() {
     await this.initialLoad();
-    console.log("here")
+    console.log("here");
     this.loadCourseStats();
   },
 };
@@ -492,27 +482,21 @@ export default {
 &lt;style&gt;&lt;/style&gt;
 &nbsp;</pre></td></tr></table></pre>
 
-      <div class="push"></div>
-      <!-- for sticky footer -->
-    </div>
-    <!-- /wrapper -->
-    <div class="footer quiet pad2 space-top1 center small">
-      Code coverage generated by
-      <a
-        href="https://istanbul.js.org/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >istanbul</a
-      >
-      at 2023-11-07T12:45:52.660Z
-    </div>
-    <script src="../../prettify.js"></script>
-    <script>
-      window.onload = function () {
-        prettyPrint();
-      };
-    </script>
-    <script src="../../sorter.js"></script>
-    <script src="../../block-navigation.js"></script>
-  </body>
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-11-09T04:58:37.423Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
 </html>
+    

@@ -28,7 +28,8 @@ export default {
       });
       commit("setAllInstructors", instructors.data);
     } catch (error) {
-      console.error(error);
+      throw new Error(error)
+
     }
   },
 
@@ -43,7 +44,8 @@ export default {
       });
       commit("setRevenue", revenue.data);
     } catch (error) {
-      console.error(error);
+
+      throw new Error(error)
     }
   },
 
@@ -62,7 +64,8 @@ export default {
       );
       commit("setInstructorName", res.data);
     } catch (error) {
-      console.error(error);
+      throw new Error(error)
+
     }
   },
 
@@ -78,8 +81,9 @@ export default {
         token: localStorage.getItem("token"),
       });
       commit("setCourseStatus", res);
-    } catch (error) {
-      console.error(error);
+    }  catch (error) {
+      throw new Error(error)
+
     }
   },
 
@@ -90,10 +94,10 @@ export default {
   async getAllCourses({ commit }) {
     try {
       const courses = await axios.get(`${backend_url}/courses/all`);
-      console.log("))))))))))))))))))))))))", courses);
       commit("setAllCourses", courses.data);
-    } catch (error) {
-      console.error(error);
+    }  catch (error) {
+      throw new Error(error)
+
     }
   },
 };

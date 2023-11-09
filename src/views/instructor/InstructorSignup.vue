@@ -49,4 +49,13 @@ export default {
 .img {
   width: 10%;
 }
+
+@media only screen and (max-width:792px){
+  #instructor-signup{
+    display:block;
+  }
+  #form-area {
+    margin-top:20px;
+  }
+}
 </style>

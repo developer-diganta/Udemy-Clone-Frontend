@@ -17,7 +17,7 @@ export default {
 
       return res;
     } catch (error) {
-      return error;
+      throw new Error(error.response.data);
     }
   },
 
@@ -40,13 +40,14 @@ export default {
       }
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("type", "instructor");
+      localStorage.setItem("token", res.data.token)
       commit("setUserName", data.name);
       commit("setUserId", res.data._id);
       commit("setUserType", "instructor");
       commit("setUserToken", res.data.token);
       commit("setUserEmail", res.data.email);
     } catch (error) {
-      return error;
+      throw new Error(error.response.data);
     }
   },
 
@@ -82,7 +83,7 @@ export default {
       return "home";
     } catch (error) {
       console.log(error);
-      return error;
+      throw new Error(error.response.data);
     }
   },
 };

@@ -1,64 +1,68 @@
+
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Code coverage report for components/Common/Iterable.vue</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
     <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
-      .coverage-summary .sorter {
-        background-image: url(../../sort-arrow-sprite.png);
-      }
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
     </style>
-  </head>
-
-  <body>
-    <div class="wrapper">
-      <div class="pad1">
-        <h1>
-          <a href="../../index.html">All files</a> /
-          <a href="index.html">components/Common</a> Iterable.vue
-        </h1>
-        <div class="clearfix">
-          <div class="fl pad1y space-right2">
-            <span class="strong">80.55% </span>
-            <span class="quiet">Statements</span>
-            <span class="fraction">29/36</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">96.66% </span>
-            <span class="quiet">Branches</span>
-            <span class="fraction">29/30</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">63.15% </span>
-            <span class="quiet">Functions</span>
-            <span class="fraction">12/19</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">80.55% </span>
-            <span class="quiet">Lines</span>
-            <span class="fraction">29/36</span>
-          </div>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Common</a> Iterable.vue</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">80.55% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>29/36</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">96.66% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>29/30</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">63.15% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>12/19</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">80.55% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>29/36</span>
+            </div>
+        
+            
         </div>
         <p class="quiet">
-          Press <em>n</em> or <em>j</em> to go to the next uncovered block,
-          <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
         <template id="filterTemplate">
-          <div class="quiet">
-            Filter:
-            <input oninput="onInput()" type="search" id="fileSearch" />
-          </div>
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
         </template>
-      </div>
-      <div class="status-line high"></div>
-      <pre><table class="coverage">
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
@@ -237,7 +241,12 @@
 <a name='L176'></a><a href='#L176'>176</a>
 <a name='L177'></a><a href='#L177'>177</a>
 <a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
@@ -412,6 +421,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -475,9 +489,13 @@
       &lt;/div&gt;
     &lt;/div&gt;
 &nbsp;
-    &lt;div v-if="type === 'qa'" 
-     :key="currentItems"&gt;
-      &lt;v-card border data-value="qa" v-for="(item, index) in currentItems" :key="index"&gt;
+    &lt;div v-if="type === 'qa'" :key="currentItems"&gt;
+      &lt;v-card
+        border
+        data-value="qa"
+        v-for="(item, index) in currentItems"
+        :key="index"
+      &gt;
         &lt;question-answer
           :questionAnswers="item"
           @qa-reloaded="qaFresh"
@@ -498,7 +516,8 @@
             v-if="type === 'search'"
             type="all"
             :course="item"
-            border data-value="search" 
+            border
+            data-value="search"
           &gt;&lt;/course-card&gt;
         &lt;/v-col&gt;
       &lt;/v-row&gt;
@@ -521,52 +540,52 @@
 &lt;/template&gt;
 &nbsp;
 &lt;script&gt;
-import QuestionAnswer from "../Course/QuestionAnswer.vue";
+import QuestionAnswer from "../Course/Q<span class="fstat-no" title="function not covered" >ue</span>stionAns<span class="cstat-no" title="statement not covered" >wer.vue";</span>
 import CourseCard from "@/components/Course/CourseCard.vue";
 &nbsp;
 export default {
   components: { QuestionAnswer, CourseCard },
-  emits: ["qa-fresh"],<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+  emits: ["qa-fresh"],
   props: ["items", "page", "itemsPerPage", "type"],
-  data() {
+  data() {<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
     return {
       currentPage: 0,
       currentItems: [],
       itemsCopy: [],
-      dialogOpen: false,<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-    };
+      dialogOpen: false,
+    };<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
   },
   methods: {
     nextPage(index) {
       this.currentPage = index - 1;
-      this.updateCurrentItems();<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+      this.updateCurrentItems();
     },
     sortItems(order, field) {
       console.log("field");
-      switch (order) {
+      switch (order) {<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
         case 1:
           this.itemsCopy = this.itemsCopy.sort(
             (a, b) =&gt; new Date(a[field]) - new Date(b[field]),
           );
-          break;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+          break;
         case -1:
           this.itemsCopy = this.itemsCopy.sort(
             (a, b) =&gt; new Date(b[field]) - new Date(a[field]),
-          );
+          );<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
           break;
       }
       console.log(this.itemsCopy);
       this.updateCurrentItems();
-    },<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+    },
     updateCurrentItems() {
       const startIndex = this.currentPage * parseInt(this.itemsPerPage);
       const endIndex = startIndex + parseInt(this.itemsPerPage);
-      this.currentItems = this.itemsCopy.slice(startIndex, endIndex);
+      this.currentItems = this.itemsCop<span class="fstat-no" title="function not covered" >y.</span>slice(st<span class="cstat-no" title="statement not covered" >artIndex, endIndex);</span>
     },
     qaFresh(data) {
       this.$emit("qa-fresh", data);
     },
-  },<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+  },
   computed: {
     totalPages() {
       return Math.ceil(this.itemsCopy.length / this.itemsPerPage);
@@ -580,7 +599,7 @@ export default {
   created() {
     console.log(this.items);
     this.itemsCopy = [...this.items];
-    console.log(this.type)
+    console.log(this.type);
     this.updateCurrentItems();
   },
 };
@@ -595,27 +614,21 @@ export default {
 &lt;/style&gt;
 &nbsp;</pre></td></tr></table></pre>
 
-      <div class="push"></div>
-      <!-- for sticky footer -->
-    </div>
-    <!-- /wrapper -->
-    <div class="footer quiet pad2 space-top1 center small">
-      Code coverage generated by
-      <a
-        href="https://istanbul.js.org/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >istanbul</a
-      >
-      at 2023-11-07T12:45:52.660Z
-    </div>
-    <script src="../../prettify.js"></script>
-    <script>
-      window.onload = function () {
-        prettyPrint();
-      };
-    </script>
-    <script src="../../sorter.js"></script>
-    <script src="../../block-navigation.js"></script>
-  </body>
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-11-09T04:58:37.423Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
 </html>
+    

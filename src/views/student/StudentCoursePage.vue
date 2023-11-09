@@ -60,6 +60,7 @@
             <v-tab value="overview">Overview</v-tab>
             <v-tab value="qa">Q&A</v-tab>
             <v-tab value="reviews">Reviews</v-tab>
+            <v-tab value="notes">Notes</v-tab>
             <v-tab class="d-md-none" value="coursecontents"
               >Course Contents</v-tab
             >
@@ -143,6 +144,22 @@
                 ></reviews>
               </v-window-item>
 
+              <v-window-item value="notes">
+                
+                <v-card v-for="(note,index) in notes" :key="index">
+                  <v-card
+                  width="400"
+                  :title="note.header"
+                  :text="note.description"
+                ></v-card>
+                </v-card>
+
+                <student-notes :course="course._id"></student-notes>
+              </v-window-item>
+              
+              <!-- @review-submitted="reloadCourse"
+              :totalRating="course.rating"
+              :reviews="course.reviews" -->
               <v-window-item value="coursecontents">
                 <v-list
                   v-for="(lesson, index) in course.lessons"
@@ -233,7 +250,7 @@ import QuestionAnswer from "@/components/Course/QuestionAnswer.vue";
 import QuestionAnswerForm from "@/components/Course/QuestionAnswerForm.vue";
 import Iterable from "@/components/Common/Iterable.vue";
 import Reviews from "@/components/Course/Reviews.vue";
-
+import StudentNotes from "@/views/student/StudentNotes.vue"
 export default {
   components: {
     VideoPlayer,
@@ -242,6 +259,7 @@ export default {
     QuestionAnswerForm,
     Iterable,
     Reviews,
+    StudentNotes
   },
   data() {
     return {
@@ -262,14 +280,19 @@ export default {
       page: 1,
       questionAnswers: [],
       courseContentsCompleted: [],
+      notes:[]
     };
   },
   methods: {
+    async getNotes(){
+      await this.$store.dispatch("student/getNotes");
+      this.notes = this.$store.state.student.notes;
+    },
     /**
      * Reload the course details.
      */
     async reloadCourse() {
-      this.getCourse();
+      this.getCourse(course._id);
     },
 
     /**
@@ -371,6 +394,7 @@ export default {
     if (this.$route.query.payment === "success") {
       this.successMessage = true;
     }
+    await this.getNotes();
   },
 };
 </script>

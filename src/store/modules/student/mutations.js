@@ -20,4 +20,8 @@ export default {
   setStudentProfile(state, studentProfile) {
     state.profile = studentProfile;
   },
+
+  setNots(state,notes){
+    state.notes = notes;
+  }
 };

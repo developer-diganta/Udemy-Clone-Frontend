@@ -28,7 +28,7 @@ export default {
 </script>
 <style scoped>
 .footer {
-  background: #008080;
+  background: #6FBEDF;
   padding-top: 5%;
   width: 100%;
 

@@ -1,23 +1,28 @@
-<template lang="">
+<template>
   <div>
-    <v-snackbar v-model="snackbar" timeout="2000" color="secondaryCoral">
+    <v-snackbar
+      v-model="snackbar.visible"
+      timeout="2000"
+      color="secondaryCoral"
+    >
       <p class="text-center text-white" style="font-weight: 700">
-        <v-icon style="color: green">mdi-check-circle</v-icon>{{ message }}
+        <v-icon v-if="snackbar.type === 'Error'" style="color: red"
+          >mdi-close-circle</v-icon
+        >
+        <v-icon v-else style="color: green">mdi-check-circle</v-icon>
+        {{ snackbar.message }}
       </p>
     </v-snackbar>
   </div>
 </template>
+
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
-  props: ["message", "visibility"],
-  data() {
-    return {
-      snackbar: false,
-    };
+  computed: {
+    ...mapState("snackbar", ["snackbar"]),
   },
-  created() {
-    this.snackbar = this.visibility;
-  },
+  created() {},
 };
 </script>
-<style lang=""></style>

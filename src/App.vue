@@ -1,14 +1,18 @@
 <template>
   <router-view></router-view>
+  <snack-bar></snack-bar>
 </template>
 
 <script>
 import axios from "axios";
 import CheckOut from "./views/common/CheckOut.vue";
 import backend_url from "./globals/globals";
+import SnackBar from "./ui/SnackBar.vue";
 export default {
-  components: { CheckOut },
+  components: { CheckOut, SnackBar },
   async created() {
+    console.log(this.$store.state.user.name);
+    console.log(localStorage.getItem("type") === "student");
     if (
       this.$store.state.user.name === "" &&
       localStorage.getItem("type") === "student"
@@ -27,7 +31,6 @@ export default {
       this.$store.state.user.name == "" &&
       localStorage.getItem("type") === "instructor"
     ) {
-      console.log("12321421542151253551353");
       try {
         await this.$store.dispatch("instructor/getInstructorProfileOnLoad");
 
@@ -56,7 +59,16 @@ export default {
 .m-2 {
   margin: 5px !important;
 }
-
+@media only screen and (max-width: 792px) {
+  .container {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+  .container-secondary {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+}
 .centered {
   height: 100vh;
   display: flex;

@@ -9,6 +9,7 @@ export default {
       searchResults: [],
       enrolledCourses: [],
       profile: {},
+      notes:[]
     };
   },
   mutations,

@@ -55,6 +55,12 @@
             title="Revenue"
             value="revenue"
           ></v-list-item>
+          <v-list-item
+          prepend-icon="mdi-exclamation"
+          @click="adminRoute('coursestatus')"
+          title="Course Status"
+          value="courseStatus"
+        ></v-list-item>
         </v-list>
       </v-navigation-drawer>
       <v-main></v-main>

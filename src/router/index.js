@@ -26,15 +26,20 @@ import AdminRevenue from "../views/admin/AdminRevenue";
 import AdminSignIn from "../views/admin/AdminSignIn";
 import AdminCourseStatus from "../views/admin/AdminCourseStatus";
 import Instructor from "../views/instructor/Instructor";
+import CoursePreview from "../views/common/CoursePreview";
 import store from "@/store";
 import App from "../App";
-
+import FourZeroFour from "../views/common/FourZeroFour"
+import Home from "../views/common/Home"
 const routes = [
   {
     path: "/",
-    redirect: "/signup/email/instructor",
+    redirect: "/home",
   },
-
+  {
+    path: "/home",
+    component: Home,
+  },
   /* ADMIN ROUTES */
 
   {
@@ -86,13 +91,19 @@ const routes = [
     path: "/instructor",
     component: Instructor,
     beforeEnter: async (to, from, next) => {
-      const instructorStatus = await store.dispatch("verifyToken");
-      console.log(instructorStatus);
-      if (instructorStatus.data === "registered") {
-        next();
-      } else if (instructorStatus.data === "pending") {
-        next("/otp");
-      } else {
+      try{
+        const instructorStatus = await store.dispatch("verifyToken", {
+          type: "instructor",
+        });
+        console.log(instructorStatus);
+        if (instructorStatus.data === "registered") {
+          next();
+        } else if (instructorStatus.data === "pending") {
+          next("/otp");
+        } else {
+          next("/signin/instructor");
+        }
+      }catch(error){
         next("/signin/instructor");
       }
     },
@@ -116,7 +127,7 @@ const routes = [
           if (verifyCourseOwnership) {
             next();
           } else {
-            next("404");
+            next(`coursepreview/${to.params.id}`);
           }
         },
       },
@@ -149,6 +160,10 @@ const routes = [
         path: "courseslist",
         component: InstructorCourseList,
       },
+      {
+        path: "coursepreview/:id",
+        component: CoursePreview,
+      },
     ],
   },
 
@@ -162,6 +177,22 @@ const routes = [
     path: "/signin/:id",
     name: "SignIn",
     component: SignInForm,
+    beforeEnter: async (to, from, next) => {
+      try {
+        const type = localStorage.getItem("type");
+        if (type === "student") {
+          next("/student/home");
+        } else if (type === "instructor") {
+          next("/instructor/home");
+        } else if (type === "admin") {
+          next("/admin/home");
+        } else {
+          next();
+        }
+      } catch (error) {
+        next("/signin/student");
+      }
+    },
   },
 
   /* Student Routes */
@@ -171,7 +202,9 @@ const routes = [
     component: Student,
     beforeEnter: async (to, from, next) => {
       try {
-        const studentStatus = await store.dispatch("verifyToken");
+        const studentStatus = await store.dispatch("verifyToken", {
+          type: "student",
+        });
         console.log(studentStatus);
 
         if (studentStatus.data === "registered") {
@@ -179,10 +212,12 @@ const routes = [
         } else if (studentStatus.data === "pending") {
           next("/otp");
         } else {
+          localStorage.clear();
           next("/signin/student");
         }
       } catch (error) {
-        console.log("llll");
+        console.log(error);
+        localStorage.clear();
         next("/signin/student");
       }
     },
@@ -226,6 +261,11 @@ const routes = [
     //   }
     // },
   },
+  {
+    // catch all 404 - define at the very end
+    path: "/:catchAll(.*)",
+    component: FourZeroFour
+  }
 ];
 
 const router = createRouter({

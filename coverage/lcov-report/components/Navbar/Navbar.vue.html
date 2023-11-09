@@ -1,64 +1,68 @@
+
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Code coverage report for components/Navbar/Navbar.vue</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
     <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style type="text/css">
-      .coverage-summary .sorter {
-        background-image: url(../../sort-arrow-sprite.png);
-      }
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
     </style>
-  </head>
-
-  <body>
-    <div class="wrapper">
-      <div class="pad1">
-        <h1>
-          <a href="../../index.html">All files</a> /
-          <a href="index.html">components/Navbar</a> Navbar.vue
-        </h1>
-        <div class="clearfix">
-          <div class="fl pad1y space-right2">
-            <span class="strong">86.95% </span>
-            <span class="quiet">Statements</span>
-            <span class="fraction">40/46</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">70% </span>
-            <span class="quiet">Branches</span>
-            <span class="fraction">7/10</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">70.58% </span>
-            <span class="quiet">Functions</span>
-            <span class="fraction">12/17</span>
-          </div>
-
-          <div class="fl pad1y space-right2">
-            <span class="strong">86.95% </span>
-            <span class="quiet">Lines</span>
-            <span class="fraction">40/46</span>
-          </div>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/Navbar</a> Navbar.vue</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">70% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>28/40</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">50% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>7/14</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">21.42% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>3/14</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">70% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>28/40</span>
+            </div>
+        
+            
         </div>
         <p class="quiet">
-          Press <em>n</em> or <em>j</em> to go to the next uncovered block,
-          <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
         <template id="filterTemplate">
-          <div class="quiet">
-            Filter:
-            <input oninput="onInput()" type="search" id="fileSearch" />
-          </div>
+            <div class="quiet">
+                Filter:
+                <input oninput="onInput()" type="search" id="fileSearch">
+            </div>
         </template>
-      </div>
-      <div class="status-line high"></div>
-      <pre><table class="coverage">
+    </div>
+    <div class='status-line medium'></div>
+    <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
 <a name='L3'></a><a href='#L3'>3</a>
@@ -225,31 +229,15 @@
 <a name='L164'></a><a href='#L164'>164</a>
 <a name='L165'></a><a href='#L165'>165</a>
 <a name='L166'></a><a href='#L166'>166</a>
-<a name='L167'></a><a href='#L167'>167</a>
-<a name='L168'></a><a href='#L168'>168</a>
-<a name='L169'></a><a href='#L169'>169</a>
-<a name='L170'></a><a href='#L170'>170</a>
-<a name='L171'></a><a href='#L171'>171</a>
-<a name='L172'></a><a href='#L172'>172</a>
-<a name='L173'></a><a href='#L173'>173</a>
-<a name='L174'></a><a href='#L174'>174</a>
-<a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a>
-<a name='L177'></a><a href='#L177'>177</a>
-<a name='L178'></a><a href='#L178'>178</a>
-<a name='L179'></a><a href='#L179'>179</a>
-<a name='L180'></a><a href='#L180'>180</a>
-<a name='L181'></a><a href='#L181'>181</a>
-<a name='L182'></a><a href='#L182'>182</a>
-<a name='L183'></a><a href='#L183'>183</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L167'></a><a href='#L167'>167</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -308,41 +296,45 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -352,47 +344,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -422,40 +385,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
-  &lt;v-card class="d-lg-none"&gt;
-    &lt;v-layout&gt;
-      &lt;!-- &lt;v-system-bar color="deep-purple darken-3"&gt;&lt;/v-system-bar&gt; --&gt;
-&nbsp;
-      &lt;v-app-bar prominent&gt;
-        &lt;v-app-bar-nav-icon
-          variant="text"
-          @click.stop="drawer = !drawer"
-        &gt;&lt;/v-app-bar-nav-icon&gt;
-&nbsp;
-        &lt;v-toolbar-title&gt;My files&lt;/v-toolbar-title&gt;
-&nbsp;
-        &lt;v-spacer&gt;&lt;/v-spacer&gt;
-&nbsp;
-        &lt;v-btn variant="text" icon="mdi-magnify"&gt;&lt;/v-btn&gt;
-&nbsp;
-        &lt;v-btn variant="text" icon="mdi-filter"&gt;&lt;/v-btn&gt;
-&nbsp;
-        &lt;v-btn variant="text" icon="mdi-dots-vertical"&gt;&lt;/v-btn&gt;
-      &lt;/v-app-bar&gt;
-&nbsp;
-      &lt;v-navigation-drawer v-model="drawer" location="bottom" temporary&gt;
-        &lt;v-list :items="items"&gt;&lt;/v-list&gt;
-      &lt;/v-navigation-drawer&gt;
-    &lt;/v-layout&gt;
-  &lt;/v-card&gt;
-&nbsp;
   &lt;nav class="d-none d-lg-block" style="box-shadow: 0px 0px 2px 1px #008080"&gt;
     &lt;div class="navbar-content container"&gt;
       &lt;h3 @click="redirectToHome" class="pointer"&gt;Udemy Clone&lt;/h3&gt;
-      &lt;ul&gt;
+      &lt;ul v-if="navtype===home"&gt;
         &lt;li&gt;
+          &lt;search&gt;&lt;/search&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;v-btn @click="()=&gt;$router.push('/instructor/signup')"&gt;Want To Teach?&lt;/v-btn&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;v-btn @click="()=&gt;$router.push('/student/signup')"&gt;Start Learning!&lt;/v-btn&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;ul v-else&gt;
+        &lt;li v-if="$store.state.user.type === 'student'"&gt;
           &lt;search&gt;&lt;/search&gt;
         &lt;/li&gt;
 &nbsp;
@@ -473,7 +429,6 @@
             style="background-color: #008080; color: white"
             icon="mdi-school"
             size="x-small"
-     
             v-bind="props"
             @click="redirectToAllCourses"
           &gt;&lt;/v-btn&gt;
@@ -541,7 +496,7 @@ ul {
 }
 &nbsp;
 .nav-profile {
-  padding: 10%;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+  padding: 10%;
   font-size: 12px;
 }
 &lt;/style&gt;
@@ -550,11 +505,12 @@ ul {
 import Search from "../../ui/Search.vue";
 &nbsp;
 export default {
+  props:["navtype"],
   components: {
     Search,
   },
-  data: () =&gt; ({
-    drawer: false,
+  data: () =&gt; ({<span class="fstat-no" title="function not covered" ></span>
+    dr<span class="cstat-no" title="statement not covered" >awer: false,</span>
     group: null,
   }),
 &nbsp;
@@ -563,20 +519,20 @@ export default {
       this.$router.push("/instructor/course/add");
     },
     redirectToAllCourses() {
-      this.$router.push("/instructor/courseslist");
+      this.$router.push("/instructor/co<span class="fstat-no" title="function not covered" >ur</span>sesl<span class="cstat-no" title="statement not covered" >ist");</span>
     },
     async logout() {
       await this.$store.dispatch("common/logout", this.$router);
-    },
+    },<span class="branch-1 cbranch-no" title="branch not covered" ></span>
     async redirect(title) {
       if (title === "Logout") {
         await this.logout();
       } else {
-        this.$router.push(<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >          `/${this.$store.state.user.type}/${title</span>
+        this.$router.push(
+          `/${this.$store.state.user.type}/${title
             .split(" ")
             .join("")
-            .toLowerCase()}`,<span class="branch-0 cbranch-no" title="branch not covered" ></span>
+            .toLowerCase()}`,
         );
       }
     },
@@ -585,49 +541,43 @@ export default {
     },
   },
 &nbsp;
-  computed: {
+  computed: {<span class="fstat-no" title="function not covered" ></span>
     account() {
       const baseAccount = [{ title: "Profile" }, { title: "Logout" }];
-&nbsp;
-      if (this.$store.state.user.type === "student") {
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      if (this.$store.state.user.type === "student") {</span>
         baseAccount.splice(1, 0, {
           title: "Enrolled Courses",
         });
       }
-      return baseAccount;<span class="fstat-no" title="function not covered" ></span>
+      return baseAccount;
     },
   },
-<span class="cstat-no" title="statement not covered" ></span>
-  watc<span class="cstat-no" title="statement not covered" >h: {</span>
-    group() {
-      this.drawer = false;
+&nbsp;
+  watch: {
+    group() {<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+      this.drawer = false;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
     },
   },
-};
+};<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
 &lt;/script&gt;
 &nbsp;</pre></td></tr></table></pre>
 
-      <div class="push"></div>
-      <!-- for sticky footer -->
-    </div>
-    <!-- /wrapper -->
-    <div class="footer quiet pad2 space-top1 center small">
-      Code coverage generated by
-      <a
-        href="https://istanbul.js.org/"
-        target="_blank"
-        rel="noopener noreferrer"
-        >istanbul</a
-      >
-      at 2023-11-07T12:53:40.714Z
-    </div>
-    <script src="../../prettify.js"></script>
-    <script>
-      window.onload = function () {
-        prettyPrint();
-      };
-    </script>
-    <script src="../../sorter.js"></script>
-    <script src="../../block-navigation.js"></script>
-  </body>
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2023-11-09T04:58:37.423Z
+            </div>
+        <script src="../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
+    </body>
 </html>
+    

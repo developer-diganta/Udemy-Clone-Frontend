@@ -9,6 +9,7 @@
     oncontextmenu="return false;"
     muted
     @error="handleVideoError"
+    style="border:1px solid black"
   >
     <source :src="videoUrl" type="video/mp4" />
     Your browser does not support the video tag.

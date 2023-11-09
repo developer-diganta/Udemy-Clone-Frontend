@@ -1,6 +1,7 @@
 <template>
   <div>
-    <p class="text-h2 font-weight-black">{{ text }}</p>
+    <p class="d-none d-lg-block text-h2 font-weight-black">{{ text }}</p>
+    <h1 class="d-lg-none font-weight-black">{{ text }}</h1>
     <p class="text-body">{{ subtext }}</p>
   </div>
 </template>

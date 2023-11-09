@@ -44,7 +44,7 @@ export default {
     credentialsMatch: false,
     credentialsMismatch: false,
     errorMessage: "",
-    emailRules: [],
+    emailRules: [emailValidation],
   }),
   computed: {
     endPoint() {
@@ -56,8 +56,12 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handle form submission for signing in.
+     *
+     * @param {Event} e - The form submission event.
+     */
     async signInSubmit(e) {
-      console.log(this.email);
       try {
         const res = await this.$store.dispatch("user/signInSubmit", {
           email: this.email,
@@ -67,11 +71,9 @@ export default {
         });
         this.credentialsMismatch = false;
         this.credentialsMatch = true;
-        console.log(this.type);
         if (res === "otp") this.$router.push("/otp");
         else this.$router.push(`/${this.type}/home`);
       } catch (error) {
-        console.log(error);
         this.errorMessage = error;
         this.credentialsMismatch = true;
         this.credentialsMatch = false;

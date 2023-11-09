@@ -1,11 +1,15 @@
 <template>
   <v-sheet class="d-flex justify-center flex-column align-center mt-6">
     <v-card
-      class="d-flex justify-center flex-column align-center p-3"
-      style="width: 40%; padding: 20px"
+      class="d-flex justify-center flex-column align-center p-3 prof-card"
     >
       <h3>Your Profile</h3>
-      <v-form class="form-width" @submit.prevent="submitForm" density="compact">
+      <v-form
+        class="form-width"
+        @submit.prevent="submitForm"
+        @input="formEdited = true"
+        density="compact"
+      >
         <v-text-field
           v-model="name"
           :rules="rules"
@@ -17,6 +21,7 @@
           :rules="rules"
           density="compact"
           label="email"
+          readonly="readonly"
         ></v-text-field>
         <v-btn
           type="submit"
@@ -24,6 +29,7 @@
           class="mt-2"
           color="primaryTheme"
           style="width: 10%"
+          :disabled="!formEdited"
           >Submit</v-btn
         >
       </v-form>
@@ -38,6 +44,7 @@ export default {
     return {
       name: "",
       email: "",
+      formEdited: false,
     };
   },
   methods: {
@@ -50,6 +57,11 @@ export default {
         "student/updateStudentProfile",
         updatedProfile,
       );
+      this.formEdited = false;
+      this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Profile Updated",
+        type: "Success",
+      });
     },
 
     async getStudentProfile() {
@@ -64,16 +76,29 @@ export default {
   },
   watch: {
     name() {
-      console.log(this.name);
+      this.formEdited = true;
     },
   },
   async created() {
     await this.getStudentProfile();
+    this.formEdited = false;
   },
 };
 </script>
 <style scoped>
 .form-width {
   width: 60%;
+}
+.prof-card {
+  width: 40%;
+  padding: 20px;
+}
+@media only screen and (max-width: 792px) {
+  .form-width {
+    width: 100%;
+  }
+  .prof-card {
+    width: 100%;
+  }
 }
 </style>

@@ -259,11 +259,15 @@ export default {
           courseId: this.courseID,
         });
         this.loading = false;
-        this.snackbar = true;
-        this.toggleSnackbar = !this.toggleSnackbar;
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "Course Updated",
+          type: "Success",
+        });
       } catch (error) {
-        console.log("SAVE ME FROM ERROR");
-        alert("ERROR");
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "There was some error",
+          type: "Error",
+        });
       }
     },
     redirectAddLessons() {

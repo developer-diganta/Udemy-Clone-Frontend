@@ -27,21 +27,13 @@
         label="Password"
       ></v-text-field>
 
-      <!-- <v-textarea label="Bio" rows="2" class="input"></v-textarea>
-  
-        <v-file-input
-          label="Profile Image"
-          chips
-          accept="image/*"
-          class="input"
-        ></v-file-input> -->
-
       <div>
         <v-btn class="me-4" type="submit"> submit </v-btn>
         <v-btn @click="handleReset"> clear </v-btn>
       </div>
     </form>
   </div>
+  <div class="text-center mt-5">Already A User? <span style="color:coral" @click="()=>$router.push('/signin/student')">Sign In</span></div>
 </template>
 <script setup>
 import { ref } from "vue";
@@ -106,7 +98,17 @@ const submit = async () => {
 
     router.push("/otp");
   } catch (error) {
-    console.log(error);
+    if (error.message === "11000") {
+      store.dispatch("snackbar/showSnackbar", {
+        message: "Instructor Already Exists. Please sign in",
+        type: "Error",
+      });
+    } else {
+      store.dispatch("snackbar/showSnackbar", {
+        message: "There was some error",
+        type: "Error",
+      });
+    }
   }
 };
 </script>

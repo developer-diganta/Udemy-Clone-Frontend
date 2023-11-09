@@ -8,6 +8,7 @@
       <v-col
         cols="12"
         md="4"
+        class="d-flex justify-center"
         v-for="(course, index) in enrolledCourses"
         :key="index"
       >
