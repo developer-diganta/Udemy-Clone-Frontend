@@ -4,7 +4,12 @@
   </div>
   <div class="container">
     <v-divider></v-divider>
-    <v-row class="mt-10">
+    <div style="text-align:center"  v-if="!enrolledCourses.length">
+      <v-img :src="require('../../assets/no-data.svg')" width="200" class="mx-auto mt-5 mb-5"></v-img>
+    <h3>Please Enroll in your first course!</h3>
+    <v-btn color="primaryTheme" @click="$router.push('search?searchQuery=')">Check Out the courses</v-btn>
+  </div>
+    <v-row class="mt-10" v-else>
       <v-col
         cols="12"
         md="4"

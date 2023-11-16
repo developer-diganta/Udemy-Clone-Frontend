@@ -5,7 +5,7 @@
       style="height: 30px; width: 30px"
     />
     <div class="text-left ml-5">
-      <h4 class="text-left" data-value="reviewer">{{ review.reviewer }}</h4>
+      <h4 class="text-left" data-value="reviewer">{{ name }}</h4>
       <div class="text-left mt-2">
         <v-rating
           readonly
@@ -26,13 +26,25 @@
 </template>
 <script>
 import moment from "moment";
+import axios from 'axios';
+import backend_url from '@/globals/globals';
 export default {
   props: ["review"],
   data() {
     return {
       moment,
+      name:""
     };
   },
+  methods:{
+    async getName(){
+      const res = await axios.get(`${backend_url}/student/name?id=${this.review.reviewer}`)
+      return res.data
+    }
+  },
+  async created(){
+    this.name=await this.getName();
+  }
 };
 </script>
 <style></style>

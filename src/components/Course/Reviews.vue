@@ -112,6 +112,10 @@ export default {
           courseId: this.$route.query.courseId,
         });
         this.$emit("review-submitted", this.selfReview);
+        this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Review Added",
+        type: "Success",
+      });
       } catch (error) {
         console.log(error);
       }

@@ -31,14 +31,33 @@ import store from "@/store";
 import App from "../App";
 import FourZeroFour from "../views/common/FourZeroFour"
 import Home from "../views/common/Home"
+import backend_url from "@/globals/globals";
+import axios from "axios";
 const routes = [
   {
     path: "/",
     redirect: "/home",
+
   },
   {
     path: "/home",
     component: Home,
+    beforeEnter: async (to, from, next) => {
+      try {
+        const type = localStorage.getItem("type");
+        if (type === "student") {
+          next("/student/home");
+        } else if (type === "instructor") {
+          next("/instructor/home");
+        } else if (type === "admin") {
+          next("/admin/home");
+        } else {
+          next();
+        }
+      } catch (error) {
+        next("/signin/student");
+      }
+    },
   },
   /* ADMIN ROUTES */
 
@@ -226,6 +245,24 @@ const routes = [
         path: "enroll/:id",
         name: "StudentEnroll",
         component: StudentEnrollPage,
+        beforeEnter: async (to, from, next) => {
+          try {
+            const check = await axios.post(`${backend_url}/student/checkifenrolled`,{
+              email: store.state.user.email,
+              token: store.state.user.token,
+              _id: store.state.user._id,
+              courseId:to.params.id,
+            })
+            if(!check.data.enrolled){
+              next()
+            }else{
+              next(`learn?courseId=${to.params.id}`)
+            }
+          } catch (error) {
+
+            // next("/signin/student");
+          }
+        }
       },
       {
         path: "home",

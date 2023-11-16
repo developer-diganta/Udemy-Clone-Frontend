@@ -74,6 +74,7 @@ export default {
       commit("setUserType", res.data.type);
       commit("setUserToken", res.data.token);
       commit("setUserEmail", res.data.email);
+      
       console.log(res);
       if (res.data.status === "pending") {
         console.log("HERE");

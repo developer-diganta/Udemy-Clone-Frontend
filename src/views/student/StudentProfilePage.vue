@@ -15,6 +15,7 @@
           :rules="rules"
           density="compact"
           label="Name"
+          :readonly="!edit"
         ></v-text-field>
         <v-text-field
           v-model="email"
@@ -24,12 +25,23 @@
           readonly="readonly"
         ></v-text-field>
         <v-btn
+        type="button"
+        block
+        class="mt-2"
+        color="primaryTheme"
+        style="width: 10%"
+        v-if="!edit"
+        @click="edit=true"
+        >Edit Profile</v-btn
+      >
+        <v-btn
           type="submit"
           block
           class="mt-2"
           color="primaryTheme"
           style="width: 10%"
           :disabled="!formEdited"
+          v-if="edit"
           >Submit</v-btn
         >
       </v-form>
@@ -45,6 +57,7 @@ export default {
       name: "",
       email: "",
       formEdited: false,
+      edit:false
     };
   },
   methods: {
@@ -102,3 +115,4 @@ export default {
   }
 }
 </style>
+

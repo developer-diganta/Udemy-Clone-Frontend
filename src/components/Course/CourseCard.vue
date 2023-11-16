@@ -26,6 +26,9 @@
     <v-card-text style="margin-top: -15px"
       >{{ course.enrollments }} learners</v-card-text
     >
+    <v-card-text style="margin-top: -15px"
+    >₹ {{ course.price }} </v-card-text
+  >
     <v-card-actions style="margin-top: -15px">
       <v-btn
         v-if="type === 'all'"
@@ -33,7 +36,7 @@
         variant="tonal"
         @click="enroll"
       >
-        Enroll
+        Check Course
       </v-btn>
 
       <v-btn

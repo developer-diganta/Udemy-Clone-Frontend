@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <v-sheet
       elevation="12"
       max-width="600"
@@ -38,7 +40,7 @@
     </v-sheet>
     <v-row class="container-secondary mt-4">
       <v-col cols="12" md="9">
-        <div id="video-area">
+        <div id="video-area" v-if="!courseComplete">
           <video-player
             @video-ended="handleVideoEnded"
             :currentVideo="currentVideo?.videoLink"
@@ -53,6 +55,12 @@
             ></v-progress-circular>
             <p>Loading Next Video In {{ timeToNextVideo }}</p>
           </div>
+        </div>
+        <div v-else>
+          <v-card class="d-flex justify-center align-center flex-column">
+            <v-img :src="require('../../assets/complete.svg')" width="300"></v-img>
+            <v-card-title>Course Completed!</v-card-title>
+          </v-card>
         </div>
 
         <v-card class="tab-wrapper rounded-0">
@@ -280,7 +288,10 @@ export default {
       page: 1,
       questionAnswers: [],
       courseContentsCompleted: [],
-      notes:[]
+      notes:[],
+      courseComplete:false,
+      dialog:false,
+      dialogActive:false
     };
   },
   methods: {
@@ -292,7 +303,7 @@ export default {
      * Reload the course details.
      */
     async reloadCourse() {
-      this.getCourse(course._id);
+      this.getCourse(this.course._id);
     },
 
     /**
@@ -343,6 +354,9 @@ export default {
     loadNewLecture(index, i) {
       this.selectedI = i;
       this.selectedIndex = index;
+      if(this.courseComplete){
+        this.courseComplete=false;
+      }
       if (i >= this.course.lessons[index].videos.length) {
         this.selectedIndex = index = index + 1;
         this.selectedI = i = 0;
@@ -358,17 +372,27 @@ export default {
       this.courseContentsCompleted.push(
         this.selectedIndex + "," + this.selectedI,
       );
-
-      this.interval = setInterval(() => {
-        if (this.timeToNextVideo === 0) {
-          clearInterval(this.interval);
-          this.timeToNextVideo = 5;
-          this.videoEnded = false;
-          this.loadNewLecture(this.selectedIndex, this.selectedI + 1);
-          return;
+      if(this.selectedIndex+1>=this.course.lessons.length){
+        this.courseComplete=true;
+        if(!this.dialogActive){
+          this.dialog=true;
+          this.dialogActive=true;
         }
-        this.timeToNextVideo -= 1;
-      }, 1000);
+        return;
+      }
+      if(!this.courseComplete){
+
+        this.interval = setInterval(() => {
+          if (this.timeToNextVideo === 0) {
+            clearInterval(this.interval);
+            this.timeToNextVideo = 5;
+            this.videoEnded = false;
+            this.loadNewLecture(this.selectedIndex, this.selectedI + 1);
+            return;
+          }
+          this.timeToNextVideo -= 1;
+        }, 1000);
+      }
       if (localStorage.getItem("type") === "student") {
         const res = await this.$store.dispatch("updateCompletionStatus", {
           section: this.selectedIndex,
@@ -380,21 +404,29 @@ export default {
   },
 
   async created() {
-    await this.getCourse();
-    const student = this.$store.state.student.profile;
-    const completionStatus = student.enrolled;
-    const courseStatus = completionStatus.filter(
-      (status) => status.id === this.course._id,
-    );
-    this.courseContentsCompleted = courseStatus[0]?.progress.map(
-      (p) => `${p.section},${p.videoNumber}`,
-    ) || [""];
+    try{
+      await this.getCourse();
+      const student = this.$store.state.student.profile;
+      const completionStatus = student.enrolled;
+      const courseStatus = completionStatus?.filter(
+        (status) => status.id === this.course._id,
+      );
+      this.courseContentsCompleted = courseStatus[0]?.progress.map(
+        (p) => `${p.section},${p.videoNumber}`,
+      ) || [""];
+  
+      this.instructor = this.course.instructor;
+      if (this.$route.query.payment === "success") {
+        this.successMessage = true;
+      }
+      await this.getNotes();
 
-    this.instructor = this.course.instructor;
-    if (this.$route.query.payment === "success") {
-      this.successMessage = true;
+    }catch(error){
+      this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Oops! Something went wrong. Please reload or wait for some time",
+        type: "Error",
+      });
     }
-    await this.getNotes();
   },
 };
 </script>

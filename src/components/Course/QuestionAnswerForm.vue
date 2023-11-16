@@ -36,6 +36,10 @@ export default {
       });
       this.title = this.description = "";
       this.$emit("question-submitted");
+      this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Question Submitted",
+        type: "Success",
+      });
     },
   },
 };

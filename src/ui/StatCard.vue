@@ -5,13 +5,39 @@
     </template>
     <v-divider></v-divider>
     <ul v-for="(stat, index) in stats" :key="index">
-      <li @click="viewCourse(stat._id)">
+      <li >
         <img
-          src="https://businance.com/wp-content/uploads/2019/12/2378649-775x400.jpg"
+          :src="stat.thumbnail"
           alt=""
           class="icon-trending"
         />
         <p class="trending-course-list">{{ stat.title }}</p>
+        <v-btn
+        prepend-icon="mdi-eye"
+        @click="viewCourse(stat._id)"
+        class="ml-2"
+        color="secondaryCoral"
+      >
+        <template v-slot:prepend>
+          <v-icon color="white"></v-icon>
+        </template>
+  
+        View
+
+      </v-btn>
+      <v-btn
+      prepend-icon="mdi-pencil"
+      color="secondaryCoral"
+      class="ml-2"
+      v-if="stat.instructor===$store.state.user._id"
+      @click="editCourse(stat._id)"
+    >
+      <template v-slot:prepend>
+        <v-icon color="white"></v-icon>
+      </template>
+
+      Edit
+    </v-btn>
       </li>
       <v-divider></v-divider>
     </ul>
@@ -21,12 +47,16 @@
 export default {
   props: ["stats", "title"],
   mounted() {
-    console.log(this.stats);
+    console.log(this.stats[0]);
+    // console.log(this.$store.state.user._id)
   },
   methods: {
     viewCourse(courseId) {
-      this.$router.push(`/instructor/course/view/${courseId}`);
+      this.$router.push(`/instructor/coursepreview/${courseId}`);
     },
+    editCourse(courseId){
+      this.$router.push(`/instructor/course/view/${courseId}`)
+    }
   },
 };
 </script>
@@ -34,9 +64,7 @@ export default {
 .trending-course-list {
   padding: 13px;
 }
-li:hover {
-  background: #0ae1e1;
-}
+
 .icon-trending {
   height: 30px;
   width: 30px;

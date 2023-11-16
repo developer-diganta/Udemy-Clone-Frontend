@@ -48,7 +48,7 @@
         <v-spacer></v-spacer>
         <v-btn
           color="green-darken-1"
-          variant="text"
+          variant="tonal"
           @click="openReplies = !openReplies"
         >
           <span v-if="!openReplies" data-value="view-replies"
@@ -58,7 +58,7 @@
         </v-btn>
         <v-btn
           color="green-darken-1"
-          variant="text"
+          variant="tonal"
           @click="answerFormActivated = true"
           v-if="answerFormActivated === false"
         >
@@ -98,6 +98,10 @@ export default {
       console.log("UPDATE", res.data);
       this.$emit("qa-reloaded", res.data.questionAnswers);
       this.answerFormActivated = false;
+      this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Answer Submitted",
+        type: "Success",
+      });
     },
     getPeriod(time) {
       return moment(time).fromNow();
@@ -109,7 +113,7 @@ export default {
     },
   },
   computed: {},
-};
+};                                
 </script>
 <style>
 .qa {
@@ -117,7 +121,5 @@ export default {
   border-radius: 10px;
   cursor: pointer;
 }
-.qa:hover {
-  background-color: rgb(224, 224, 224);
-}
+
 </style>
