@@ -30,7 +30,5 @@ describe("Navbar.vue", () => {
 
     // Check if the navbar items are displayed correctly
     expect(wrapper.find('[class="pointer"').text()).toBe("Udemy Clone");
-
-
   });
 });

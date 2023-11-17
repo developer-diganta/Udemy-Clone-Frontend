@@ -66,9 +66,9 @@ export default {
   display: flex;
   justify-content: space-evenly;
 }
-@media only screen and (max-width:792px){
-  #course-stats{
-    flex-direction:column
+@media only screen and (max-width: 792px) {
+  #course-stats {
+    flex-direction: column;
   }
 }
 </style>

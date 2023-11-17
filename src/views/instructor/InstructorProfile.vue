@@ -23,6 +23,9 @@
           :rules="rules"
           density="compact"
           label="Name"
+          variant="outlined"
+          prepend-inner-icon="mdi-account"
+          :readonly="!edit"
         ></v-text-field>
         <!-- Textarea for the instructor's bio -->
         <v-textarea
@@ -30,24 +33,53 @@
           v-model="bio"
           rows="2"
           class="input"
+          variant="outlined"
+          prepend-inner-icon="mdi-account-details"
+          :readonly="!edit"
         ></v-textarea>
-        <!-- Image field for the instructor's profile picture -->
-        <v-img
-          :width="300"
-          aspect-ratio="16/9"
-          cover
-          :src="profileImage"
-        ></v-img>
+
         <!-- File input for updating the instructor's profile picture -->
         <v-file-input
           label="Profile Image"
           chips
           accept="image/*"
           class="input"
+          variant="outlined"
           @change="handleFileChange($event)"
+          v-if="edit"
         ></v-file-input>
+        <v-dialog width="500">
+          <template v-slot:activator="{ props }">
+            <v-btn class="mb-8" color="primaryTheme" v-bind="props" text="Preview Image"> </v-btn>
+          </template>
+
+          <template v-slot:default="{ isActive }">
+            <v-card>
+              <v-card-text>
+                <!-- Image field for the instructor's profile picture -->
+                <v-img
+                  :width="300"
+                  aspect-ratio="16/9"
+                  cover
+                  :src="profileImage"
+                ></v-img>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+
+                <v-btn
+                  variant="tonal"
+                  text="Close Image"
+                  @click="isActive.value = false"
+                ></v-btn>
+              </v-card-actions>
+            </v-card>
+          </template>
+        </v-dialog>
         <!-- Section for managing social links -->
-        <h4>Your Social Links</h4>
+        <h4 class="mb-3">Your Social Links</h4>
+        <div v-if="!socialLinks.length">No Links Added</div>
         <!-- Loop through existing social links -->
         <v-row v-for="(social, index) in socialLinks" :key="index">
           <!-- Text field for social link name -->
@@ -55,6 +87,11 @@
             <v-text-field
               v-model="social.name"
               density="compact"
+              variant="outlined"
+              label="Name"
+              :readonly="!edit"
+              prepend-inner-icon="mdi-web"
+
             ></v-text-field>
           </v-col>
           <!-- Spacer column -->
@@ -62,18 +99,28 @@
           <!-- Text field for social link URL -->
           <v-col cols="12" sm="7">
             <v-text-field
+            
               v-model="social.link"
               density="compact"
+              variant="outlined"
+              label="link"
+              :readonly="!edit"
+              prepend-inner-icon="mdi-link"
+
             ></v-text-field>
           </v-col>
         </v-row>
         <!-- Section for adding new social links -->
-        <v-row>
+        <v-row v-if="edit">
           <!-- Text field for new social link name -->
           <v-col cols="12" sm="4">
             <v-text-field
               v-model="newSocialName"
               density="compact"
+              variant="outlined"
+              label="Name"
+              prepend-inner-icon="mdi-web"
+
             ></v-text-field>
           </v-col>
           <!-- Spacer column -->
@@ -86,15 +133,29 @@
                 <v-text-field
                   density="compact"
                   v-model="newSocialLink"
+                  variant="outlined"
+                  label="link"
+                  prepend-inner-icon="mdi-link"
+
                 ></v-text-field>
               </v-col>
               <!-- Add button for new social link -->
               <v-col cols="12" sm="1">
-                <v-btn icon="$plus" @click="addSocial"></v-btn>
+                <v-btn @click="addSocial" color="primaryTheme" class="p-2 mt-1" style='padding:5px'>Add</v-btn>
               </v-col>
             </v-row>
           </v-col>
         </v-row>
+        <v-btn
+        type="button"
+        block
+        class="mt-2"
+        color="primaryTheme"
+        style="width: 10%"
+        v-if="!edit"
+        @click="edit = true"
+        >Edit Profile</v-btn
+      >
         <!-- Submit button for updating the profile -->
         <v-btn
           type="submit"
@@ -102,6 +163,7 @@
           class="mt-2"
           color="primaryTheme"
           style="width: 10%"
+          v-if="edit"
           :disabled="!formEdited"
         >
           Submit
@@ -129,6 +191,7 @@ export default {
       // New social link data
       newSocialName: "",
       newSocialLink: "",
+      edit: false,
     };
   },
   methods: {
@@ -178,7 +241,7 @@ export default {
         message: "Profile Updated",
         type: "Success",
       });
-
+      this.edit=false
       // Reset formEdited state
     },
     // Function to handle file change and update profile image

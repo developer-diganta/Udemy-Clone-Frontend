@@ -11,7 +11,7 @@ export default {
       const res = await axios.get(
         `${backend_url}/courses?limit=10&sortBy=enrollments&sortOrder=-1`,
       );
-      console.log(res.data)
+      console.log(res.data);
 
       commit("setTrendingCourses", res.data);
     } catch (error) {
@@ -40,7 +40,7 @@ export default {
         },
       );
       localStorage.clear();
-      commit("user/clear",{root:true});
+      commit("user/clear", { root: true });
       router.push("/");
     } catch (error) {
       console.log(error);

@@ -62,11 +62,7 @@ describe("StudentEnrolledCourses.vue", () => {
 
     fetchEnrolledCourses.mockResolvedValue({ data: enrolledCoursesData });
 
-
-
     const courseCards = wrapper.findAllComponents({ name: "course-card" });
-    expect(courseCards).toHaveLength(enrolledCoursesData.length-2);
-
- 
+    expect(courseCards).toHaveLength(enrolledCoursesData.length - 2);
   });
 });

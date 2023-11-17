@@ -1,6 +1,6 @@
 <template>
   <admin-navbar></admin-navbar>
-  <div style="margin-left: 60px">
+  <div style="margin-left: 210px">
     <h3 class="mt-3 text-center">Admin Dashboard</h3>
     <router-view></router-view>
   </div>

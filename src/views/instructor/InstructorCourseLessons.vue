@@ -1,5 +1,6 @@
 <template>
   <h3 class="text-center">{{ course.title }} (Edit Mode: Instructor)</h3>
+
   <v-row style="padding: 30px; max-height: 80vh">
     <v-col cols="12" md="8" justify-center d-flex>
       <div v-if="currentVideo" :key="course">
@@ -72,6 +73,8 @@
             density="compact"
             class="input"
             background-color="red"
+            variant="outlined"
+            prepend-inner-icon="mdi-format-title"
           ></v-text-field>
 
           <v-file-input
@@ -108,21 +111,21 @@
           ></v-select>
 
           <v-select
-            label="Select"
+            label="Section"
             v-model="sectionSelect"
             v-if="typeOfUpload === 'section'"
             :items="sectionsList.map((section) => section)"
             item-title="title"
             variant="outlined"
             return-object
-            @change.prevent="handleVideoSelection"
+            @change.prevent="showRadios = true"
           ></v-select>
-
-          <v-radio-group class="d-flex" v-model="materialPosition" inline>
-            <v-radio label="Before" value="before"></v-radio>
-            <v-radio label="After" value="after"></v-radio>
-          </v-radio-group>
-
+          <div v-if="showRadios">
+            <v-radio-group class="d-flex" v-model="materialPosition" inline>
+              <v-radio label="Before" value="before"></v-radio>
+              <v-radio label="After" value="after"></v-radio>
+            </v-radio-group>
+          </div>
           <v-btn type="submit" color="primaryTheme" block class="mt-2 mb-2"
             >Submit</v-btn
           >
@@ -217,8 +220,9 @@ export default {
       videosList: [],
       sectionsList: [],
       select: "",
-      materialPosition: "after",
-      lectureSection: "",
+      materialPosition: null,
+      lectureSection: null,
+      showRadios: true,
       firstNameRules: [
         (value) => {
           if (value?.length > 3) return true;
@@ -244,6 +248,9 @@ export default {
       this.select = "";
       this.lecture = "";
       this.sectionSelect = "";
+    },
+    handleVideoSelection() {
+      this.showRadios = true;
     },
     async publish() {
       await this.$store.dispatch("instructor/publishCourse", this.courseID);
@@ -294,6 +301,7 @@ export default {
         message: "Section Uploaded",
         type: "Success",
       });
+      this.materialPosition = null;
     },
     setAddMaterialActivated(index, i) {
       console.log(index, i);
@@ -372,6 +380,7 @@ export default {
           message: "Video Uploaded",
           type: "Success",
         });
+        this.materialPosition = null;
       } catch (error) {
         this.alertFailure = true;
         this.failureMessage = error;

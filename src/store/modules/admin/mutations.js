@@ -58,4 +58,13 @@ export default {
   setAllCourses(state, courses) {
     state.allCourses = courses;
   },
+
+  logout(state){
+    state.allCourses= [];
+    state.allStudents= [];
+    state.allInstructors= [];
+    state.revenue= [];
+    state.instructorName= "";
+    state.courseStatus= {};
+  }
 };

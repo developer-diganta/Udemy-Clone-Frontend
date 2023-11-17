@@ -9,7 +9,7 @@
     oncontextmenu="return false;"
     muted
     @error="handleVideoError"
-    style="border:1px solid black"
+    style="border: 1px solid black"
   >
     <source :src="videoUrl" type="video/mp4" />
     Your browser does not support the video tag.
@@ -37,13 +37,20 @@ export default {
         mute: true,
         playbackRates: [0.5, 1, 1.5, 2],
       };
-      this.player = videojs(this.$refs.videoPlayer, options);
+      try {
+        this.player = videojs(this.$refs.videoPlayer, options);
+      } catch (error) {
+        alert("WW");
+      }
     },
     handleVideoEnd() {
       this.$emit("video-ended");
     },
     handleVideoError() {
-      alert("Video source error");
+      this.$store.dispatch("snackbar/showSnackbar", {
+        message: "Video Source Error/Video Not present",
+        type: "Error",
+      });
     },
   },
   computed: {
@@ -53,16 +60,23 @@ export default {
   },
   watch: {
     currentVideo: function (newVideo) {
-      console.log(newVideo);
-      if (this.player) {
-        console.log("http://localhost:3000/api/instructor/videos/" + newVideo);
-        this.player.src({
-          src: "http://localhost:3000/api/instructor/videos/" + newVideo,
-          type: "video/mp4",
-        });
+      try {
+        console.log(newVideo);
+        if (this.player) {
+          console.log(
+            "http://localhost:3000/api/instructor/videos/" + newVideo,
+          );
+          this.player.src({
+            src: "http://localhost:3000/api/instructor/videos/" + newVideo,
+            type: "video/mp4",
+          });
 
-        this.player.load();
-        this.player.play();
+          this.player.load();
+          this.player.play();
+        }
+        this.player = videojs(this.$refs.videoPlayer, options);
+      } catch (error) {
+        console.log("Error");
       }
     },
   },

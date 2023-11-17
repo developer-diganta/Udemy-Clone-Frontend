@@ -12,20 +12,50 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="4">
-            <v-img
+            <!-- <v-img
               :width="370"
               aspect-ratio="16/9"
               cover
               style="margin-bottom: 10px"
               :src="thumbnail"
-            ></v-img>
+            ></v-img> -->
             <v-file-input
               show-size
               counter
               multiple
               label="Thumbnail"
               @change="changeThumbnail($event)"
+              variant="outlined"
             ></v-file-input>
+            <v-dialog width="500">
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" text="Preview Image"> </v-btn>
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <v-card>
+                  <v-card-text>
+                    <v-img
+                      :width="370"
+                      aspect-ratio="16/9"
+                      cover
+                      style="margin-bottom: 10px"
+                      :src="thumbnail"
+                    ></v-img>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn
+                      variant="tonal"
+                      text="Close Image"
+                      @click="isActive.value = false"
+                    ></v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
           </v-col>
 
           <v-col cols="12" md="8" style="margin-top: 10px">
@@ -34,6 +64,8 @@
                 v-model="description"
                 rows="2"
                 label="Description"
+                variant="outlined"
+                prepend-inner-icon="mdi-text"
               ></v-textarea>
             </v-row>
             <v-row>
@@ -43,11 +75,13 @@
                 label="Title"
                 required
                 hide-details
+                variant="outlined"
+                prepend-inner-icon="mdi-format-title"
               ></v-text-field>
             </v-row>
           </v-col>
 
-          <v-divider style="margin-bottom: 30px"></v-divider>
+          <v-divider style="margin-bottom: 30px; margin-top: 30px"></v-divider>
 
           <v-col cols="12" md="4">
             <v-row>
@@ -57,6 +91,8 @@
                 :rules="titleRules"
                 label="Price"
                 density="compact"
+                variant="outlined"
+                prepend-inner-icon="mdi-currency-inr"
               ></v-text-field>
             </v-row>
 
@@ -67,6 +103,8 @@
                 :rules="discountRules"
                 label="Discount"
                 density="compact"
+                variant="outlined"
+                prepend-inner-icon="mdi-percent"
               ></v-text-field>
             </v-row>
           </v-col>
@@ -95,6 +133,8 @@
               v-model="newCategory"
               label="Add Category"
               density="compact"
+              variant="outlined"
+              prepend-inner-icon="mdi-cards"
             >
               <template v-if="newCategory.length" v-slot:append>
                 <v-icon @click.prevent="addCategory" color="primaryTheme">
@@ -114,11 +154,15 @@
               v-model="requirements[index]"
               :rules="titleRules"
               density="compact"
+              variant="outlined"
+              :label="'Requirement:' + (parseInt(index) + 1)"
             ></v-text-field>
             <v-text-field
               v-model="newRequirement"
               label="Add Requirement"
               density="compact"
+              variant="outlined"
+              prepend-inner-icon="mdi-exclamation-thick"
             >
               <template v-if="newRequirement.length" v-slot:append>
                 <v-icon @click.prevent="addRequirement" color="primaryTheme">
@@ -137,11 +181,15 @@
               v-model="courseMaterials[index].name"
               :rules="titleRules"
               density="compact"
+              :label="'Material:' + (parseInt(index) + 1)"
+              variant="outlined"
             ></v-text-field>
             <v-text-field
               v-model="newMaterial"
               label="Add Material"
               density="compact"
+              variant="outlined"
+              prepend-inner-icon="mdi-book-multiple"
             >
               <template v-if="newMaterial.length" v-slot:append>
                 <v-icon @click.prevent="addMaterial" color="primaryTheme">

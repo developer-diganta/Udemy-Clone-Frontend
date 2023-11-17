@@ -5,39 +5,34 @@
     </template>
     <v-divider></v-divider>
     <ul v-for="(stat, index) in stats" :key="index">
-      <li >
-        <img
-          :src="stat.thumbnail"
-          alt=""
-          class="icon-trending"
-        />
+      <li>
+        <img :src="stat.thumbnail" alt="" class="icon-trending" />
         <p class="trending-course-list">{{ stat.title }}</p>
         <v-btn
-        prepend-icon="mdi-eye"
-        @click="viewCourse(stat._id)"
-        class="ml-2"
-        color="secondaryCoral"
-      >
-        <template v-slot:prepend>
-          <v-icon color="white"></v-icon>
-        </template>
-  
-        View
+          prepend-icon="mdi-eye"
+          @click="viewCourse(stat._id)"
+          class="ml-2"
+          color="secondaryCoral"
+        >
+          <template v-slot:prepend>
+            <v-icon color="white"></v-icon>
+          </template>
 
-      </v-btn>
-      <v-btn
-      prepend-icon="mdi-pencil"
-      color="secondaryCoral"
-      class="ml-2"
-      v-if="stat.instructor===$store.state.user._id"
-      @click="editCourse(stat._id)"
-    >
-      <template v-slot:prepend>
-        <v-icon color="white"></v-icon>
-      </template>
+          View
+        </v-btn>
+        <v-btn
+          prepend-icon="mdi-pencil"
+          color="secondaryCoral"
+          class="ml-2"
+          v-if="stat.instructor === $store.state.user._id"
+          @click="editCourse(stat._id)"
+        >
+          <template v-slot:prepend>
+            <v-icon color="white"></v-icon>
+          </template>
 
-      Edit
-    </v-btn>
+          Edit
+        </v-btn>
       </li>
       <v-divider></v-divider>
     </ul>
@@ -54,9 +49,9 @@ export default {
     viewCourse(courseId) {
       this.$router.push(`/instructor/coursepreview/${courseId}`);
     },
-    editCourse(courseId){
-      this.$router.push(`/instructor/course/view/${courseId}`)
-    }
+    editCourse(courseId) {
+      this.$router.push(`/instructor/course/view/${courseId}`);
+    },
   },
 };
 </script>

@@ -71,5 +71,4 @@ describe("StudentEnrollPage.vue", () => {
       courseId: "123", // Check if the action is called with the correct course ID
     });
   });
-
 });

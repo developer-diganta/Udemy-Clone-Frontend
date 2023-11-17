@@ -16,14 +16,14 @@
       </v-card-item>
 
       <v-card-actions style="margin-top: -15px">
-        <v-btn> See Stat </v-btn>
+        <v-btn v-if="type!=='no-redirect'" @click="$router.push(`${redirect}`)" variant="flat" color="white" style="padding-left:15px;padding-right:15px"> See Stat </v-btn>
       </v-card-actions>
     </v-card>
   </v-col>
 </template>
 <script>
 export default {
-  props: ["cardTitle", "cardData"],
+  props: ["cardTitle", "cardData","redirect","type"],
 };
 </script>
 <style></style>

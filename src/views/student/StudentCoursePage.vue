@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <v-sheet
       elevation="12"
       max-width="600"
@@ -58,7 +56,10 @@
         </div>
         <div v-else>
           <v-card class="d-flex justify-center align-center flex-column">
-            <v-img :src="require('../../assets/complete.svg')" width="300"></v-img>
+            <v-img
+              :src="require('../../assets/complete.svg')"
+              width="300"
+            ></v-img>
             <v-card-title>Course Completed!</v-card-title>
           </v-card>
         </div>
@@ -89,7 +90,7 @@
                             v-model="rating"
                             color="primaryTheme"
                             readonly
-                            :model-value="course.rating"
+                            :model-value="ratings"
                             density="compact"
                             half-increments
                           ></v-rating>
@@ -153,18 +154,17 @@
               </v-window-item>
 
               <v-window-item value="notes">
-                
-                <v-card v-for="(note,index) in notes" :key="index">
+                <v-card v-for="(note, index) in notes" :key="index">
                   <v-card
-                  width="400"
-                  :title="note.header"
-                  :text="note.description"
-                ></v-card>
+                    width="400"
+                    :title="note.header"
+                    :text="note.description"
+                  ></v-card>
                 </v-card>
 
                 <student-notes :course="course._id"></student-notes>
               </v-window-item>
-              
+
               <!-- @review-submitted="reloadCourse"
               :totalRating="course.rating"
               :reviews="course.reviews" -->
@@ -258,7 +258,7 @@ import QuestionAnswer from "@/components/Course/QuestionAnswer.vue";
 import QuestionAnswerForm from "@/components/Course/QuestionAnswerForm.vue";
 import Iterable from "@/components/Common/Iterable.vue";
 import Reviews from "@/components/Course/Reviews.vue";
-import StudentNotes from "@/views/student/StudentNotes.vue"
+import StudentNotes from "@/views/student/StudentNotes.vue";
 export default {
   components: {
     VideoPlayer,
@@ -267,7 +267,7 @@ export default {
     QuestionAnswerForm,
     Iterable,
     Reviews,
-    StudentNotes
+    StudentNotes,
   },
   data() {
     return {
@@ -288,14 +288,15 @@ export default {
       page: 1,
       questionAnswers: [],
       courseContentsCompleted: [],
-      notes:[],
-      courseComplete:false,
-      dialog:false,
-      dialogActive:false
+      notes: [],
+      courseComplete: false,
+      dialog: false,
+      dialogActive: false,
+      ratings: 0,
     };
   },
   methods: {
-    async getNotes(){
+    async getNotes() {
       await this.$store.dispatch("student/getNotes");
       this.notes = this.$store.state.student.notes;
     },
@@ -354,8 +355,8 @@ export default {
     loadNewLecture(index, i) {
       this.selectedI = i;
       this.selectedIndex = index;
-      if(this.courseComplete){
-        this.courseComplete=false;
+      if (this.courseComplete) {
+        this.courseComplete = false;
       }
       if (i >= this.course.lessons[index].videos.length) {
         this.selectedIndex = index = index + 1;
@@ -372,16 +373,15 @@ export default {
       this.courseContentsCompleted.push(
         this.selectedIndex + "," + this.selectedI,
       );
-      if(this.selectedIndex+1>=this.course.lessons.length){
-        this.courseComplete=true;
-        if(!this.dialogActive){
-          this.dialog=true;
-          this.dialogActive=true;
+      if (this.selectedIndex + 1 >= this.course.lessons.length) {
+        this.courseComplete = true;
+        if (!this.dialogActive) {
+          this.dialog = true;
+          this.dialogActive = true;
         }
         return;
       }
-      if(!this.courseComplete){
-
+      if (!this.courseComplete) {
         this.interval = setInterval(() => {
           if (this.timeToNextVideo === 0) {
             clearInterval(this.interval);
@@ -401,10 +401,18 @@ export default {
         });
       }
     },
+    ratingsCalculated() {
+      return (
+        this.course.reviews.reduce(
+          (total, review) => total + review.rating,
+          0,
+        ) / this.course.reviews.length
+      );
+    },
   },
 
   async created() {
-    try{
+    try {
       await this.getCourse();
       const student = this.$store.state.student.profile;
       const completionStatus = student.enrolled;
@@ -414,16 +422,17 @@ export default {
       this.courseContentsCompleted = courseStatus[0]?.progress.map(
         (p) => `${p.section},${p.videoNumber}`,
       ) || [""];
-  
+
       this.instructor = this.course.instructor;
       if (this.$route.query.payment === "success") {
         this.successMessage = true;
       }
       await this.getNotes();
-
-    }catch(error){
+      this.ratings = this.ratingsCalculated();
+    } catch (error) {
       this.$store.dispatch("snackbar/showSnackbar", {
-        message: "Oops! Something went wrong. Please reload or wait for some time",
+        message:
+          "Oops! Something went wrong. Please reload or wait for some time",
         type: "Error",
       });
     }

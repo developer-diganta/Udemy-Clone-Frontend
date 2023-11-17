@@ -3,24 +3,16 @@
     <v-layout>
       <v-navigation-drawer
         v-model="drawer"
-        :rail="rail"
         permanent
-        @click="rail = false"
         color="primaryTheme"
-        style="color: white !important"
+        style="color: white !important ;width:200px"
       >
         <v-list-item
           prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
           title="Admin"
           nav
         >
-          <template v-slot:append>
-            <v-btn
-              variant="text"
-              icon="mdi-chevron-left"
-              @click.stop="rail = !rail"
-            ></v-btn>
-          </template>
+
         </v-list-item>
 
         <v-divider></v-divider>
@@ -56,10 +48,16 @@
             value="revenue"
           ></v-list-item>
           <v-list-item
-          prepend-icon="mdi-exclamation"
-          @click="adminRoute('coursestatus')"
-          title="Course Status"
-          value="courseStatus"
+            prepend-icon="mdi-exclamation"
+            @click="adminRoute('coursestatus')"
+            title="Course Status"
+            value="courseStatus"
+          ></v-list-item>
+          <v-list-item
+          prepend-icon="mdi-logout"
+          @click="logout()"
+          title="Log Out"
+          value="logout"
         ></v-list-item>
         </v-list>
       </v-navigation-drawer>
@@ -79,6 +77,12 @@ export default {
     adminRoute(routeName) {
       this.$router.push(`/admin/${routeName}`);
     },
+    async logout(){
+      localStorage.clear();
+      await this.$store.commit("admin/logout")
+      this.$router.push("/")
+
+    }
   },
 };
 </script>

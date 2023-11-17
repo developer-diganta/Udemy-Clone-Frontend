@@ -14,22 +14,33 @@
     >
       <v-sheet :elevation="6" style="padding: 3%" rounded>
         <v-text-field
+          required
           v-model="title"
           :rules="titleRules"
-          label="Title"
+          label="Title*"
+          variant="outlined"
+          prepend-inner-icon="mdi-format-title"
         ></v-text-field>
         <v-textarea
-          label="Description"
+          required
+          label="Description*"
           rows="2"
           v-model="description"
           class="input"
+          variant="outlined"
+          prepend-inner-icon="mdi-text"
         ></v-textarea>
         <div class="mb-3">
           <v-chip v-for="(category, index) in categories" :key="index">{{
             category
           }}</v-chip>
         </div>
-        <v-text-field v-model="singleCategory" label="Categories">
+        <v-text-field
+          v-model="singleCategory"
+          label="Categories"
+          variant="outlined"
+          prepend-inner-icon="mdi-cards"
+        >
           <template v-if="singleCategory.length" v-slot:append>
             <v-icon @click.prevent="addCategory" color="primaryTheme">
               mdi-plus
@@ -40,14 +51,18 @@
         <v-text-field
           type="number"
           v-model="price"
-          label="Price (₹)"
+          label="Price (₹)*"
           :rules="priceRules"
+          variant="outlined"
+          prepend-inner-icon="mdi-currency-inr"
         ></v-text-field>
         <v-text-field
           type="number"
           v-model="discount"
           label="Discount (%)"
           :rules="discountRules"
+          variant="outlined"
+          prepend-inner-icon="mdi-percent"
         ></v-text-field>
 
         <v-file-input
@@ -55,6 +70,8 @@
           chips
           accept="image/*"
           class="input"
+          variant="outlined"
+          @change="handleFileChange($event)"
         ></v-file-input>
 
         <v-btn
@@ -92,9 +109,35 @@ export default {
     titleRules: [titleValidation],
     priceRules: [priceValidation],
     discountRules: [discountValidation],
+    thumbnail: "",
   }),
   methods: {
+    handleFileChange(event) {
+      console.log("PPPPPPPP");
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.thumbnail = e.target.result;
+      };
+
+      reader.readAsDataURL(event.target.files[0]);
+    },
     async addCourse() {
+      console.log(this.thumbnail);
+      console.log(this.title.length);
+      console.log(this.description.length === 0);
+      console.log(this.price);
+      if (
+        this.title.length === 0 ||
+        this.description.length === 0 ||
+        this.price === 0
+      ) {
+        console.log("POPOPOPOPOPO");
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "Please enter the required fields",
+          type: "Error",
+        });
+        return;
+      }
       try {
         const course = {
           title: this.title,
@@ -102,15 +145,13 @@ export default {
           price: this.price,
           discount: this.discount,
           categories: this.categories,
+          thumbnail: this.thumbnail,
         };
-        const response = await this.$store.dispatch(
-          "instructor/addCourseInstructor",
-          {
-            course,
-          },
-        );
+        await this.$store.dispatch("instructor/addCourseInstructor", {
+          course,
+        });
 
-        // console.log(response.data);
+        console.log(this.$store.state.instructor.lastCourseAdded._id);
 
         this.$router.push(
           `/instructor/course/view/${this.$store.state.instructor.lastCourseAdded._id}`,

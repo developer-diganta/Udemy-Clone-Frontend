@@ -36,9 +36,8 @@
       </v-btn>
     </div>
   </v-sheet>
-
   <v-row class="container-secondary">
-    <v-col cols="12" md="8">
+    <v-col cols="12" md="8" v-if="currentVideo">
       <div class="mt-3">
         <video-player :currentVideo="currentVideo?.videoLink"></video-player>
       </div>
@@ -69,6 +68,9 @@
           ></v-list-item>
         </v-list-group>
       </v-list>
+    </v-col>
+    <v-col cols="12" md="8" v-else>
+      <h3 class="">NO VIDEOS/LESSON CONTENT AVAILABLE</h3>
     </v-col>
     <v-col cols="12" md="4">
       <v-card :loading="loading" class="mx-auto my-4" max-width="374">
@@ -137,12 +139,20 @@
             >
           </v-chip-group>
         </div>
-
-        <v-card-actions>
+        <v-card-actions v-if="$store.state.user.type === 'student'">
           <check-out
             :courseId="course._id"
             :priceId="course.stripePriceId"
           ></check-out>
+        </v-card-actions>
+        <v-card-actions v-if="$store.state.user._id === instructor._id">
+          <v-btn
+            variant="tonal"
+            color="primaryTheme"
+            prepend-icon="mdi-pencil"
+            @click="$router.push(`/instructor/course/view/${course._id}`)"
+            >Edit</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-col>
@@ -163,6 +173,7 @@ export default {
       currentVideo: {},
       stripe: null,
       failureMessage: false,
+      insId: "",
     };
   },
   methods: {
@@ -188,7 +199,7 @@ export default {
   async created() {
     this.course = await this.getCourse();
     this.instructor = this.course.instructor;
-    this.currentVideo = this.course.lessons[0].videos[0];
+    this.currentVideo = this.course.lessons[0]?.videos[0];
     if (this.$route.query.payment === "failed") {
       this.failureMessage = true;
     }

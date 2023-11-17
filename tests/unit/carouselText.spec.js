@@ -33,7 +33,9 @@ describe("CarouselText.vue", () => {
     },
   });
   it("carousel text and subtext", () => {
-    const text = wrapper.get('[class="d-none d-lg-block text-h2 font-weight-black"]');
+    const text = wrapper.get(
+      '[class="d-none d-lg-block text-h2 font-weight-black"]',
+    );
     expect(text.text()).toContain("Sample Text");
     const subtext = wrapper.get('[class="text-body"]');
     expect(subtext.text()).toContain("Sample Subtext");

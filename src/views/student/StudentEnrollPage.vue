@@ -138,7 +138,7 @@
           </v-chip-group>
         </div>
 
-        <v-card-actions>
+        <v-card-actions v-if="$store.state.user.type === 'student'">
           <check-out
             :courseId="course._id"
             :priceId="course.stripePriceId"

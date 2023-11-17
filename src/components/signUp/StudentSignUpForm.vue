@@ -33,7 +33,12 @@
       </div>
     </form>
   </div>
-  <div class="text-center mt-5">Already A User? <span style="color:coral" @click="()=>$router.push('/signin/student')">Sign In</span></div>
+  <div class="text-center mt-5">
+    Already A User?
+    <span style="color: coral" @click="() => $router.push('/signin/student')"
+      >Sign In</span
+    >
+  </div>
 </template>
 <script setup>
 import { ref } from "vue";

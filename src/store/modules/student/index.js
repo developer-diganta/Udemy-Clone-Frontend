@@ -9,7 +9,7 @@ export default {
       searchResults: [],
       enrolledCourses: [],
       profile: {},
-      notes:[]
+      notes: [],
     };
   },
   mutations,

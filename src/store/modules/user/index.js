@@ -11,7 +11,7 @@ export default {
       email: localStorage.getItem("email") || "",
       token: localStorage.getItem("token") || "",
       type: localStorage.getItem("type") || "",
-      name:""
+      name: "",
     };
   },
   mutations,

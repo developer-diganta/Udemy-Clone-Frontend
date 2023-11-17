@@ -50,12 +50,12 @@ export default {
   width: 10%;
 }
 
-@media only screen and (max-width:792px){
-  #instructor-signup{
-    display:block;
+@media only screen and (max-width: 792px) {
+  #instructor-signup {
+    display: block;
   }
   #form-area {
-    margin-top:20px;
+    margin-top: 20px;
   }
 }
 </style>

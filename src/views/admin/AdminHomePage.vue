@@ -6,31 +6,37 @@
           <admin-home-card
             cardTitle="Total Courses Purchased"
             :cardData="totalCoursesPurchased"
+            redirect="courses"
           ></admin-home-card>
 
           <admin-home-card
             cardTitle="Total Courses"
-            :cardData="totalCourses"
+            :cardData="$store.state.admin.allCourses.length"
+            redirect="courses"
           ></admin-home-card>
 
           <admin-home-card
             cardTitle="Pending For Review"
-            cardData="8"
+            :cardData="pending.length"
+            redirect="coursestatus"
           ></admin-home-card>
 
           <admin-home-card
             cardTitle="Total Instructors"
-            cardData="70"
+            :cardData="$store.state.admin.allInstructors.length"
+            redirect="instructors"
           ></admin-home-card>
 
           <admin-home-card
             cardTitle="Total Students"
-            cardData="1500"
+            :cardData="$store.state.admin.allStudents.length"
+            redirect="instructors"
           ></admin-home-card>
 
           <admin-home-card
             cardTitle="Total Revenue"
-            cardData="152000"
+            :cardData="'₹'+totalRevenue"
+            redirect="revenue"
           ></admin-home-card>
         </v-row>
       </v-col>
@@ -66,16 +72,16 @@ export default {
     return {
       drawer: true,
       rail: true,
-      totalCoursesPurchased: 100,
-      totalCourses: 150,
+      totalCoursesPurchased: 0,
+      totalCourses: 0,
       payments: [],
+      totalRevenue:0,
+      pending:0
     };
   },
   methods: {
-
-
-      async fetchPayments() {
-        try{
+    async fetchPayments() {
+      try {
         await this.$store.dispatch("admin/getRevenue");
         this.payments = this.$store.getters["admin/sortedRevenue"];
         // sort(
@@ -84,13 +90,19 @@ export default {
         //     new Date(b.paymentDetails.createdAt),
         // );
         console.log(this.payments);
-    }catch(error){
-      console.log("error")
-    }
+      } catch (error) {
+        console.log("error");
+      }
     },
   },
   async created() {
     await this.fetchPayments();
+    await this.$store.dispatch("admin/getAllStudents")
+    await this.$store.dispatch("admin/getAllInstructors")
+    await this.$store.dispatch("admin/getAllCourses")
+    this.totalRevenue = this.$store.state.admin.revenue.reduce((t,x)=>t+x.paymentDetails.price,0)
+    this.pending = this.$store.state.admin.allCourses.filter((x)=>x.status==='published')
+    this.totalCoursesPurchased = this.$store.state.admin.revenue.length
   },
 };
 </script>

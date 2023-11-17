@@ -26,25 +26,27 @@
 </template>
 <script>
 import moment from "moment";
-import axios from 'axios';
-import backend_url from '@/globals/globals';
+import axios from "axios";
+import backend_url from "@/globals/globals";
 export default {
   props: ["review"],
   data() {
     return {
       moment,
-      name:""
+      name: "",
     };
   },
-  methods:{
-    async getName(){
-      const res = await axios.get(`${backend_url}/student/name?id=${this.review.reviewer}`)
-      return res.data
-    }
+  methods: {
+    async getName() {
+      const res = await axios.get(
+        `${backend_url}/student/name?id=${this.review.reviewer}`,
+      );
+      return res.data;
+    },
   },
-  async created(){
-    this.name=await this.getName();
-  }
+  async created() {
+    this.name = await this.getName();
+  },
 };
 </script>
 <style></style>

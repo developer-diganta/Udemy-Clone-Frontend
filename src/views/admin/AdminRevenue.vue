@@ -5,6 +5,7 @@
     <admin-home-card
       cardTitle="Total Revenue"
       :cardData="'₹ ' + totalRevenue"
+      type="no-redirect"
     ></admin-home-card>
     <div
       style="height: 500px; text-align: center; margin: 0 auto"

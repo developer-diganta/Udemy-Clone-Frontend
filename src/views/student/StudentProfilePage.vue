@@ -25,15 +25,15 @@
           readonly="readonly"
         ></v-text-field>
         <v-btn
-        type="button"
-        block
-        class="mt-2"
-        color="primaryTheme"
-        style="width: 10%"
-        v-if="!edit"
-        @click="edit=true"
-        >Edit Profile</v-btn
-      >
+          type="button"
+          block
+          class="mt-2"
+          color="primaryTheme"
+          style="width: 10%"
+          v-if="!edit"
+          @click="edit = true"
+          >Edit Profile</v-btn
+        >
         <v-btn
           type="submit"
           block
@@ -57,7 +57,7 @@ export default {
       name: "",
       email: "",
       formEdited: false,
-      edit:false
+      edit: false,
     };
   },
   methods: {
@@ -115,4 +115,3 @@ export default {
   }
 }
 </style>
-

@@ -29,15 +29,14 @@ import Instructor from "../views/instructor/Instructor";
 import CoursePreview from "../views/common/CoursePreview";
 import store from "@/store";
 import App from "../App";
-import FourZeroFour from "../views/common/FourZeroFour"
-import Home from "../views/common/Home"
+import FourZeroFour from "../views/common/FourZeroFour";
+import Home from "../views/common/Home";
 import backend_url from "@/globals/globals";
 import axios from "axios";
 const routes = [
   {
     path: "/",
     redirect: "/home",
-
   },
   {
     path: "/home",
@@ -110,7 +109,7 @@ const routes = [
     path: "/instructor",
     component: Instructor,
     beforeEnter: async (to, from, next) => {
-      try{
+      try {
         const instructorStatus = await store.dispatch("verifyToken", {
           type: "instructor",
         });
@@ -122,7 +121,7 @@ const routes = [
         } else {
           next("/signin/instructor");
         }
-      }catch(error){
+      } catch (error) {
         next("/signin/instructor");
       }
     },
@@ -247,22 +246,24 @@ const routes = [
         component: StudentEnrollPage,
         beforeEnter: async (to, from, next) => {
           try {
-            const check = await axios.post(`${backend_url}/student/checkifenrolled`,{
-              email: store.state.user.email,
-              token: store.state.user.token,
-              _id: store.state.user._id,
-              courseId:to.params.id,
-            })
-            if(!check.data.enrolled){
-              next()
-            }else{
-              next(`learn?courseId=${to.params.id}`)
+            const check = await axios.post(
+              `${backend_url}/student/checkifenrolled`,
+              {
+                email: store.state.user.email,
+                token: store.state.user.token,
+                _id: store.state.user._id,
+                courseId: to.params.id,
+              },
+            );
+            if (!check.data.enrolled) {
+              next();
+            } else {
+              next(`learn?courseId=${to.params.id}`);
             }
           } catch (error) {
-
             // next("/signin/student");
           }
-        }
+        },
       },
       {
         path: "home",
@@ -301,8 +302,8 @@ const routes = [
   {
     // catch all 404 - define at the very end
     path: "/:catchAll(.*)",
-    component: FourZeroFour
-  }
+    component: FourZeroFour,
+  },
 ];
 
 const router = createRouter({

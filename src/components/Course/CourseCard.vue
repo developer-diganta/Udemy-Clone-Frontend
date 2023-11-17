@@ -17,7 +17,7 @@
     <v-rating
       :length="5"
       :size="32"
-      :model-value="course.rating"
+      :model-value="ratings"
       readonly
       half-increments
       active-color="primaryTheme"
@@ -26,9 +26,7 @@
     <v-card-text style="margin-top: -15px"
       >{{ course.enrollments }} learners</v-card-text
     >
-    <v-card-text style="margin-top: -15px"
-    >₹ {{ course.price }} </v-card-text
-  >
+    <v-card-text style="margin-top: -15px">₹ {{ course.price }} </v-card-text>
     <v-card-actions style="margin-top: -15px">
       <v-btn
         v-if="type === 'all'"
@@ -75,6 +73,7 @@ export default {
   },
   data: () => ({
     show: false,
+    ratings: 0,
   }),
   methods: {
     enroll() {
@@ -83,6 +82,19 @@ export default {
     goToCourse() {
       this.$router.push(`/student/learn?courseId=${this.course._id}`);
     },
+    ratingsCalculated() {
+      if (this.course.reviews) {
+        return (
+          this.course.reviews.reduce(
+            (total, review) => total + review.rating,
+            0,
+          ) / this.course.reviews.length
+        );
+      } else return 0;
+    },
+  },
+  created() {
+    this.ratings = this.ratingsCalculated();
   },
 };
 </script>

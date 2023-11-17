@@ -1,7 +1,7 @@
 export default {
   setUserName(state, name) {
     console.log("NAME");
-    console.log(name)
+    console.log(name);
     state.name = name;
   },
   setUserId(state, _id) {
@@ -11,15 +11,15 @@ export default {
     state.type = type;
   },
   setUserToken(state, token) {
-    console.log(token)
+    console.log(token);
     state.token = token;
   },
   setUserEmail(state, email) {
     state.email = email;
   },
   clear(state) {
-    (state.name = "");
-     (state._id = "");
+    state.name = "";
+    state._id = "";
     state.email = "";
     state.token = "";
     state.type = "";

@@ -37,7 +37,7 @@
         @change="handleFileChange($event)"
       ></v-file-input>
       <!-- <div class="input"> -->
-        <!-- <v-row>
+      <!-- <v-row>
           <v-col sm="4">
             <v-text-field placeholder="site name" v-model="newProfileAccount">
             </v-text-field>
@@ -73,9 +73,13 @@
         <v-btn @click="handleReset"> clear </v-btn>
       </div>
     </form>
-    
   </div>
-  <div class="text-center mt-5">Already A User? <span style="color:coral" @click="()=>$router.push('/signin/instructor')">Sign In</span></div>
+  <div class="text-center mt-5">
+    Already A User?
+    <span style="color: coral" @click="() => $router.push('/signin/instructor')"
+      >Sign In</span
+    >
+  </div>
 </template>
 <script setup>
 import { ref } from "vue";
@@ -171,9 +175,9 @@ const submit = async () => {
 button {
   background: #37d6d6;
 }
-@media only screen and (max-width:792px){
-  .input{
-    width:15rem;
+@media only screen and (max-width: 792px) {
+  .input {
+    width: 15rem;
   }
 }
 </style>

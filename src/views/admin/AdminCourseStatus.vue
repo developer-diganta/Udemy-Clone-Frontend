@@ -1,7 +1,19 @@
 <template>
   <div class="container">
     <p class="text-h5">Pending For Review</p>
+
     <v-divider></v-divider>
+    <v-row class="mt-4 mb-4" v-if="!publishedCourses.length">
+      <div class="d-flex justify-center flex-column align-center items-center text-center mx-auto">
+        <v-img
+          :src="require('../../assets/no-data.svg')"
+          width="200"
+          class="mx-auto mt-5 mb-5"
+        ></v-img>
+        <h3>No Courses Pending For Review!</h3>
+
+      </div>
+    </v-row>
     <v-row class="mt-4 mb-4">
       <v-col
         cols="12"
@@ -51,8 +63,18 @@
 
     <p class="text-h5">Active Courses</p>
     <v-divider></v-divider>
+    <v-row class="mt-4 mb-4" v-if="!activeCourses.length">
+      <div class="d-flex justify-center flex-column align-center items-center text-center mx-auto">
+        <v-img
+          :src="require('../../assets/no-data.svg')"
+          width="200"
+          class="mx-auto mt-5 mb-5"
+        ></v-img>
+        <h3>No Active Courses!</h3>
 
-    <v-row class="mt-4 mb-4">
+      </div>
+    </v-row>
+    <v-row class="mt-4 mb-4" v-else>
       <v-col
         cols="12"
         md="4"

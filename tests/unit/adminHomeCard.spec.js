@@ -36,5 +36,4 @@ describe("AdminHomeCard.vue", () => {
     const title = wrapper.get('[class="text-h6 mb-1"]');
     expect(title.text()).toContain("Sample Card");
   });
-
 });

@@ -40,7 +40,7 @@ export default {
       }
       localStorage.setItem("email", res.data.email);
       localStorage.setItem("type", "instructor");
-      localStorage.setItem("token", res.data.token)
+      localStorage.setItem("token", res.data.token);
       commit("setUserName", data.name);
       commit("setUserId", res.data._id);
       commit("setUserType", "instructor");
@@ -74,7 +74,7 @@ export default {
       commit("setUserType", res.data.type);
       commit("setUserToken", res.data.token);
       commit("setUserEmail", res.data.email);
-      
+
       console.log(res);
       if (res.data.status === "pending") {
         console.log("HERE");

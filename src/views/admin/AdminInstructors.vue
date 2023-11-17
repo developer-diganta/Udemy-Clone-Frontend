@@ -79,18 +79,14 @@ export default {
     },
   },
   async created() {
-    try{
+    try {
       await this.$store.dispatch("admin/getAllInstructors");
       this.instructors = this.$store.state.admin.allInstructors;
-      console.log(this.instructors)
-    }catch(error){
-
-
-        this.$router.push("/admin/signin")
-
-
+      console.log(this.instructors);
+    } catch (error) {
+      this.$router.push("/admin/signin");
     }
-  }
+  },
 };
 </script>
 <style></style>

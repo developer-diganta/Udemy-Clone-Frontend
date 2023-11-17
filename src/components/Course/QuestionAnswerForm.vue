@@ -29,17 +29,32 @@ export default {
   },
   methods: {
     async addQuestion() {
-      await this.$store.dispatch("addQuestion", {
-        title: this.title,
-        description: this.description,
-        courseId: this.courseId,
-      });
-      this.title = this.description = "";
-      this.$emit("question-submitted");
-      this.$store.dispatch("snackbar/showSnackbar", {
-        message: "Question Submitted",
-        type: "Success",
-      });
+      try {
+        await this.$store.dispatch("addQuestion", {
+          title: this.title,
+          description: this.description,
+          courseId: this.courseId,
+        });
+        this.title = this.description = "";
+        this.$emit("question-submitted");
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "Question Submitted",
+          type: "Success",
+        });
+      } catch (error) {
+        if (this.title.length === 0 || this.description.length === 0) {
+          this.$store.dispatch("snackbar/showSnackbar", {
+            message: "Question Can't Be Empty",
+            type: "Error",
+          });
+        } else {
+          this.$store.dispatch("snackbar/showSnackbar", {
+            message:
+              "We ran into some glitches. Please check again after sometime",
+            type: "Error",
+          });
+        }
+      }
     },
   },
 };
