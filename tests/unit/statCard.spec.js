@@ -1,5 +1,6 @@
 import { shallowMount, RouterLinkStub } from "@vue/test-utils";
 import StatCard from "@/ui/StatCard.vue"; // Replace with your component path
+import Vuex from "vuex";
 
 describe("StatCard.vue", () => {
   it("renders the component with the provided props", () => {
@@ -11,8 +12,31 @@ describe("StatCard.vue", () => {
     const mockRouter = {
       push: jest.fn(),
     };
+    let store = new Vuex.Store({
+      modules: {
+        student: {
+          namespaced: true,
 
+          state: {
+            profile: {
+              name: "John Doe",
+              email: "johndoe@example.com",
+            },
+          },
+        },
+        user:{
+          state:{
+            user:{
+              _id:""
+            }
+          }
+        }
+      },
+    });
     const wrapper = shallowMount(StatCard, {
+      global:{
+        plugins: [store],
+      },
       propsData: {
         stats,
         title,
@@ -26,7 +50,7 @@ describe("StatCard.vue", () => {
     });
 
     const titleElement = wrapper.find('[prepend-icon="mdi-arrow-top-right"]');
-    expect(titleElement.text()).toBe("Course 1Course 2");
+    expect(titleElement.text()).toBe("Course 1 View  Edit Course 2 View  Edit");
 
     const statElements = wrapper.findAll(".trending-course-list");
     expect(statElements.length).toBe(stats.length);

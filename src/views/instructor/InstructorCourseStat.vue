@@ -81,7 +81,6 @@ export default {
         title: this.course.title,
         price: this.course.price,
         discount: this.course.discount,
-        review: this.course.review,
         enrollments: this.course.enrollments,
       };
     },

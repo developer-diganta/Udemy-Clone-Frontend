@@ -83,7 +83,7 @@
 
                 <div class="d-flex align-center mt-4">
                   <p>
-                    <v-tooltip :text="course.rating">
+                    <!-- <v-tooltip :text="course.rating">
                       <template v-slot:activator="{ props }">
                         <v-text v-bind="props">
                           <v-rating
@@ -96,7 +96,7 @@
                           ></v-rating>
                         </v-text>
                       </template>
-                    </v-tooltip>
+                    </v-tooltip> -->
                   </p>
                   <p class="" style="margin-left: 30px">
                     <v-icon icon="mdi-account"></v-icon>
@@ -373,7 +373,8 @@ export default {
       this.courseContentsCompleted.push(
         this.selectedIndex + "," + this.selectedI,
       );
-      if (this.selectedIndex + 1 >= this.course.lessons.length) {
+
+      if (this.selectedIndex + 1 >= this.course.lessons.length && !this.course.lessons[this.selectedIndex].videos[this.selectedI+1]) {
         this.courseComplete = true;
         if (!this.dialogActive) {
           this.dialog = true;

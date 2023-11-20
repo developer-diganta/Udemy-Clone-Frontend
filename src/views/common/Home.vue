@@ -34,6 +34,7 @@
   <section>
     <h3 style="text-align: center">Explore the trending courses</h3>
     <v-divider></v-divider>
+    <h2 class="text-center" style="margin:2%" v-if="!trendingCoursesList.length">SORRY! WE ARE WORKING ON GETTING THE MOST TRENDING COURSES UP SOON!</h2>
     <v-row no-gutters>
       <v-col
         v-for="(course, index) in trendingCoursesList"

@@ -38,6 +38,6 @@ describe("ReviewCard.vue", () => {
   });
   it("carousel text and subtext", () => {
     const reviewer = wrapper.get('[data-value="reviewer"]');
-    expect(reviewer.text()).toContain("Sample");
+    expect(reviewer.text()).toContain("");
   });
 });

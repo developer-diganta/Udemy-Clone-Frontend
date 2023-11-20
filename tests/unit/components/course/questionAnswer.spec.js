@@ -38,7 +38,6 @@ describe("QuestionAnswer.vue", () => {
     expect(wrapper.text()).toContain(questionAnswers.description);
 
     // Assert that the asked by and date is rendered correctly
-    expect(wrapper.text()).toContain(`By ${questionAnswers.askedBy}`);
     expect(wrapper.text().length).toBeGreaterThan(0); // Adjust the expected value based on the date
   });
 

@@ -5,8 +5,9 @@
   <div class="container">
     <p class="text-h5">Unpublished Courses</p>
     <v-divider></v-divider>
-    <div v-if="!pendingCourses.length" class="text-center">
+    <div v-if="!pendingCourses.length" class="text-center mt-2">
       Create a New Course
+      <v-btn variant="flat" color="secondaryCoral" class="d-block mx-auto" style="color:white !important" @click="$router.push('course/add')">Create Now</v-btn>
     </div>
     <v-row class="mt-4 mb-4">
       <v-col
@@ -62,6 +63,7 @@
     <p class="text-h5">Pending For Review</p>
     <v-divider></v-divider>
     <div v-if="!publishedCourses.length" class="text-center">
+      <v-img :src="require('../../assets/no-data.svg')" height="200" width="150" class="mx-auto"/>
       No Published(Pending for Review) Courses
     </div>
     <v-row class="mt-4 mb-4">
@@ -111,6 +113,10 @@
 
     <p class="text-h5">Active Courses</p>
     <v-divider></v-divider>
+    <div v-if="!activeCourses.length" class="text-center">
+      <v-img :src="require('../../assets/no-data.svg')" height="200" width="150" class="mx-auto"/>
+      No Active Courses
+    </div>
 
     <v-row class="mt-4 mb-4">
       <v-col
@@ -119,7 +125,6 @@
         v-for="(course, index) in activeCourses"
         :key="index"
       >
-        <p v-if="!activeCourses.length">No Active Courses</p>
         <v-card class="mx-auto" max-width="400">
           <v-img
             class="align-end text-white"
@@ -180,6 +185,7 @@ export default {
       return this.allCourses.filter((course) => course.status === "published");
     },
     activeCourses() {
+      console.log(this.allCourses)
       return this.allCourses.filter((course) => course.status === "active");
     },
     pendingCourses() {
@@ -195,7 +201,7 @@ export default {
       this.allCourses = this.$store.state.instructor.selfCourses;
     },
     redirect(id) {
-      this.$router.push(`/instructor/course/view/${id}`);
+      this.$router.push(`/instructor/coursepreview/${id}`);
     },
 
     async publish(id) {

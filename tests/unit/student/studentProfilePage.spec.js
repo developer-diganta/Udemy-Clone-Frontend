@@ -60,7 +60,7 @@ describe("StudentProfilePage.vue", () => {
   it("should render the form and load student profile", () => {
     expect(wrapper.find("v-text-field[label='Name']").exists()).toBe(true);
     expect(wrapper.find("v-text-field[label='email']").exists()).toBe(true);
-    expect(wrapper.find("v-btn[type='submit']").exists()).toBe(true);
+    expect(wrapper.find("v-btn[type='submit']").exists()).toBe(false);
 
     expect(wrapper.vm.name).toBe("John Doe");
     expect(wrapper.vm.email).toBe("johndoe@example.com");

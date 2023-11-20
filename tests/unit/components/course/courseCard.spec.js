@@ -22,7 +22,7 @@ describe("CourseCard.vue", () => {
     });
 
     expect(wrapper.text()).toContain(
-      "John Doe100 learners Enroll This is a sample course description",
+      "John Doe100 learners₹  Check Course This is a sample course description.",
     );
   });
 

@@ -11,6 +11,8 @@
           "
         class="input"
         label="E-mail"
+        variant="outlined"
+        prepend-inner-icon="mdi-email"
       ></v-text-field>
 
       <v-text-field
@@ -18,6 +20,8 @@
         :error-messages="name.errorMessage.value"
         class="input"
         label="Name"
+        variant="outlined"
+        prepend-inner-icon="mdi-account"
       ></v-text-field>
 
       <v-text-field
@@ -25,6 +29,9 @@
         :error-messages="password.errorMessage.value"
         class="input"
         label="Password"
+        variant="outlined"
+        prepend-inner-icon="mdi-key"
+        type="password"
       ></v-text-field>
 
       <div>

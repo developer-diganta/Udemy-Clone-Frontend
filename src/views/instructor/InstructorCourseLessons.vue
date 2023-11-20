@@ -48,12 +48,42 @@
     </v-col>
     <v-col cols="12" md="4" style="max-height: 80vh; overflow-y: scroll">
       <!-- <v-btn>ADD</v-btn> -->
+      <div class="d-flex justify-center">
       <v-btn
-        @click="dialog = true"
-        style="width: 100%"
+      @click="dialog = true"
+      :style="lessons.length?'width: 40%':'width:100%'"
         text="Add"
         variant="outlined"
       ></v-btn>
+        <div style="width:20%"
+        v-if="lessons.length"></div>
+      <v-btn
+      v-if="lessons.length"
+      @click="dialogDelete = true"
+      style="width: 40%"
+      text="Delete"
+      variant="outlined"
+    ></v-btn>
+      </div>
+    <v-dialog width="500" v-model="dialogDelete">
+      <v-card style="padding:10px">
+        <h2 class="text-center">Delete Sections/Videos</h2>
+        <h4 class="text-center">Click on the section header/video title to delete it</h4>
+        <v-divider></v-divider>
+        <v-card-text v-for="(lesson, index) in lessons" :key="index" >
+          <v-card-title class="rounded subsection-hover pointer" @click="deleteSection(index)">{{ index + 1 + ". " + lesson.title }}</v-card-title>
+          <div class="ml-4 mt-3" >
+            <v-card-text density="compact" v-for="(subsection, i) in lesson.videos" :key="i" style="margin-top:-3%; padding:10px !important" class="subsection-hover rounded pointer"                 @click="deleteVideo(index, i)"
+            >
+              {{ i + 1 + ". " + subsection.title }}
+            </v-card-text>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+
+
 
       <v-dialog width="500" v-model="dialog">
         <v-form @submit.prevent="handleSubmit" class="video-add">
@@ -145,7 +175,7 @@
             <h3 style="display: inline">
               {{ index + 1 + ". " + lesson.title }}
             </h3>
-            <div
+            <!-- <div
               @click="deleteSection(index)"
               icon="mdi-minus"
               size="x-small"
@@ -154,7 +184,7 @@
               style="padding-left: 0px; margin-top: 0px"
             >
               X
-            </div>
+            </div> -->
           </div>
 
           <ul
@@ -171,7 +201,7 @@
               >
                 {{ i + 1 + ". " + subsection.title }}
               </div>
-              <div
+              <!-- <div
                 @click="deleteVideo(index, i)"
                 icon="mdi-minus"
                 size="x-small"
@@ -180,7 +210,7 @@
                 style="height: 18px; width: 18px; font-size: 12px"
               >
                 X
-              </div>
+              </div> -->
             </li>
           </ul>
         </li>
@@ -223,6 +253,7 @@ export default {
       materialPosition: null,
       lectureSection: null,
       showRadios: true,
+      dialogDelete:false,
       firstNameRules: [
         (value) => {
           if (value?.length > 3) return true;
@@ -489,6 +520,9 @@ export default {
 };
 </script>
 <style scoped>
+.subsection-hover:hover{
+  background-color: lightcoral;
+}
 .input {
   background: transparent;
 }

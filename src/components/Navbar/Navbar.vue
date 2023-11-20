@@ -40,38 +40,55 @@
       </ul>
       <ul v-else>
         <li v-if="$store.state.user.type === 'student'">
-          <search></search>
+          <search type="student"></search>
         </li>
-
+        <li v-else>
+          <search type="instructor"></search>
+        </li>
         <li v-if="$store.state.user.type === 'instructor'">
-          <v-btn
-            @click="redirectToAddCourse"
-            color="primaryTheme"
-            style="color: white"
-            icon="mdi-plus"
-            size="x-small"
-          ></v-btn>
+          <v-tooltip text="Add Course">
+            <template v-slot:activator="{ props }">
+              <v-btn
+              v-bind="props"
+              @click="redirectToAddCourse"
+              color="primaryTheme"
+              style="color: white"
+              icon="mdi-plus"
+              size="x-small"
+            ></v-btn>
+            </template>
+          </v-tooltip>
+
         </li>
         <li>
-          <v-btn
-            style="background-color: #008080; color: white"
-            icon="mdi-school"
-            size="x-small"
-            v-bind="props"
-            @click="redirectToAllCourses"
-          ></v-btn>
+          <v-tooltip text="Your Courses">
+            <template v-slot:activator="{ props }">
+              <v-btn
+              style="background-color: #008080; color: white"
+              icon="mdi-school"
+              size="x-small"
+              v-bind="props"
+              @click="redirectToAllCourses"
+            ></v-btn>
+            </template>
+          </v-tooltip>
+
         </li>
 
         <li>
+          
           <v-menu>
             <template v-slot:activator="{ props }">
+
               <v-btn
                 style="background-color: #008080; color: white"
                 icon="mdi-account"
                 size="x-small"
                 v-bind="props"
               ></v-btn>
-            </template>
+              </template>
+
+
             <v-list>
               <v-list-item-title class="nav-profile">
                 <span style="font-size: 18px; font-weight: bold">{{
@@ -151,7 +168,11 @@ export default {
       this.$router.push("/instructor/course/add");
     },
     redirectToAllCourses() {
+      if(this.$store.state.user.type==="instructor")
       this.$router.push("/instructor/courseslist");
+      else
+      this.$router.push("/student/enrolledcourses");
+
     },
     async logout() {
       await this.$store.dispatch("common/logout", this.$router);

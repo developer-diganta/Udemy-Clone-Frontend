@@ -53,6 +53,9 @@ describe("InstructorProfile.vue", () => {
     });
 
     wrapper = shallowMount(InstructorProfile, {
+      data(){
+        return {isActive:true}
+      },
       global: {
         plugins: [store],
         mocks: {

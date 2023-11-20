@@ -44,6 +44,7 @@ const routes = [
     beforeEnter: async (to, from, next) => {
       try {
         const type = localStorage.getItem("type");
+        if(!type) next();
         if (type === "student") {
           next("/student/home");
         } else if (type === "instructor") {
@@ -97,6 +98,20 @@ const routes = [
         component: StudentCoursePage,
       },
     ],
+    beforeEnter: async (to, from, next) => {
+      if(localStorage.getItem("token")){
+        const verifyAdmin = await axios.post(`${backend_url}/admin/verify`,{
+          token:localStorage.getItem("token")
+        })
+        if (verifyAdmin) {
+          next();
+        } else {
+          next("/home");
+        }
+      }else{
+        next("/home")
+      }
+    },
   },
 
   /* Instructor Routes */
@@ -133,6 +148,10 @@ const routes = [
       {
         path: "profile",
         component: InstructorProfile,
+      },
+      {
+        path: "search",
+        component: SearchResultsPage,
       },
       {
         path: "course/view/:id",

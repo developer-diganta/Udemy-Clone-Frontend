@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     async addQuestion() {
-      try {
+      try{
         await this.$store.dispatch("addQuestion", {
           title: this.title,
           description: this.description,
@@ -41,21 +41,20 @@ export default {
           message: "Question Submitted",
           type: "Success",
         });
-      } catch (error) {
-        if (this.title.length === 0 || this.description.length === 0) {
+      }catch(error){
+        if(this.title.length===0 || this.description.length===0){
           this.$store.dispatch("snackbar/showSnackbar", {
-            message: "Question Can't Be Empty",
-            type: "Error",
-          });
-        } else {
-          this.$store.dispatch("snackbar/showSnackbar", {
-            message:
-              "We ran into some glitches. Please check again after sometime",
-            type: "Error",
-          });
-        }
+          message: "Question Can't Be Empty",
+          type: "Error",
+        });
+      }else{
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "We ran into some glitches. Please check again after sometime",
+          type: "Error",
+        });
       }
-    },
+    }
+  }
   },
 };
 </script>

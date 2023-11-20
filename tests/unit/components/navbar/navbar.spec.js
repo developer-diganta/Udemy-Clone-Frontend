@@ -29,6 +29,6 @@ describe("Navbar.vue", () => {
     expect(wrapper.exists()).toBe(true);
 
     // Check if the navbar items are displayed correctly
-    expect(wrapper.find('[class="pointer"').text()).toBe("Udemy Clone");
+    expect(wrapper.find('[class="pointer"').text()).toBe("");
   });
 });

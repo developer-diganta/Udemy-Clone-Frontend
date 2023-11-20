@@ -40,6 +40,7 @@ import _ from "lodash";
 import axios from "axios";
 import backend_url from "@/globals/globals";
 export default {
+  props:["type"],
   data: () => ({
     searchKey: "",
     searchResults: "",
@@ -70,15 +71,13 @@ export default {
       this.onInput();
     },
     search() {
-      this.$router.push(`/student/search?searchQuery=${this.searchKey}`);
+      this.$router.push(`search?searchQuery=${this.searchKey}`);
     },
   },
   beforeRouteUpdate(to, from, next) {
-    // This hook is called when the route is changing but the component is being reused.
-    // You can refetch data here.
-    this.searchKey = to.query.searchQuery || ""; // Update searchKey from the new route
-    this.onInput(); // Re-fetch data
-    next(); // Don't forget to call next() to continue the route navigation.
+    this.searchKey = to.query.searchQuery || ""; 
+    this.onInput(); 
+    next();
   },
   mounted() {
     document.addEventListener("click", this.clearSearchResultsOnOutsideClick);

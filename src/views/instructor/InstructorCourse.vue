@@ -311,6 +311,7 @@ export default {
           message: "Course Updated",
           type: "Success",
         });
+        this.formEdited = false;
       } catch (error) {
         this.$store.dispatch("snackbar/showSnackbar", {
           message: "There was some error",

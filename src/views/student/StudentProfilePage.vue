@@ -16,6 +16,8 @@
           density="compact"
           label="Name"
           :readonly="!edit"
+          variant="outlined"
+          prepend-inner-icon="mdi-account"
         ></v-text-field>
         <v-text-field
           v-model="email"
@@ -23,6 +25,8 @@
           density="compact"
           label="email"
           readonly="readonly"
+          variant="outlined"
+          prepend-inner-icon="mdi-email"
         ></v-text-field>
         <v-btn
           type="button"
@@ -75,6 +79,7 @@ export default {
         message: "Profile Updated",
         type: "Success",
       });
+      this.edit=false;
     },
 
     async getStudentProfile() {
