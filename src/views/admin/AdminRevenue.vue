@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-breadcrumbs :items="['admin', 'revenue']"></v-breadcrumbs>
+    <v-breadcrumbs :items="[$t('admin'), $t('revenue')]"></v-breadcrumbs>
 
     <admin-home-card
       cardTitle="Total Revenue"
@@ -11,7 +11,7 @@
       style="height: 500px; text-align: center; margin: 0 auto"
       class="justify-center d-flex flex-column align-center"
     >
-      <h3>Revenue Projections</h3>
+      <h3>{{$t("Revenue Projections")}}</h3>
       <v-select
         style="width: 200px; font-size: 14px; margin: 0 auto"
         density="compact"

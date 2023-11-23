@@ -1,5 +1,5 @@
 <template>
-  <h3 class="text-center">{{ course.title }} (Edit Mode: Instructor)</h3>
+  <h3 class="text-center">{{ course.title }} {{$t('(Edit Mode: Instructor)')}}</h3>
 
   <v-row style="padding: 30px; max-height: 80vh">
     <v-col cols="12" md="8" justify-center d-flex>
@@ -9,11 +9,11 @@
         </v-app>
       </div>
       <div v-else>
-        <h3 class="text-center">No videos to play</h3>
+        <h3 class="text-center">{{$t("No videos to play")}}</h3>
       </div>
       <div>
         <v-card>
-          <v-card-title class="text-center">Summary</v-card-title>
+          <v-card-title class="text-center">{{$t("Summary")}}</v-card-title>
           <v-divider></v-divider>
           <v-table fixed-header>
             <tbody>
@@ -33,15 +33,15 @@
             v-if="course.status === 'pending' || course.status === 'published'"
             color="secondaryCoral"
           >
-            <span v-if="course.status === 'pending'"> Submit For Review </span>
-            <span v-if="course.status === 'published'"> Under Review </span>
+            <span v-if="course.status === 'pending'"> {{$t("Submit For Review")}} </span>
+            <span v-if="course.status === 'published'"> {{$t("Under Review")}} </span>
           </v-btn>
           <div
             v-if="course.status === 'active'"
             class="text-center bg-green mt-2"
             style="padding: 5px"
           >
-            Course Active
+            {{$t("Course Active")}}
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
       <v-btn
       @click="dialog = true"
       :style="lessons.length?'width: 40%':'width:100%'"
-        text="Add"
+        :text="$t('Add')"
         variant="outlined"
       ></v-btn>
         <div style="width:20%"
@@ -61,14 +61,14 @@
       v-if="lessons.length"
       @click="dialogDelete = true"
       style="width: 40%"
-      text="Delete"
+      :text="$t('Delete')"
       variant="outlined"
     ></v-btn>
       </div>
     <v-dialog width="500" v-model="dialogDelete">
       <v-card style="padding:10px">
-        <h2 class="text-center">Delete Sections/Videos</h2>
-        <h4 class="text-center">Click on the section header/video title to delete it</h4>
+        <h2 class="text-center">{{$t("Delete Sections/Videos")}}</h2>
+        <h4 class="text-center">{{$t("Click on the section header/video title to delete it")}}</h4>
         <v-divider></v-divider>
         <v-card-text v-for="(lesson, index) in lessons" :key="index" >
           <v-card-title class="rounded subsection-hover pointer" @click="deleteSection(index)">{{ index + 1 + ". " + lesson.title }}</v-card-title>
@@ -88,12 +88,12 @@
       <v-dialog width="500" v-model="dialog">
         <v-form @submit.prevent="handleSubmit" class="video-add">
           <v-banner-text style="text-align: center; margin-left: 60px"
-            >Upload Material</v-banner-text
+            >{{$t("Upload Material")}}</v-banner-text
           >
 
           <v-radio-group class="d-flex" v-model="typeOfUpload" inline>
-            <v-radio label="Section" value="section"></v-radio>
-            <v-radio label="Lecture" value="lecture"></v-radio>
+            <v-radio :label="$t('Section')" value="section"></v-radio>
+            <v-radio :label="$t('Lecture')" value="lecture"></v-radio>
           </v-radio-group>
 
           <v-text-field
@@ -157,10 +157,10 @@
             </v-radio-group>
           </div>
           <v-btn type="submit" color="primaryTheme" block class="mt-2 mb-2"
-            >Submit</v-btn
+            >{{$t("Submit")}}</v-btn
           >
           <v-btn type="button" color="error" block @click="dialog = false"
-            >Close Dialog</v-btn
+            >{{$t("Close Dialog")}}</v-btn
           >
         </v-form>
       </v-dialog>
@@ -217,6 +217,7 @@
       </ul>
     </v-col>
   </v-row>
+  <Footer/>
 </template>
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
@@ -224,9 +225,10 @@ import axios from "axios";
 import backend_url from "@/globals/globals";
 
 import VideoPlayer from "@/components/Video/VideoPlayer.vue";
+import Footer from '@/components/Common/Footer.vue';
 
 export default {
-  components: { Navbar, VideoPlayer },
+  components: { Navbar, VideoPlayer, Footer },
   data() {
     return {
       course: {},

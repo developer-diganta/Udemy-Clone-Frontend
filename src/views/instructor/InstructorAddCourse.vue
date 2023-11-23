@@ -2,10 +2,10 @@
 
 <template>
   <div style="padding: 3%; background: black; color: white" class="mb-5">
-    <h1>Create Course</h1>
+    <h1>{{$t("Create Course")}}</h1>
   </div>
   <section id="add-course">
-    <h3>Please fill in the new course details</h3>
+    <h3>{{$t("Please fill in the new course details")}}</h3>
     <v-divider width="100px"></v-divider>
     <v-form
       @submit.prevent="addCourse"
@@ -17,13 +17,13 @@
           required
           v-model="title"
           :rules="titleRules"
-          label="Title*"
+          :label="$t('Title*')"
           variant="outlined"
           prepend-inner-icon="mdi-format-title"
         ></v-text-field>
         <v-textarea
           required
-          label="Description*"
+          :label="$t('Description*')"
           rows="2"
           v-model="description"
           class="input"
@@ -31,13 +31,13 @@
           prepend-inner-icon="mdi-text"
         ></v-textarea>
         <div class="mb-3">
-          <v-chip v-for="(category, index) in categories" :key="index">{{
+          <v-chip @click="removeCat(index)" v-for="(category, index) in categories" :key="index">{{
             category
           }}</v-chip>
         </div>
         <v-text-field
           v-model="singleCategory"
-          label="Categories"
+          :label="$t('Categories')"
           variant="outlined"
           prepend-inner-icon="mdi-cards"
         >
@@ -51,7 +51,7 @@
         <v-text-field
           type="number"
           v-model="price"
-          label="Price (₹)*"
+          :label="$t('Price (₹)*')"
           :rules="priceRules"
           variant="outlined"
           prepend-inner-icon="mdi-currency-inr"
@@ -59,14 +59,14 @@
         <v-text-field
           type="number"
           v-model="discount"
-          label="Discount (%)"
+          :label="$t('Discount (%)')"
           :rules="discountRules"
           variant="outlined"
           prepend-inner-icon="mdi-percent"
         ></v-text-field>
 
         <v-file-input
-          label="Thumbnail"
+          :label="$t('Thumbnail')"
           chips
           accept="image/*"
           class="input"
@@ -80,11 +80,14 @@
           class="mt-2"
           color="primaryTheme"
           :disabled="!formEdited"
-          >Submit</v-btn
+          >{{$t("Submit")}}</v-btn
         >
       </v-sheet>
     </v-form>
   </section>
+  <div  class="mt-5">
+    <Footer/>
+    </div>
 </template>
 <script>
 import Navbar from "../../components/Navbar/Navbar.vue";
@@ -93,9 +96,12 @@ import backend_url from "@/globals/globals";
 import titleValidation from "../../utils/validation-rules/titleValidation";
 import priceValidation from "../../utils/validation-rules/priceValidation";
 import discountValidation from "../../utils/validation-rules/discountValidation";
+import Footer from '@/components/Common/Footer.vue';
+
 export default {
   components: {
     Navbar,
+    Footer
   },
   data: () => ({
     title: "",
@@ -112,6 +118,9 @@ export default {
     thumbnail: "",
   }),
   methods: {
+    removeCat(id){
+      this.categories.splice(id,1)
+    },
     handleFileChange(event) {
       console.log("PPPPPPPP");
       const reader = new FileReader();

@@ -20,6 +20,7 @@
     "video.js": "^8.5.2",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.2.0",
+    "vue-i18n": "^9.7.0",
     "vue-router": "^4.0.3",
     "vue-stripe-elements-plus": "^1.0.3",
     "vuetify": "^3.3.20",

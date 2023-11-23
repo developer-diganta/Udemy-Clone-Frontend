@@ -1,12 +1,12 @@
 <template>
-  <loader message="Updating Course Details" v-if="loading"></loader>
+  <loader :message="$t('Updating Course Details')" v-if="loading"></loader>
   <snack-bar
     message="Updated Course"
     :visibility="snackbar"
     :key="toggleSnackbar"
   ></snack-bar>
   <div>
-    <h3 class="text-center">Course Details - {{ title }}</h3>
+    <h3 class="text-center">{{$t("Course Details -")}} {{ title }}</h3>
 
     <v-form v-model="valid" @submit.prevent="submit" @input="formEdited = true">
       <v-container>
@@ -23,13 +23,13 @@
               show-size
               counter
               multiple
-              label="Thumbnail"
+              :label="$t('Thumbnail')"
               @change="changeThumbnail($event)"
               variant="outlined"
             ></v-file-input>
             <v-dialog width="500">
               <template v-slot:activator="{ props }">
-                <v-btn v-bind="props" text="Preview Image"> </v-btn>
+                <v-btn v-bind="props" :text="$t('Preview Image')"> </v-btn>
               </template>
 
               <template v-slot:default="{ isActive }">
@@ -49,7 +49,7 @@
 
                     <v-btn
                       variant="tonal"
-                      text="Close Image"
+                      :text="$t('Close Image')"
                       @click="isActive.value = false"
                     ></v-btn>
                   </v-card-actions>
@@ -63,7 +63,7 @@
               <v-textarea
                 v-model="description"
                 rows="2"
-                label="Description"
+                :label="$t('Description')"
                 variant="outlined"
                 prepend-inner-icon="mdi-text"
               ></v-textarea>
@@ -72,7 +72,7 @@
               <v-text-field
                 v-model="title"
                 :rules="titleRules"
-                label="Title"
+                :label="$t('Title')"
                 required
                 hide-details
                 variant="outlined"
@@ -89,7 +89,7 @@
                 type="number"
                 v-model="price"
                 :rules="titleRules"
-                label="Price"
+                :label="$t('Price')"
                 density="compact"
                 variant="outlined"
                 prepend-inner-icon="mdi-currency-inr"
@@ -101,7 +101,7 @@
                 type="number"
                 v-model="discount"
                 :rules="discountRules"
-                label="Discount"
+                :label="$t('Discount')"
                 density="compact"
                 variant="outlined"
                 prepend-inner-icon="mdi-percent"
@@ -113,7 +113,7 @@
             <v-select
               v-model="categories"
               :items="categories"
-              label="Categories"
+              :label="$t('Categories')"
               multiple
               density="compact"
             >
@@ -131,7 +131,7 @@
             </v-select>
             <v-text-field
               v-model="newCategory"
-              label="Add Category"
+              :label="$t('Add Category')"
               density="compact"
               variant="outlined"
               prepend-inner-icon="mdi-cards"
@@ -146,7 +146,7 @@
 
           <v-divider style="margin-bottom: 30px"></v-divider>
           <v-col cols="12" md="6">
-            <p class="text-center">Requirements</p>
+            <p class="text-center">{{$t("Requirements")}}</p>
 
             <v-text-field
               v-for="(requirement, index) in requirements"
@@ -155,11 +155,11 @@
               :rules="titleRules"
               density="compact"
               variant="outlined"
-              :label="'Requirement:' + (parseInt(index) + 1)"
+              :label="$t('Requirement:') + (parseInt(index) + 1)"
             ></v-text-field>
             <v-text-field
               v-model="newRequirement"
-              label="Add Requirement"
+              :label="$t('Add Requirement')"
               density="compact"
               variant="outlined"
               prepend-inner-icon="mdi-exclamation-thick"
@@ -173,7 +173,7 @@
           </v-col>
 
           <v-col cols="12" md="6">
-            <p class="text-center">Course Materials</p>
+            <p class="text-center">{{$t('Course Materials')}}</p>
 
             <v-text-field
               v-for="(material, index) in courseMaterials"
@@ -186,7 +186,7 @@
             ></v-text-field>
             <v-text-field
               v-model="newMaterial"
-              label="Add Material"
+              :label="$t('Add Material')"
               density="compact"
               variant="outlined"
               prepend-inner-icon="mdi-book-multiple"
@@ -209,7 +209,7 @@
           color="primaryTheme"
           rounded="sm"
           :disabled="formEdited === false"
-          >Update Course</v-btn
+          >{{$t("Update Course")}}</v-btn
         >
         <v-btn
           type="button"
@@ -219,11 +219,14 @@
           color="primaryTheme"
           rounded="sm"
           @click="redirectAddLessons"
-          >Add Lessons</v-btn
+          >{{$t("Add Lessons")}}</v-btn
         >
       </div>
     </v-form>
   </div>
+  <div  class="mt-5">
+    <Footer/>
+    </div>
 </template>
 
 <script>
@@ -232,12 +235,14 @@ import Navbar from "../../components/Navbar/Navbar.vue";
 import axios from "axios";
 import Loader from "@/ui/Loader.vue";
 import SnackBar from "@/ui/SnackBar.vue";
+import Footer from '@/components/Common/Footer.vue';
 
 export default {
   components: {
     Navbar,
     Loader,
     SnackBar,
+    Footer
   },
   data() {
     return {

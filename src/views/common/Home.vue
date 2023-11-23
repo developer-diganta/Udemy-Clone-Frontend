@@ -7,13 +7,13 @@
         src="https://images.unsplash.com/photo-1587691592099-24045742c181?auto=format&fit=crop&q=80&w=1473&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         cover
       >
-        <div class="overlay">
+        <!-- <div class="overlay">
           <carousel-text
-            text="Learn Anytime,Anywhere"
+            :text="$t('Learn Anytime,Anywhere')"
             subtext="Flexible Learning, Anytime, Anywhere, Unlock Your Potential."
             class="c-text"
           ></carousel-text>
-        </div>
+        </div> -->
       </v-carousel-item>
 
       <v-carousel-item
@@ -32,9 +32,9 @@
     </v-carousel>
   </div>
   <section>
-    <h3 style="text-align: center">Explore the trending courses</h3>
+    <h3 style="text-align: center">{{$t('Explore the trending courses')}}</h3>
     <v-divider></v-divider>
-    <h2 class="text-center" style="margin:2%" v-if="!trendingCoursesList.length">SORRY! WE ARE WORKING ON GETTING THE MOST TRENDING COURSES UP SOON!</h2>
+    <h2 class="text-center" style="margin:2%" v-if="!trendingCoursesList.length">{{$t("SORRY! WE ARE WORKING ON GETTING THE MOST TRENDING COURSES UP SOON!")}}</h2>
     <v-row no-gutters>
       <v-col
         v-for="(course, index) in trendingCoursesList"
@@ -50,7 +50,7 @@
     </v-row>
   </section>
   <section>
-    <h3 style="text-align: center">Hear from our users</h3>
+    <h3 style="text-align: center">{{$t("Hear from our users")}}</h3>
     <v-divider></v-divider>
     <div class="d-flex mt-5">
       <v-card
@@ -66,8 +66,7 @@
         </template>
 
         <v-card-text class="text-h5 py-2">
-          "Turns out semicolon-less style is easier and safer in TS because most
-          gotcha edge cases are type invalid as well."
+{{$t("Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.")}}
         </v-card-text>
 
         <v-card-actions>
@@ -109,8 +108,7 @@
         </template>
 
         <v-card-text class="text-h5 py-2">
-          "Turns out semicolon-less style is easier and safer in TS because most
-          gotcha edge cases are type invalid as well."
+{{$t("Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.")}}
         </v-card-text>
 
         <v-card-actions>
@@ -140,14 +138,14 @@
       </v-card>
     </div>
   </section>
-  <section class="mt-5">
-    <h3 style="text-align: center">Why Us?</h3>
+  <section>
+    <h3 style="text-align: center">{{$t("Why Us?")}}</h3>
     <v-divider></v-divider>
-    <v-row align="center" justify="center" class="mt-5">
+    <v-row align="center" justify="center" class="mt-5 mb-5">
       <v-col cols="auto">
         <v-card
           class="mx-auto"
-          max-width="344"
+         
           title="Icons"
           subtitle="prepend-icon and append-icon"
           prepend-icon="mdi-account"
@@ -163,7 +161,7 @@
       <v-col cols="auto">
         <v-card
           class="mx-auto"
-          max-width="344"
+         
           title="Icons"
           subtitle="prepend and append"
         >
@@ -183,7 +181,7 @@
       <v-col cols="auto">
         <v-card
           class="mx-auto"
-          max-width="344"
+         
           title="Avatars"
           subtitle="prepend-avatar and append-avatar"
           prepend-avatar="https://cdn.vuetifyjs.com/images/logos/v-alt.svg"
@@ -199,7 +197,7 @@
       <v-col cols="auto">
         <v-card
           class="mx-auto"
-          max-width="344"
+         
           title="Avatars"
           subtitle="prepend and append"
         >

@@ -1,4 +1,5 @@
 <template lang="">
+
   <v-progress-circular
     class="mx-auto my-auto"
     v-if="loading"
@@ -46,14 +47,15 @@ export default {
     async fetchSearchResults() {
       console.log(this.$store.state);
       console.log(this.searchQuery === "");
-      await this.$store.dispatch(
-        `${this.$store.state.user.type}/searchResultsFromAPI`,
+      const sr = await this.$store.dispatch(
+        `searchResultsFromAPI`,
         this.searchQuery,
       );
       this.loading = false;
-      this.searchResults = this.$store.state.student.searchResults.map(
+      this.searchResults = sr.map(
         (course) => course.item,
       );
+      console.log(this.searchResults)
     },
   },
   watch: {

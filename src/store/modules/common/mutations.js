@@ -6,4 +6,13 @@ export default {
     console.log(singleCourse);
     state.singleCourse = singleCourse;
   },
+  setTheme(state){
+    if(state.theme==="light"){
+      localStorage.setItem("theme","dark")
+      state.theme="dark"
+    }else{
+      localStorage.setItem("theme","light")
+      state.theme="light"
+    }
+  }
 };

@@ -3,7 +3,7 @@
     <form id="search" @submit.prevent="search">
       <input
         type="text"
-        placeholder="Search Courses"
+        :placeholder="$t('Search Courses')"
         v-model="searchKey"
         @input="onInput"
         @click="searchClicked"

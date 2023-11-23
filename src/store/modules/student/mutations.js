@@ -21,7 +21,7 @@ export default {
     state.profile = studentProfile;
   },
 
-  setNots(state, notes) {
+  setNotes(state, notes) {
     state.notes = notes;
   },
 };

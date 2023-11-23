@@ -1,0 +1,64 @@
+{
+    "message": {
+      "hello": "Hola"
+    },
+    "page": {
+      "title": "Tablero"
+    },
+    "stats": {
+      "trendingCourses": "Cursos Populares",
+      "yourCourses": "Tus Cursos",
+      "createCourse": "Crear un Curso",
+      "noDataMessage": "¡Lo sentimos! No tenemos suficientes datos para mostrar ahora. ¡Crea un curso para comenzar!"
+    },
+    "profile": {
+      "yourProfile": "Tu Perfil",
+      "name": "Nombre",
+      "bio": "Biografía",
+      "profileImage": "Imagen de Perfil",
+      "previewImage": "Vista Previa de la Imagen",
+      "closeImage": "Cerrar Imagen",
+      "socialLinks": "Tus Enlaces Sociales",
+      "noLinksAdded": "No se han añadido enlaces",
+      "editProfile": "Editar Perfil",
+      "submit": "Enviar"
+    },
+    "snackbar": {
+      "profileUpdated": "Perfil Actualizado",
+      "success": "Éxito"
+    },
+    "My Courses": "Mis Cursos",
+    "Unpublished Courses": "Cursos no Publicados",
+    "Create a New Course": "Crear un Nuevo Curso",
+    "No Published(Pending for Review) Courses": "No Hay Cursos Publicados (Pendientes de Revisión)",
+    "No Active Courses": "No Hay Cursos Activos",
+    "View Course": "Ver Curso",
+    "Publish": "Publicar",
+    "Create Now": "Crear Ahora",
+    "Unpublished": "No Publicado",
+    "Pending For Review": "Pendiente de Revisión",
+    "Active Courses": "Cursos Activos",
+    "View Stats": "Ver Estadísticas",
+    "Published Courses": "Cursos Publicados",
+    "View Course": "Ver Curso",
+    "No Active Courses": "No Hay Cursos Activos",
+    "No Published Courses": "No Hay Cursos Publicados",
+    "Create a New Course": "Crear un Nuevo Curso",
+    "View Course": "Ver Curso",
+    "View Stats": "Ver Estadísticas",
+    "Create Course": "Crear Curso",
+    "Please fill in the new course details": "Por favor, complete los detalles del nuevo curso",
+    "Title*": "Título*",
+    "Description*": "Descripción*",
+    "Categories": "Categorías",
+    "Price (₹)*": "Precio (₹)*",
+    "Discount (%)": "Descuento (%)",
+    "Thumbnail": "Miniatura",
+    "Submit": "Enviar",
+    "create_course": "Crear Curso",
+    "fill_course_details": "Por favor, complete los detalles del nuevo curso",
+    "title": "Título",
+    "description": "Descripción",
+    "submit": "Enviar"
+  }
+  

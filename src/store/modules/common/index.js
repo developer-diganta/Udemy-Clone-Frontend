@@ -8,6 +8,7 @@ export default {
     return {
       trendingCourses: [],
       singleCourse: [],
+      theme:localStorage.getItem("theme") || "light"
     };
   },
   mutations,

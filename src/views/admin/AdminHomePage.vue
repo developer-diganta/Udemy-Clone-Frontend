@@ -4,37 +4,37 @@
       <v-col cols="12" md="8">
         <v-row>
           <admin-home-card
-            cardTitle="Total Courses Purchased"
+            :cardTitle="$t('Total Courses Purchased')"
             :cardData="totalCoursesPurchased"
             redirect="courses"
           ></admin-home-card>
 
           <admin-home-card
-            cardTitle="Total Courses"
+            :cardTitle="$t('Total Courses')"
             :cardData="$store.state.admin.allCourses.length"
             redirect="courses"
           ></admin-home-card>
 
           <admin-home-card
-            cardTitle="Pending For Review"
+            :cardTitle="$t('Pending For Review')"
             :cardData="pending.length"
             redirect="coursestatus"
           ></admin-home-card>
 
           <admin-home-card
-            cardTitle="Total Instructors"
+            :cardTitle="$t('Total Instructors')"
             :cardData="$store.state.admin.allInstructors.length"
             redirect="instructors"
           ></admin-home-card>
 
           <admin-home-card
-            cardTitle="Total Students"
+            :cardTitle="$t('Total Students')"
             :cardData="$store.state.admin.allStudents.length"
             redirect="instructors"
           ></admin-home-card>
 
           <admin-home-card
-            cardTitle="Total Revenue"
+            :cardTitle="$t('Total Revenue')"
             :cardData="'₹'+totalRevenue"
             redirect="revenue"
           ></admin-home-card>
@@ -49,7 +49,7 @@
         style="margin-left: -30px; width: 100%"
       >
         <v-sheet :elevation="6" class="text-center" rounded>
-          <h4 class="text-h5">Latest Transactions</h4>
+          <h4 class="text-h5"> {{ $t('Latest Transactions') }} </h4>
           <v-divider></v-divider>
           <div v-for="(transaction, index) in payments" :key="index">
             <div class="padd">

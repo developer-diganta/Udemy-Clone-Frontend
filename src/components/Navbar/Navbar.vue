@@ -10,7 +10,7 @@
         </li>
         <li>
           <v-btn color="primaryTheme" @click="() => (dialogControl = true)"
-            >Sign In
+            >{{$t("Sign In")}}
 
             <user-dialog
               :dialogControl="dialogControl"
@@ -26,7 +26,7 @@
             color="secondaryCoral"
             style="color: white !important"
             @click="() => (dialogControlSignUp = true)"
-            >Sign Up
+            >{{$t("Sign Up")}}
 
             <user-dialog
               :dialogControl="dialogControlSignUp"
@@ -37,6 +37,10 @@
             ></user-dialog>
           </v-btn>
         </li>
+        <li @click="themeSwitch"><v-btn              
+          :style="theme==='light'?'backgroundColor: white':'backgroundColor:coral'"
+          icon="mdi-brightness-4"
+          size="x-small"></v-btn></li>
       </ul>
       <ul v-else>
         <li v-if="$store.state.user.type === 'student'">
@@ -46,7 +50,7 @@
           <search type="instructor"></search>
         </li>
         <li v-if="$store.state.user.type === 'instructor'">
-          <v-tooltip text="Add Course">
+          <v-tooltip :text="$t('Add Course')">
             <template v-slot:activator="{ props }">
               <v-btn
               v-bind="props"
@@ -61,7 +65,7 @@
 
         </li>
         <li>
-          <v-tooltip text="Your Courses">
+          <v-tooltip :text="$t('Your Courses')">
             <template v-slot:activator="{ props }">
               <v-btn
               style="background-color: #008080; color: white"
@@ -104,18 +108,24 @@
                 :value="index"
               >
                 <v-list-item-title @click="redirect(item.title)">{{
-                  item.title
+                  $t(item.title)
                 }}</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
         </li>
 
-        <!-- <li @click="logout">Logout</li> -->
+        <!-- color="primaryTheme" -->
+        <li @click="themeSwitch"><v-btn              
+          :style="theme==='light'?'backgroundColor: white':'backgroundColor:coral'"
+          icon="mdi-brightness-4"
+          size="x-small"></v-btn></li>
         <!-- <li>B</li>
         <li>C</li> -->
       </ul>
+      
     </div>
+    
   </nav>
 </template>
 
@@ -161,6 +171,7 @@ export default {
     group: null,
     dialogControl: false,
     dialogControlSignUp: false,
+    theme:'light'
   }),
 
   methods: {
@@ -173,6 +184,10 @@ export default {
       else
       this.$router.push("/student/enrolledcourses");
 
+    },
+    themeSwitch(){
+      this.$store.commit("common/setTheme")
+      this.theme = this.$store.state.common.theme;
     },
     async logout() {
       await this.$store.dispatch("common/logout", this.$router);
@@ -212,5 +227,9 @@ export default {
       this.drawer = false;
     },
   },
+  created(){
+    this.theme = this.$store.state.common.theme;
+
+  }
 };
 </script>

@@ -75,35 +75,59 @@ export default {
     }
   },
 
-  async submitnote({ commit, rootState }, { header, description, courseId }) {
-    try {
-      console.log(courseId);
-      const res = await axios.patch(`${backend_url}/student/submitnote`, {
+  async submitnote({commit,rootState},{
+    header,
+    description,
+    courseId
+  }){
+    try{
+      console.log(courseId)
+      const res = await axios.patch(`${backend_url}/student/submitnote`,{
         email: rootState.user.email,
         token: rootState.user.token,
         _id: rootState.user._id,
-        courseId: courseId,
-        note: {
+        courseId:courseId,
+        note:{
           header,
-          description,
-        },
+          description
+        }
       });
-    } catch (error) {}
+console.log(res)
+    }catch(error){
+
+    }
   },
-  async getNotes({ commit, rootState }, courseId) {
-    try {
-      const res = await axios.get(`${backend_url}/student/notes/${courseId}`, {
+  async getNotes({commit,rootState},courseId){
+    try{
+      const res = await axios.post(`${backend_url}/student/notes/${courseId}`,{
         email: rootState.user.email,
         token: rootState.user.token,
         _id: rootState.user._id,
-        courseId: courseId,
+        courseId:courseId,
       });
-      commit("setNotes", res.data.notes);
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+      commit("setNotes",res.data);
+      console.log(res.data);
+      console.log(res)
+    }catch(error){
+      console.log(error)
       return error;
     }
   },
+  async deleteNote({commit,rootState}, note){
+    try{
+      const res = await axios.delete(`${backend_url}/student/notes`,{
+        data:{
+          email: rootState.user.email,
+          token: rootState.user.token,
+          _id: rootState.user._id,
+          courseId:note.course,
+          note:note.noteId
+
+        }
+      })
+    }catch(err){
+      return err;
+    }
+  }
   // async checkIfEnrolled({commit,rootState})
 };

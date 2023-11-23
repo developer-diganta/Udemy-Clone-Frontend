@@ -9,7 +9,7 @@
       >
         <v-list-item
           prepend-avatar="https://randomuser.me/api/portraits/men/85.jpg"
-          title="Admin"
+          :title="$t('Admin')"
           nav
         >
 
@@ -19,44 +19,44 @@
         <v-list nav>
           <v-list-item
             prepend-icon="mdi-home-city"
-            title="Home"
+            :title="$t('Home')"
             value="HOME"
             @click="adminRoute('home')"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-book-education"
-            title="Courses"
+            :title="$t('Courses')"
             value="courses"
             @click="adminRoute('courses')"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-account"
-            title="Instructors"
+            :title="$t('Instructors')"
             value="instructors"
             @click="adminRoute('instructors')"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-account-multiple"
             @click="adminRoute('students')"
-            title="Students"
+            :title="$t('Students')"
             value="students"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-cash"
             @click="adminRoute('revenue')"
-            title="Revenue"
+            :title="$t('Revenue')"
             value="revenue"
           ></v-list-item>
           <v-list-item
             prepend-icon="mdi-exclamation"
             @click="adminRoute('coursestatus')"
-            title="Course Status"
+            :title="$t('Course Status')"
             value="courseStatus"
           ></v-list-item>
           <v-list-item
           prepend-icon="mdi-logout"
           @click="logout()"
-          title="Log Out"
+          :title="$t('Log Out')"
           value="logout"
         ></v-list-item>
         </v-list>

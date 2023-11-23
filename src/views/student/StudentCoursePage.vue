@@ -15,10 +15,10 @@
         size="112"
       ></v-icon>
 
-      <h2 class="text-h5 mb-6">Payment Successful!</h2>
+      <h2 class="text-h5 mb-6">{{$t("Payment Successful!")}}</h2>
 
       <p class="mb-4 text-medium-emphasis text-body-2">
-        You have successfully enrolled in this course! Happy Learning!
+        {{$t("You have successfully enrolled in this course! Happy Learning!")}}
       </p>
 
       <v-divider class="mb-4"></v-divider>
@@ -32,7 +32,7 @@
           width="90"
           @click="hideSuccess"
         >
-          Done
+          {{$t("Done")}}
         </v-btn>
       </div>
     </v-sheet>
@@ -154,12 +154,17 @@
               </v-window-item>
 
               <v-window-item value="notes">
+       
                 <v-card v-for="(note, index) in notes" :key="index">
-                  <v-card
-                    width="400"
-                    :title="note.header"
-                    :text="note.description"
-                  ></v-card>
+                  <v-card style="margin:10px;padding:15px">
+                    <v-card-title>{{note.header}}</v-card-title>
+                    <v-card-subtitle>{{note.description}}</v-card-subtitle>
+                    <v-card-actions class="mt-2" style="display:float;float:right">
+                      <v-btn icon="mdi-delete" @click="deleteNote(index)" variant="flat" size="x-small" color="primaryTheme"></v-btn>
+                      <!-- <v-btn icon="mdi-pen" variant="flat" size="x-small" color="primaryTheme"></v-btn> -->
+
+                    </v-card-actions>
+                  </v-card>
                 </v-card>
 
                 <student-notes :course="course._id"></student-notes>
@@ -296,9 +301,14 @@ export default {
     };
   },
   methods: {
+    async deleteNote(id){
+      await this.$store.dispatch("student/deleteNote", {course:this.course._id,noteId:id})
+      await this.getNotes();
+    },
     async getNotes() {
-      await this.$store.dispatch("student/getNotes");
+      await this.$store.dispatch("student/getNotes",this.course._id);
       this.notes = this.$store.state.student.notes;
+
     },
     /**
      * Reload the course details.

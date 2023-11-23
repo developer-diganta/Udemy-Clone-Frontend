@@ -5,13 +5,13 @@
         src="https://images.unsplash.com/photo-1587691592099-24045742c181?auto=format&fit=crop&q=80&w=1473&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         cover
       >
-        <div class="overlay">
+        <!-- <div class="overlay">
           <carousel-text
             text="Learn Anytime,Anywhere"
             subtext="Flexible Learning, Anytime, Anywhere, Unlock Your Potential."
             class="c-text"
           ></carousel-text>
-        </div>
+        </div> -->
       </v-carousel-item>
 
       <v-carousel-item
@@ -30,7 +30,7 @@
     </v-carousel>
 
     <section id="student-homepage" class="container mt-4">
-      <h3  v-if="trendingCoursesList.length" style="text-align: center">Explore the trending courses</h3>
+      <h3  v-if="trendingCoursesList.length" style="text-align: center">{{$t("Explore the trending courses")}}</h3>
       <v-divider v-if="trendingCoursesList.length" ></v-divider>
       <v-row no-gutters v-if="trendingCoursesList.length" >
         <v-col
@@ -46,12 +46,12 @@
         </v-col>
       </v-row>
 
-      <h3 style="text-align: center">Your Courses</h3>
+      <h3 style="text-align: center">{{$t("Your Courses")}}</h3>
       <v-divider></v-divider>
       <div v-if="!enrolledCoursesList.length" class="mt-2">
         <v-img :src="require('../../assets/no-data.svg')" width="150" class="mx-auto"></v-img>
-        <p class="text-center mt-3">You have not enrolled in any course</p>
-        <v-btn @click="$router.push(`search?searchQuery=`)" class="mx-auto d-block mt-3" variant="flat" color="secondaryCoral" style="color:white !important">Enroll Now</v-btn>
+        <p class="text-center mt-3">{{$t("You have not enrolled in any course")}}</p>
+        <v-btn @click="$router.push(`search?searchQuery=`)" class="mx-auto d-block mt-3" variant="flat" color="secondaryCoral" style="color:white !important">{{$t("Enroll Now")}}</v-btn>
       </div>
 
       <v-row no-gutters>

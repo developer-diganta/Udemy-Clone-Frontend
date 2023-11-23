@@ -1,7 +1,7 @@
 <template lang="">
   <v-breadcrumbs :items="['admin', 'courses']"></v-breadcrumbs>
   <v-row class="justify-center">
-    <v-col cols="12" lg="5">
+    <!-- <v-col cols="12" lg="5">
       <v-sheet :elevation="6" class="pb-5" rounded>
         <pie
           :labels="['Pending Courses', 'Published Courses']"
@@ -9,9 +9,9 @@
           title="Course Status"
         ></pie>
       </v-sheet>
-    </v-col>
+    </v-col> -->
 
-    <v-col cols="12" lg="5">
+    <v-col cols="12" lg="12">
       <v-sheet :elevation="6" class="pt-16 pb-16" rounded>
         <bar
           :totalCourses="totalCourses"

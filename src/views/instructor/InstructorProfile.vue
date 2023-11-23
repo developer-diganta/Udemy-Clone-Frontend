@@ -9,7 +9,7 @@
       <!-- Divider for visual separation -->
       <v-divider></v-divider>
       <!-- Section header -->
-      <h3>Your Profile</h3>
+      <h3>{{$t('profile.yourProfile')}}</h3>
       <!-- Form for updating the instructor profile -->
       <v-form
         class="form-width"
@@ -22,14 +22,14 @@
           v-model="name"
           :rules="rules"
           density="compact"
-          label="Name"
+          :label="$t('profile.name')"
           variant="outlined"
           prepend-inner-icon="mdi-account"
           :readonly="!edit"
         ></v-text-field>
         <!-- Textarea for the instructor's bio -->
         <v-textarea
-          label="Bio"
+          :label="$t('profile.bio')"
           v-model="bio"
           rows="2"
           class="input"
@@ -40,7 +40,7 @@
 
         <!-- File input for updating the instructor's profile picture -->
         <v-file-input
-          label="Profile Image"
+          :label="$t('profile.profileImage')"
           chips
           accept="image/*"
           class="input"
@@ -50,7 +50,7 @@
         ></v-file-input>
         <v-dialog width="500">
           <template v-slot:activator="{ props }">
-            <v-btn class="mb-8" color="primaryTheme" v-bind="props" text="Preview Image"> </v-btn>
+            <v-btn class="mb-8" color="primaryTheme" v-bind="props" :text="$t('profile.previewImage')"> </v-btn>
           </template>
 
           <template v-slot:default="{ isActive }">
@@ -70,114 +70,111 @@
 
                 <v-btn
                   variant="tonal"
-                  text="Close Image"
+                  :text="$t('profile.closeImage')"
                   @click="isActive.value = false"
                 ></v-btn>
               </v-card-actions>
             </v-card>
           </template>
         </v-dialog>
-        <!-- Section for managing social links -->
-        <h4 class="mb-3">Your Social Links</h4>
-        <div v-if="!socialLinks.length">No Links Added</div>
-        <!-- Loop through existing social links -->
-        <v-row v-for="(social, index) in socialLinks" :key="index">
-          <!-- Text field for social link name -->
-          <v-col cols="12" sm="4">
-            <v-text-field
-              v-model="social.name"
-              density="compact"
-              variant="outlined"
-              label="Name"
-              :readonly="!edit"
-              prepend-inner-icon="mdi-web"
-
-            ></v-text-field>
-          </v-col>
-          <!-- Spacer column -->
-          <v-col cols="1" sm="1"></v-col>
-          <!-- Text field for social link URL -->
-          <v-col cols="12" sm="7">
-            <v-text-field
-            
-              v-model="social.link"
-              density="compact"
-              variant="outlined"
-              label="link"
-              :readonly="!edit"
-              prepend-inner-icon="mdi-link"
-
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <!-- Section for adding new social links -->
-        <v-row v-if="edit">
-          <!-- Text field for new social link name -->
-          <v-col cols="12" sm="4">
-            <v-text-field
-              v-model="newSocialName"
-              density="compact"
-              variant="outlined"
-              label="Name"
-              prepend-inner-icon="mdi-web"
-
-            ></v-text-field>
-          </v-col>
-          <!-- Spacer column -->
-          <v-col cols="1" sm="1"></v-col>
-          <!-- Row for new social link URL and add button -->
-          <v-col cols="12" sm="7">
-            <v-row>
-              <!-- Text field for new social link URL -->
-              <v-col cols="12" sm="11">
-                <v-text-field
-                  density="compact"
-                  v-model="newSocialLink"
-                  variant="outlined"
-                  label="link"
-                  prepend-inner-icon="mdi-link"
-
-                ></v-text-field>
-              </v-col>
-              <!-- Add button for new social link -->
-              <v-col cols="12" sm="1">
-                <v-btn @click="addSocial" color="primaryTheme" class="p-2 mt-1" style='padding:5px'>Add</v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-btn
-        type="button"
-        block
-        class="mt-2"
-        color="primaryTheme"
-        style="width: 10%"
-        v-if="!edit"
-        @click="edit = true"
-        >Edit Profile</v-btn
-      >
-        <!-- Submit button for updating the profile -->
-        <v-btn
-          type="submit"
-          block
-          class="mt-2"
-          color="primaryTheme"
-          style="width: 10%"
-          v-if="edit"
-          :disabled="!formEdited"
-        >
-          Submit
-        </v-btn>
-      </v-form>
-    </v-card>
-  </v-sheet>
-</template>
-
+          <!-- Section for managing social links -->
+          <h4 class="mb-3">{{$t('profile.socialLinks')}}</h4>
+          <div v-if="!socialLinks.length">{{$t('profile.noLinksAdded')}}</div>
+          <!-- Loop through existing social links -->
+          <v-row v-for="(social, index) in socialLinks" :key="index">
+            <!-- Text field for social link name -->
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="social.name"
+                density="compact"
+                variant="outlined"
+                :label="$t('profile.name')"
+                :readonly="!edit"
+                prepend-inner-icon="mdi-web"
+              ></v-text-field>
+            </v-col>
+            <!-- Spacer column -->
+            <v-col cols="1" sm="1"></v-col>
+            <!-- Text field for social link URL -->
+            <v-col cols="12" sm="7">
+              <v-text-field
+                v-model="social.link"
+                density="compact"
+                variant="outlined"
+                :label="$t('profile.link')"
+                :readonly="!edit"
+                prepend-inner-icon="mdi-link"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <!-- Section for adding new social links -->
+          <v-row v-if="edit">
+            <!-- Text field for new social link name -->
+            <v-col cols="12" sm="4">
+              <v-text-field
+                v-model="newSocialName"
+                density="compact"
+                variant="outlined"
+                :label="$t('profile.name')"
+                prepend-inner-icon="mdi-web"
+              ></v-text-field>
+            </v-col>
+            <!-- Spacer column -->
+            <v-col cols="1" sm="1"></v-col>
+            <!-- Row for new social link URL and add button -->
+            <v-col cols="12" sm="7">
+              <v-row>
+                <!-- Text field for new social link URL -->
+                <v-col cols="12" sm="11">
+                  <v-text-field
+                    density="compact"
+                    v-model="newSocialLink"
+                    variant="outlined"
+                    :label="$t('profile.link')"
+                    prepend-inner-icon="mdi-link"
+                  ></v-text-field>
+                </v-col>
+                <!-- Add button for new social link -->
+                <v-col cols="12" sm="1">
+                  <v-btn @click="addSocial" color="primaryTheme" class="p-2 mt-1" style='padding:5px'>{{$t('profile.submit')}}</v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-btn
+            type="button"
+            block
+            class="mt-2"
+            color="primaryTheme"
+            style="width: 10%"
+            v-if="!edit"
+            @click="edit = true"
+          >{{$t('profile.editProfile')}}</v-btn>
+          <!-- Submit button for updating the profile -->
+          <v-btn
+            type="submit"
+            block
+            class="mt-2"
+            color="primaryTheme"
+            style="width: 10%"
+            v-if="edit"
+            :disabled="!formEdited"
+          >
+            {{$t('profile.submit')}}
+          </v-btn>
+        </v-form>
+      </v-card>
+    </v-sheet>
+    <div class="mt-5">
+      <Footer/>
+    </div>
+  </template>
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
+import Footer from '@/components/Common/Footer.vue';
 
 export default {
-  components: { Navbar },
+  components: { Navbar,Footer },
   data() {
     return {
       // Instructor profile data
