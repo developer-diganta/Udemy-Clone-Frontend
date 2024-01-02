@@ -15,11 +15,16 @@
       </div>
     </div>
   </section>
+  <div class="mt-5">
+    <Footer />
+  </div>
 </template>
 <script>
 import SignUpForm from "../../components/signUp/TeacherSignUpForm.vue";
+import Footer from "@/components/Common/Footer.vue";
+
 export default {
-  components: { SignUpForm },
+  components: { SignUpForm, Footer },
   name: "InstructorSignup",
   mounted() {
     localStorage.removeItem("otpValidated");
@@ -48,5 +53,14 @@ export default {
 
 .img {
   width: 10%;
+}
+
+@media only screen and (max-width: 792px) {
+  #instructor-signup {
+    display: block;
+  }
+  #form-area {
+    margin-top: 20px;
+  }
 }
 </style>

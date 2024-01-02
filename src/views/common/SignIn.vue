@@ -1,17 +1,40 @@
 <template>
-  <div id="email-form">
-    <h3>Hi there! Please enter your credentials to continue</h3>
+  <div id="email-form" class="center-absolute" style="margin-top: -5%">
+    <v-img
+      :width="300"
+      aspect-ratio="16/9"
+      :src="require('../../assets/uc.png')"
+    ></v-img>
+    <h3 style="margin-top: -5%">
+      Hi there! Please enter your credentials to continue
+    </h3>
     <div id="sign-up-form" style="width: 50%">
       <v-sheet class="mx-auto">
         <v-form @submit.prevent="signInSubmit">
           <v-text-field
             v-model="email"
             :rules="emailRules"
-            label="Email"
+            prepend-inner-icon="mdi-email"
+            placeholder="Email"
           ></v-text-field>
-          <v-text-field v-model="password" label="Password"></v-text-field>
-          <v-btn type="submit" block class="mt-2">Continue</v-btn>
+          <v-text-field
+            type="password"
+            v-model="password"
+            prepend-inner-icon="mdi-key"
+            placeholder="Password"
+          ></v-text-field>
+          <v-btn type="submit" data-cy="signinsubmit" block class="mt-2"
+            >Continue</v-btn
+          >
         </v-form>
+        <div class="text-center mt-5">
+          New User?
+          <span
+            style="color: coral"
+            @click="() => $router.push(`/${type}/signup`)"
+            >Sign Up</span
+          >
+        </div>
       </v-sheet>
     </div>
     <alert
@@ -32,7 +55,7 @@
 import axios from "axios";
 import backendUrl from "../../globals/globals";
 import Alert from "../../ui/Alert.vue";
-
+import emailValidation from "@/utils/validation-rules/emailValidation";
 export default {
   name: "SignInForm",
   components: { Alert },
@@ -44,12 +67,7 @@ export default {
     credentialsMatch: false,
     credentialsMismatch: false,
     errorMessage: "",
-    emailRules: [
-      (value) => {
-        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) return true;
-        return "You must enter an email";
-      },
-    ],
+    emailRules: [emailValidation],
   }),
   computed: {
     endPoint() {
@@ -61,24 +79,57 @@ export default {
     },
   },
   methods: {
+    /**
+     * Handle form submission for signing in.
+     *
+     * @param {Event} e - The form submission event.
+     */
     async signInSubmit(e) {
       try {
-        const res = await axios.post(`${backendUrl}/${this.endPoint}/login`, {
+        const res = await this.$store.dispatch("user/signInSubmit", {
           email: this.email,
           password: this.password,
+          endPoint: this.endPoint,
+          router: this.$router,
         });
-        localStorage.clear();
-        localStorage.setItem("email", res.data.email);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("_id", res.data._id);
-        localStorage.setItem("type", this.type);
         this.credentialsMismatch = false;
         this.credentialsMatch = true;
-        this.$store.commit("user/setUserName", { name: res.data.name });
-        this.$router.push(`/${this.type}/home`);
+        if (res === "otp") this.$router.push("/otp");
+        else {
+          if (
+            this.$store.state.user.name === "" &&
+            localStorage.getItem("type") === "student"
+          ) {
+            try {
+              const res = await this.$store.dispatch(
+                "student/getStudentProfile",
+              );
+              this.$store.commit(
+                "user/setUserName",
+                this.$store.state.student.profile.name,
+              );
+            } catch (error) {
+              console.log(error);
+              return 0;
+            }
+          } else if (
+            this.$store.state.user.name == "" &&
+            localStorage.getItem("type") === "instructor"
+          ) {
+            try {
+              await this.$store.dispatch(
+                "instructor/getInstructorProfileOnLoad",
+              );
+
+              console.log(res);
+            } catch (error) {
+              return 0;
+            }
+          }
+          this.$router.push(`/${this.type}/home`);
+        }
       } catch (error) {
-        console.log(error);
-        this.errorMessage = error.response.data.message;
+        this.errorMessage = error;
         this.credentialsMismatch = true;
         this.credentialsMatch = false;
       }
@@ -86,13 +137,14 @@ export default {
   },
   mounted() {
     this.type = this.$route.params.id;
+    this.emailRules.push(emailValidation);
     this.endPoint === "none" ? this.$router.push("/") : null;
   },
 };
 </script>
 <style scoped>
 #email-form {
-  height: 100vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

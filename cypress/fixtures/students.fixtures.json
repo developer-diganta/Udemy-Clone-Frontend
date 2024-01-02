@@ -1,0 +1,19 @@
+{
+  "email": "dbanik@argusoft.com",
+  "password": "Abc@1234",
+  "sampleQuestion": "This is a sample question",
+  "sampleAnswer": "This is a sample question that will be used for testing this part of the application",
+  "sampleNoteTitle": "Title Of Note",
+  "sampleNoteDescription": "Description Of Note",
+  "exploreCoursesText": "Explore the trending courses",
+  "paymentSuccessfulText": "Payment Successful!",
+  "sampleCourseHeaderText": "Sample Course For Test",
+  "themeBodyClass": "body",
+  "darkThemeClass": "dark",
+  "bengaliText": "জনপ্রিয় কোর্স অন্বেষণ করুন",
+  "englishText": "English",
+  "testReview": "Test Review",
+  "language": "Bengali",
+  "wrongPassword": "Abc@123",
+  "mismatch": "Error: Credentials Mismatch"
+}

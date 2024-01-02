@@ -4,14 +4,8 @@
       <v-text-field
         v-model="email.value.value"
         :error-messages="email.errorMessage.value"
-        style="
-           {
-            outline: 'red';
-          }
-        "
         class="input"
         label="E-mail"
-        disabled
       ></v-text-field>
 
       <v-text-field
@@ -28,84 +22,132 @@
         label="Password"
       ></v-text-field>
 
-      <v-textarea label="Bio" rows="2" class="input"></v-textarea>
+      <v-textarea
+        label="Bio"
+        rows="2"
+        class="input"
+        v-model="bio.value.value"
+      ></v-textarea>
 
       <v-file-input
         label="Profile Image"
         chips
         accept="image/*"
         class="input"
+        @change="handleFileChange($event)"
       ></v-file-input>
 
-      <div>
+      <div class="d-flex">
         <v-btn class="me-4" type="submit"> submit </v-btn>
         <v-btn @click="handleReset"> clear </v-btn>
       </div>
     </form>
+  </div>
+  <div class="text-center mt-5">
+    Already A User?
+    <span style="color: coral" @click="() => $router.push('/signin/instructor')"
+      >Sign In</span
+    >
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import backend_url from "../../globals/globals";
+import nameValidation from "../../utils/validation-rules/nameValidation";
+import emailValidation from "../../utils/validation-rules/emailValidation";
+import passwordValidation from "../../utils/validation-rules/passwordValidation";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import axios from "axios";
+
+const router = useRouter();
+
+const store = useStore();
+
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
-    name(value) {
-      if (value?.length >= 4 && value?.length <= 25) return true;
-
-      return "Name needs to be between 4 and 25 characters.";
-    },
-    email(value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-
-      return "Must be a valid e-mail.";
-    },
-    password(value) {
-      if (
-        value?.length >= 8 &&
-        /[A-Z]/.test(value) &&
-        /[a-z]/.test(value) &&
-        /\d/.test(value) &&
-        /[\W_]/.test(value)
-      )
-        return true;
-
-      return "Password must be at least 8 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character.";
-    },
+    name: nameValidation,
+    email: emailValidation,
+    password: passwordValidation,
   },
 });
 const name = useField("name");
-const phone = useField("phone");
+const bio = useField("bio");
 const email = useField("email");
 const password = useField("password");
-
-email.value.value = localStorage.getItem("signUpEmail") || "test@test.com";
-name.value.value = "John";
+const profileImage = ref(null);
+const newProfileAccount = ref("");
+const newProfileAccountUrl = ref("");
+const socialLinks = ref([]);
+name.value.value = "DIGANTA";
+bio.value.value = "safsafsavdaggagda";
+email.value.value = "chrysaor07@gmail.com";
 password.value.value = "Abc@1234";
+
+/**
+ * Add a new profile link to the socialLinks array.
+ */
+const addProfile = () => {
+  socialLinks.value.push({
+    name: newProfileAccount.value,
+    link: newProfileAccountUrl.value,
+  });
+  console.log(socialLinks.value[0]);
+};
+
+/**
+ * Handle file change event for the profile image input.
+ */
+const handleFileChange = (event) => {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    profileImage.value = e.target.result;
+  };
+
+  reader.readAsDataURL(event.target.files[0]);
+};
+
+/**
+ * Handle form submission.
+ */
 const submit = async () => {
   try {
-    const res = await axios.post(`${backend_url}/instructor`, {
+    await store.dispatch("user/instructorSignUp", {
+      email: email.value.value,
       name: name.value.value,
       password: password.value.value,
-      token: localStorage.getItem("signUpEmailToken"),
+      bio: bio.value.value,
+      profileImage: profileImage._value,
+      socialLinks: socialLinks.value,
     });
-    const token = res.headers.authorization.split(" ")[1];
-    localStorage.clear();
-    localStorage.setItem("token", token);
-    localStorage.setItem("_id", res.data._id);
-    localStorage.setItem("email", res.data.email);
-    localStorage.setItem("type", res.data.type);
-  } catch (error) {}
+    router.push("/otp");
+  } catch (error) {
+    if (error.message === "11000") {
+      store.dispatch("snackbar/showSnackbar", {
+        message: "Instructor Already Exists. Please sign in",
+        type: "Error",
+      });
+    } else {
+      store.dispatch("snackbar/showSnackbar", {
+        message: "There was some error",
+        type: "Error",
+      });
+    }
+  }
 };
 </script>
 <style scoped>
 .input {
   width: 35rem;
-  box-sizing: border-box;
 }
 button {
   background: #37d6d6;
+}
+@media only screen and (max-width: 792px) {
+  .input {
+    width: 15rem;
+  }
 }
 </style>
 

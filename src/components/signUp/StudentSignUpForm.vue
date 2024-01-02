@@ -11,7 +11,8 @@
           "
         class="input"
         label="E-mail"
-        disabled
+        variant="outlined"
+        prepend-inner-icon="mdi-email"
       ></v-text-field>
 
       <v-text-field
@@ -19,6 +20,8 @@
         :error-messages="name.errorMessage.value"
         class="input"
         label="Name"
+        variant="outlined"
+        prepend-inner-icon="mdi-account"
       ></v-text-field>
 
       <v-text-field
@@ -26,16 +29,10 @@
         :error-messages="password.errorMessage.value"
         class="input"
         label="Password"
+        variant="outlined"
+        prepend-inner-icon="mdi-key"
+        type="password"
       ></v-text-field>
-
-      <!-- <v-textarea label="Bio" rows="2" class="input"></v-textarea>
-  
-        <v-file-input
-          label="Profile Image"
-          chips
-          accept="image/*"
-          class="input"
-        ></v-file-input> -->
 
       <div>
         <v-btn class="me-4" type="submit"> submit </v-btn>
@@ -43,12 +40,25 @@
       </div>
     </form>
   </div>
+  <div class="text-center mt-5">
+    Already A User?
+    <span style="color: coral" @click="() => $router.push('/signin/student')"
+      >Sign In</span
+    >
+  </div>
 </template>
 <script setup>
 import { ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import backend_url from "../../globals/globals";
 import axios from "axios";
+import { useStore } from "vuex";
+import emailValidation from "@/utils/validation-rules/emailValidation";
+import { useRouter } from "vue-router";
+
+const store = useStore();
+const router = useRouter();
+
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
     name(value) {
@@ -56,11 +66,7 @@ const { handleSubmit, handleReset } = useForm({
 
       return "Name needs to be between 4 and 25 characters.";
     },
-    email(value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-
-      return "Must be a valid e-mail.";
-    },
+    email: emailValidation,
     password(value) {
       if (
         value?.length >= 8 &&
@@ -80,23 +86,42 @@ const phone = useField("phone");
 const email = useField("email");
 const password = useField("password");
 
-email.value.value = localStorage.getItem("signUpEmail") || "test@test.com";
+email.value.value = "chrysaor07@gmail.com";
 name.value.value = "John";
 password.value.value = "Abc@1234";
 const submit = async () => {
   try {
-    const res = await axios.post(`${backend_url}/student`, {
+    const res = await store.dispatch("user/studentSignUp", {
+      email: email.value.value,
       name: name.value.value,
       password: password.value.value,
-      token: localStorage.getItem("signUpEmailToken"),
     });
-    const token = res.headers.authorization.split(" ")[1];
+
     localStorage.clear();
-    localStorage.setItem("token", token);
-    localStorage.setItem("_id", res.data._id);
+
+    if (res.data._id) {
+      localStorage.setItem("_id", res.data._id);
+    } else if (res.data.otpValidation === 0) {
+      localStorage.setItem("otpValidation", res.data.otpValidation);
+    }
+
     localStorage.setItem("email", res.data.email);
     localStorage.setItem("type", res.data.type);
-  } catch (error) {}
+
+    router.push("/otp");
+  } catch (error) {
+    if (error.message === "11000") {
+      store.dispatch("snackbar/showSnackbar", {
+        message: "Instructor Already Exists. Please sign in",
+        type: "Error",
+      });
+    } else {
+      store.dispatch("snackbar/showSnackbar", {
+        message: "There was some error",
+        type: "Error",
+      });
+    }
+  }
 };
 </script>
 <style scoped>

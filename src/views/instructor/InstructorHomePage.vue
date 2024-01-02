@@ -1,58 +1,93 @@
 <template>
-  <navbar></navbar>
   <div class="container">
     <h2 style="text-align: center; margin-top: 20px; margin-bottom: 40px">
-      Hello, {{ userName }} (Instructor)
+      {{ $t("message.hello") }}, {{ userName }} ({{ $t("page.title") }})
     </h2>
     <section id="statistics">
-      <section id="course-stats">
+      <section v-if="trendingCourses.length && !selfCourses.length">
         <stat-card
           :stats="trendingCourses"
           :title="'Trending Courses'"
         ></stat-card>
+      </section>
+      <section v-if="!trendingCourses.length && selfCourses.length">
         <stat-card :stats="selfCourses" :title="'Your Courses'"></stat-card>
       </section>
+      <section
+        id="course-stats"
+        v-if="trendingCourses.length && selfCourses.length"
+      >
+        <stat-card
+          :stats="trendingCourses"
+          :title="'Trending Courses'"
+        ></stat-card>
+
+        <stat-card :stats="selfCourses" :title="'Your Courses'"></stat-card>
+      </section>
+
+      <section v-if="!selfCourses.length && !trendingCourses.length">
+        <v-card class="p-4" style="padding: 2%">
+          <v-img
+            :src="require('../../assets/void.svg')"
+            class="mx-auto"
+            width="200"
+          ></v-img>
+          <v-card-title class="text-center">{{
+            $t("stats.noDataMessage")
+          }}</v-card-title>
+          <v-card-actions>
+            <v-btn
+              color="secondaryCoral"
+              variant="flat"
+              class="mx-auto"
+              @click="$router.push('course/add')"
+            >
+              {{ $t("stats.createCourse") }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </section>
     </section>
+  </div>
+  <div class="" style="position: fixed; bottom: 0; width: 100%">
+    <Footer />
   </div>
 </template>
 <script>
 import StatCard from "@/ui/StatCard.vue";
 import Navbar from "../../components/Navbar/Navbar.vue";
 import axios from "axios";
+import Footer from "@/components/Common/Footer.vue";
 export default {
   components: {
     Navbar,
     StatCard,
+    Footer,
   },
   data: () => ({
     userName: "John Doe",
 
-    selfCourses: [
-      {
-        title: "Introduction to JS",
-      },
-      {
-        title: "Understanding Elastic Search",
-      },
-      {
-        title: "Deep Dive Into DevOps",
-      },
-      {
-        title: "React Masterclass 2023",
-      },
-    ],
+    selfCourses: [],
     trendingCourses: [],
   }),
   methods: {
     async fetchTrendingCourses() {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/courses?",
+        const response = await this.$store.dispatch(
+          "common/fetchTrendingCourses",
         );
-        console.log(response.data);
-        this.trendingCourses = response.data;
+        this.trendingCourses = this.$store.state.common.trendingCourses;
       } catch (error) {
         console.error("Error fetching trending courses:", error);
+      }
+    },
+    async fetchSelfCourse() {
+      try {
+        await this.$store.dispatch("instructor/fetchSelfCourses");
+        console.log(this.$store.state.instructor.selfCourses);
+        this.selfCourses = this.$store.state.instructor.selfCourses;
+      } catch (error) {
+        console.error(error);
       }
     },
   },
@@ -61,8 +96,9 @@ export default {
       return this.$store.state.user.name;
     },
   },
-  mounted() {
+  created() {
     this.fetchTrendingCourses();
+    this.fetchSelfCourse();
   },
 };
 </script>
@@ -70,5 +106,10 @@ export default {
 #course-stats {
   display: flex;
   justify-content: space-evenly;
+}
+@media only screen and (max-width: 792px) {
+  #course-stats {
+    flex-direction: column;
+  }
 }
 </style>

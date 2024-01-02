@@ -13,7 +13,9 @@
     </v-alert>
 
     <div v-if="!alert" class="text-center">
-      <v-btn v-if="reset" @click="alert = true"> Reset </v-btn>
+      <v-btn v-if="reset" @click="alert = true" data-value="reset">
+        Reset
+      </v-btn>
     </div>
   </div>
 </template>

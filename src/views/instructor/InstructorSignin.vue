@@ -2,11 +2,16 @@
   <section id="instructor-signup">
     <sign-in></sign-in>
   </section>
+  <div class="mt-5">
+    <Footer />
+  </div>
 </template>
 <script>
 import SignIn from "@/components/signUp/SignIn.vue";
+import Footer from "@/components/Common/Footer.vue";
+
 export default {
-  components: { SignIn },
+  components: { SignIn, Footer },
   name: "InstructorSignin",
 };
 </script>

@@ -1,25 +1,17 @@
 <template>
-  <div v-if="!otpSent" id="email-form">
-    <h3>Please Enter Your Email To Continue</h3>
+  <div id="email-form">
+    <h3>
+      OTP Has Been Sent To Your email address! Please enter your OTP to continue
+    </h3>
     <div id="sign-up-form" style="width: 50%">
       <v-sheet class="mx-auto">
-        <v-form @submit.prevent="emailFormSubmit">
-          <v-text-field
-            v-model="email"
-            :rules="rules"
-            label="Email"
-          ></v-text-field>
-          <v-btn type="submit" block class="mt-2">Continue</v-btn>
-        </v-form>
-      </v-sheet>
-    </div>
-  </div>
-  <div v-else id="email-form">
-    <h3>OTP Sent! Please enter your OTP to continue</h3>
-    <div id="sign-up-form" style="width: 50%">
-      <v-sheet class="mx-auto">
-        <v-form @submit.prevent="otpValidate">
+        <v-form @submit.prevent="otpValidate" data-value="form">
           <v-text-field v-model="otp" label="OTP"></v-text-field>
+          <v-otp-input
+            variant="solo-filled"
+            v-model="otp"
+            type="text"
+          ></v-otp-input>
           <v-btn type="submit" block class="mt-2">Continue</v-btn>
         </v-form>
       </v-sheet>
@@ -48,61 +40,66 @@ export default {
   name: "EmailForm",
   components: { Alert },
   data: () => ({
-    email: "dbanik@argusoft.com",
-    emailToken: "",
     otpSent: false,
     otp: "",
     type: "",
+    email: "",
     otpValidationError: false,
     otpValidationSuccess: false,
-    rules: [
-      (value) => {
-        if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) return true;
-
-        return "You must enter an email";
-      },
-    ],
   }),
   methods: {
-    async emailFormSubmit(e) {
-      const res = await axios.post(`${backendUrl}/otp`, {
-        email: this.email,
-      });
-
-      if (
-        typeof res.data === "object" &&
-        res.data !== null &&
-        "emailToken" in res.data
-      ) {
-        this.emailToken = res.data.emailToken;
-        this.otpSent = true;
-      }
-    },
+    /**
+     * Validates OTP (One-Time Password) for user authentication
+     * If successful, sets authentication details in localStorage and redirects to respective home page
+     * If an error occurs, sets validation error flag and handles the error silently
+     */
     async otpValidate() {
       try {
+        // Reset validation error flag
         this.otpValidationError = false;
-        const res = await axios.post(`${backendUrl}/otp/verify`, {
-          token: this.emailToken,
+
+        // Dispatches an action to validate OTP for authentication
+        const res = await this.$store.dispatch("otpValidate", {
           otp: this.otp,
+          email: this.email,
+          type: this.type,
         });
+
+        // Sets flags and stores authentication details upon successful OTP validation
         this.otpValidationSuccess = true;
-        localStorage.setItem("otpValidated", true);
-        localStorage.setItem("signUpEmail", this.email);
-        localStorage.setItem("signUpEmailToken", this.emailToken);
+        localStorage.setItem("otpValidation", 1);
+        const token = res.headers.authorization.split(" ")[1];
+        localStorage.setItem("token", token);
+        localStorage.setItem("_id", res.data._id);
+
+        // Redirects to the respective home page after a delay
         setTimeout(() => {
-          if (this.type === "teacher") {
-            this.$router.push("/instructor/signup");
+          if (this.type === "instructor") {
+            this.$router.push("/instructor/home");
           } else {
-            this.$router.push("/student/signup");
+            this.$router.push("/student/home");
           }
         }, 1000);
       } catch (err) {
+        // Sets validation error flag if OTP validation fails
         this.otpValidationError = true;
       }
     },
   },
-  mounted() {
-    this.type = this.$route.params.id;
+  watch: {
+    email() {
+      if (!this.email) {
+        this.$router.push("/instructor/signup");
+      }
+    },
+  },
+  created() {
+    this.email = localStorage.getItem("email");
+    this.type = localStorage.getItem("type");
+    console.log(this.email);
+    this.$store.dispatch("emailFormSubmit", { email: this.email });
+    this.otpSent = true;
+    console.log(this.type);
   },
 };
 </script>
