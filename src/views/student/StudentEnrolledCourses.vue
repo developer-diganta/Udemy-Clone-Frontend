@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 3%; background: black; color: white" class="mb-5">
-    <h1>{{ $t('My Courses') }}</h1>
+    <h1>{{ $t("My Courses") }}</h1>
   </div>
   <div class="container">
     <v-divider></v-divider>
@@ -10,9 +10,9 @@
         width="200"
         class="mx-auto mt-5 mb-5"
       ></v-img>
-      <h3>{{ $t('Please Enroll in your first course!') }}</h3>
+      <h3>{{ $t("Please Enroll in your first course!") }}</h3>
       <v-btn color="primaryTheme" @click="$router.push('search?searchQuery=')">
-        {{ $t('Check Out the courses') }}
+        {{ $t("Check Out the courses") }}
       </v-btn>
     </div>
     <v-row class="mt-10" v-else>

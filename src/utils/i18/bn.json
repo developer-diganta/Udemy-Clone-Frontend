@@ -1,33 +1,33 @@
 {
-    "message": {
-      "hello": "নমস্কার"
-    },
-    "page": {
-      "title": "ড্যাশবোর্ড"
-    },
-    "stats": {
-      "trendingCourses": "জনপ্রিয় কোর্সসমূহ",
-      "yourCourses": "আপনার কোর্স",
-      "createCourse": "একটি কোর্স তৈরি করুন",
-      "noDataMessage": "দুঃখিত! আমাদের এখন প্রদর্শন করার জন্য যথেষ্ট ডেটা নেই। শুরু করতে একটি কোর্স তৈরি করুন!"
-    },
-    "profile": {
-      "yourProfile": "আপনার প্রোফাইল",
-      "name": "নাম",
-      "bio": "জীবনী",
-      "profileImage": "প্রোফাইল ছবি",
-      "previewImage": "ছবি প্রিভিউ",
-      "closeImage": "ছবি বন্ধ করুন",
-      "socialLinks": "আপনার সোশ্যাল লিঙ্কগুলি",
-      "noLinksAdded": "কোনো লিংক যুক্ত হয়নি",
-      "editProfile": "প্রোফাইল সম্পাদনা করুন",
-      "submit": "জমা দিন"
-    },
-    "snackbar": {
-      "profileUpdated": "প্রোফাইল আপডেট হয়েছে",
-      "success": "সাফল্য"
-    },
-    "My Courses": "আমার কোর্সসমূহ",
+  "message": {
+    "hello": "নমস্কার"
+  },
+  "page": {
+    "title": "ড্যাশবোর্ড"
+  },
+  "stats": {
+    "trendingCourses": "জনপ্রিয় কোর্সসমূহ",
+    "yourCourses": "আপনার কোর্স",
+    "createCourse": "একটি কোর্স তৈরি করুন",
+    "noDataMessage": "দুঃখিত! আমাদের এখন প্রদর্শন করার জন্য যথেষ্ট ডেটা নেই। শুরু করতে একটি কোর্স তৈরি করুন!"
+  },
+  "profile": {
+    "yourProfile": "আপনার প্রোফাইল",
+    "name": "নাম",
+    "bio": "জীবনী",
+    "profileImage": "প্রোফাইল ছবি",
+    "previewImage": "ছবি প্রিভিউ",
+    "closeImage": "ছবি বন্ধ করুন",
+    "socialLinks": "আপনার সোশ্যাল লিঙ্কগুলি",
+    "noLinksAdded": "কোনো লিংক যুক্ত হয়নি",
+    "editProfile": "প্রোফাইল সম্পাদনা করুন",
+    "submit": "জমা দিন"
+  },
+  "snackbar": {
+    "profileUpdated": "প্রোফাইল আপডেট হয়েছে",
+    "success": "সাফল্য"
+  },
+  "My Courses": "আমার কোর্সসমূহ",
   "Unpublished Courses": "অপ্রকাশিত কোর্সসমূহ",
   "Create a New Course": "নতুন কোর্স তৈরি করুন",
   "No Published(Pending for Review) Courses": "কোনো প্রকাশিত (পর্যালোচনার জন্য মুলতুবি) কোর্স নেই",
@@ -97,14 +97,14 @@
   "Name": "নাম",
   "Email": "ইমেইল",
   "Edit Profile": "প্রোফাইল সম্পাদনা করুন",
-  "Profile":"প্রোফাইল",
+  "Profile": "প্রোফাইল",
   "Submit": "জমা দিন",
   "My Courses": "আমার কোর্সগুলি",
   "Please Enroll in your first course!": "দয়া করে আপনার প্রথম কোর্সে নামানো করুন!",
   "Check Out the courses": "কোর্স চেক করুন",
   "Payment Successful!": "পেমেন্ট সফল!",
   "You have successfully enrolled in this course! Happy Learning!": "আপনি এই কোর্সে সফলভাবে ইনরোল হয়েছেন! শুভ অধ্যয়ন!",
-  "Enrolled Courses":"ইনরোল কোর্স",
+  "Enrolled Courses": "ইনরোল কোর্স",
   "Done": "সম্পন্ন",
   "Total Courses Purchased": "মোট ক্রেতা কোর্স",
   "Total Courses": "মোট কোর্স",
@@ -139,12 +139,12 @@
   "Home": "হোম",
   "Courses": "কোর্স",
   "Instructors": "শিক্ষক",
-  "Students": "ছাত্রছাত্রী",      
+  "Students": "ছাত্রছাত্রী",
   "Revenue": "রাজস্ব",
   "Course Status": "কোর্স স্থিতি",
   "Log Out": "লগ আউট",
   "Logout": "লগ আউট",
-  "Search Courses":"অনুসন্ধান কোর্স",
+  "Search Courses": "অনুসন্ধান কোর্স",
   "Home": "হোম",
   "About Us": "আমাদের সম্পর্কে",
   "Team": "দল",
@@ -163,6 +163,4 @@
   "prepend-avatar and append-avatar": "প্রিপেন্ড-অবতার এবং অ্যাপেন্ড-অবতার",
   "Learn Anytime, Anywhere": "যে সময় পাঠ করুন, যেখানেই চাইতেন",
   "Flexible Learning, Anytime, Anywhere, Unlock Your Potential.": "সময় অকলনে শিখুন, যেখানেই চাইতেন, আপনার সম্ভাবনা মুক্ত করুন।"
-
-  }
-  
+}

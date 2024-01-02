@@ -15,9 +15,9 @@ describe("AdminHome.vue", () => {
       admin: {
         totalCoursesPurchased: 100,
         totalCourses: 150,
-          allStudents: [],
-          allCourses:[],
-          allInstructors:[],
+        allStudents: [],
+        allCourses: [],
+        allInstructors: [],
         payments: [
           {
             paymentDetails: {

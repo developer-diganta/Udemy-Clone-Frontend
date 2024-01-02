@@ -15,10 +15,12 @@
         size="112"
       ></v-icon>
 
-      <h2 class="text-h5 mb-6">{{$t("Payment Successful!")}}</h2>
+      <h2 class="text-h5 mb-6">{{ $t("Payment Successful!") }}</h2>
 
       <p class="mb-4 text-medium-emphasis text-body-2">
-        {{$t("You have successfully enrolled in this course! Happy Learning!")}}
+        {{
+          $t("You have successfully enrolled in this course! Happy Learning!")
+        }}
       </p>
 
       <v-divider class="mb-4"></v-divider>
@@ -31,14 +33,15 @@
           variant="flat"
           width="90"
           @click="hideSuccess"
+          data-cy="success"
         >
-          {{$t("Done")}}
+          {{ $t("Done") }}
         </v-btn>
       </div>
     </v-sheet>
     <v-row class="container-secondary mt-4">
       <v-col cols="12" md="9">
-        <div id="video-area" v-if="!courseComplete">
+        <div id="video-area" v-if="!courseComplete && type !== 'exercise'">
           <video-player
             @video-ended="handleVideoEnded"
             :currentVideo="currentVideo?.videoLink"
@@ -54,7 +57,25 @@
             <p>Loading Next Video In {{ timeToNextVideo }}</p>
           </div>
         </div>
-        <div v-else>
+
+        <div v-if="type === 'exercise'">
+          <div
+            class="mx-auto"
+            style="border: 1px solid black; min-height: 400px"
+          >
+            <h4 class="text-center">Q:{{ exercise.title }}</h4>
+            <h5 class="text-center">{{ exercise.description }}</h5>
+            <div style="margin: 0 auto !important">
+              <code-editor
+                :courseId="courseId"
+                :questionId="selectedI"
+                :section="selectedIndex"
+              ></code-editor>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="courseComplete">
           <v-card class="d-flex justify-center align-center flex-column">
             <v-img
               :src="require('../../assets/complete.svg')"
@@ -67,9 +88,9 @@
         <v-card class="tab-wrapper rounded-0">
           <v-tabs v-model="tab" bg-color="primaryTheme">
             <v-tab value="overview">Overview</v-tab>
-            <v-tab value="qa">Q&A</v-tab>
-            <v-tab value="reviews">Reviews</v-tab>
-            <v-tab value="notes">Notes</v-tab>
+            <v-tab value="qa" data-cy="qa">Q&A</v-tab>
+            <v-tab value="reviews" data-cy="reviews">Reviews</v-tab>
+            <v-tab value="notes" data-cy="notes">Notes</v-tab>
             <v-tab class="d-md-none" value="coursecontents"
               >Course Contents</v-tab
             >
@@ -154,15 +175,22 @@
               </v-window-item>
 
               <v-window-item value="notes">
-       
                 <v-card v-for="(note, index) in notes" :key="index">
-                  <v-card style="margin:10px;padding:15px">
-                    <v-card-title>{{note.header}}</v-card-title>
-                    <v-card-subtitle>{{note.description}}</v-card-subtitle>
-                    <v-card-actions class="mt-2" style="display:float;float:right">
-                      <v-btn icon="mdi-delete" @click="deleteNote(index)" variant="flat" size="x-small" color="primaryTheme"></v-btn>
+                  <v-card style="margin: 10px; padding: 15px">
+                    <v-card-title>{{ note.header }}</v-card-title>
+                    <v-card-subtitle>{{ note.description }}</v-card-subtitle>
+                    <v-card-actions
+                      class="mt-2"
+                      style="display: float; float: right"
+                    >
+                      <v-btn
+                        icon="mdi-delete"
+                        @click="deleteNote(index)"
+                        variant="flat"
+                        size="x-small"
+                        color="primaryTheme"
+                      ></v-btn>
                       <!-- <v-btn icon="mdi-pen" variant="flat" size="x-small" color="primaryTheme"></v-btn> -->
-
                     </v-card-actions>
                   </v-card>
                 </v-card>
@@ -264,6 +292,7 @@ import QuestionAnswerForm from "@/components/Course/QuestionAnswerForm.vue";
 import Iterable from "@/components/Common/Iterable.vue";
 import Reviews from "@/components/Course/Reviews.vue";
 import StudentNotes from "@/views/student/StudentNotes.vue";
+import CodeEditor from "@/components/CodeEditor/CodeEditor.vue";
 export default {
   components: {
     VideoPlayer,
@@ -273,6 +302,7 @@ export default {
     Iterable,
     Reviews,
     StudentNotes,
+    CodeEditor,
   },
   data() {
     return {
@@ -298,17 +328,22 @@ export default {
       dialog: false,
       dialogActive: false,
       ratings: 0,
+      type: "",
+      exercise: {},
+      courseId: "",
     };
   },
   methods: {
-    async deleteNote(id){
-      await this.$store.dispatch("student/deleteNote", {course:this.course._id,noteId:id})
+    async deleteNote(id) {
+      await this.$store.dispatch("student/deleteNote", {
+        course: this.course._id,
+        noteId: id,
+      });
       await this.getNotes();
     },
     async getNotes() {
-      await this.$store.dispatch("student/getNotes",this.course._id);
+      await this.$store.dispatch("student/getNotes", this.course._id);
       this.notes = this.$store.state.student.notes;
-
     },
     /**
      * Reload the course details.
@@ -351,6 +386,8 @@ export default {
           this.$store.state.common.singleCourse.lessons[0]?.videos[0];
 
         this.course = this.$store.state.common.singleCourse;
+        console.log("PPPPPPPPPPPPPLLLLLLLLLLLLLL", this.course._id);
+        this.courseId = this.course._id;
         this.questionAnswers = this.course.questionAnswers;
       } catch (error) {
         console.log(error);
@@ -373,6 +410,13 @@ export default {
         this.selectedI = i = 0;
       }
       this.currentVideo = this.course.lessons[index].videos[i];
+      this.type = "";
+      if (this.currentVideo.type === "exercise") {
+        if (this.course.lessons[index].videos[i].type === "exercise") {
+          this.exercise = { ...this.course.lessons[index].videos[i] };
+          this.type = "exercise";
+        }
+      }
     },
 
     /**
@@ -384,7 +428,10 @@ export default {
         this.selectedIndex + "," + this.selectedI,
       );
 
-      if (this.selectedIndex + 1 >= this.course.lessons.length && !this.course.lessons[this.selectedIndex].videos[this.selectedI+1]) {
+      if (
+        this.selectedIndex + 1 >= this.course.lessons.length &&
+        !this.course.lessons[this.selectedIndex].videos[this.selectedI + 1]
+      ) {
         this.courseComplete = true;
         if (!this.dialogActive) {
           this.dialog = true;

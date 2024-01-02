@@ -37,15 +37,23 @@ export default {
     };
   },
   methods: {
+    /**
+     * Fetches the name of a student using their ID from the backend
+     * @returns {String} - Name of the student
+     */
     async getName() {
       const res = await axios.get(
         `${backend_url}/student/name?id=${this.review.reviewer}`,
       );
       return res.data;
     },
-  },
-  async created() {
-    this.name = await this.getName();
+
+    /**
+     * Sets the 'name' data property by fetching the name using 'getName' method upon component creation
+     */
+    async created() {
+      this.name = await this.getName();
+    },
   },
 };
 </script>

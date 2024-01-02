@@ -47,14 +47,14 @@
           >Ratings</v-btn
         >
 
-        <v-btn
+        <!-- <v-btn
           class="ml-auto mr-2"
           variant="tonal"
           size="small"
           @click="sortItems(1, 'enrollments')"
           v-if="type === 'search'"
           >Most Enrolled</v-btn
-        >
+        > -->
       </div>
     </div>
 
@@ -102,8 +102,6 @@
       >
         {{ index }}
       </v-btn>
-
-      <!-- <question-answers-dialog :dialogOpen="dialogOpen" :title="item.title" :description="item.description"></question-answers-dialog> -->
     </div>
   </div>
 </template>
@@ -125,17 +123,33 @@ export default {
     };
   },
   methods: {
+    /**
+     * Navigates to the next page of items
+     * @param {number} index - Index of the next page
+     */
     nextPage(index) {
       this.currentPage = index - 1;
       this.updateCurrentItems();
     },
+    /**
+     * Sorts the items based on a specified order and field
+     * @param {number} order - Sort order (-1 for descending, 1 for ascending)
+     * @param {string} field - Field to sort by (e.g., 'askedOn', 'price', 'rating', 'enrollments')
+     */
     sortItems(order, field) {
-      console.log("field");
       switch (order) {
         case 1:
-          this.itemsCopy = this.itemsCopy.sort(
-            (a, b) => new Date(a[field]) - new Date(b[field]),
-          );
+          if (field === "rating") {
+            this.itemsCopy = this.itemsCopy.sort(
+              (a, b) =>
+                b.reviews.reduce((total, review) => total + review.rating, 0) -
+                a.reviews.reduce((total, review) => total + review.rating, 0),
+            );
+          } else {
+            this.itemsCopy = this.itemsCopy.sort(
+              (a, b) => new Date(a[field]) - new Date(b[field]),
+            );
+          }
           break;
         case -1:
           this.itemsCopy = this.itemsCopy.sort(
@@ -143,32 +157,46 @@ export default {
           );
           break;
       }
-      console.log(this.itemsCopy);
       this.updateCurrentItems();
     },
+    /**
+     * Updates the current items displayed based on the pagination
+     */
     updateCurrentItems() {
       const startIndex = this.currentPage * parseInt(this.itemsPerPage);
       const endIndex = startIndex + parseInt(this.itemsPerPage);
       this.currentItems = this.itemsCopy.slice(startIndex, endIndex);
     },
+    /**
+     * Emits event to refresh the question-answer component
+     * @param {*} data - Data to emit
+     */
     qaFresh(data) {
       this.$emit("qa-fresh", data);
     },
   },
   computed: {
+    /**
+     * Computes the total number of pages based on the items and itemsPerPage
+     * @returns {number} - Total number of pages
+     */
     totalPages() {
       return Math.ceil(this.itemsCopy.length / this.itemsPerPage);
     },
   },
   watch: {
+    /**
+     * Watches for changes in currentPage and updates the current items
+     */
     currentPage() {
       this.updateCurrentItems();
     },
   },
   created() {
-    console.log(this.items);
+    /**
+     * Initializes the component by copying items and updating current items
+     */
     this.itemsCopy = [...this.items];
-    console.log(this.type);
     this.updateCurrentItems();
   },
 };

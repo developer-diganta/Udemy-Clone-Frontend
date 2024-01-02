@@ -7,6 +7,11 @@
       <v-sheet class="mx-auto">
         <v-form @submit.prevent="otpValidate" data-value="form">
           <v-text-field v-model="otp" label="OTP"></v-text-field>
+          <v-otp-input
+            variant="solo-filled"
+            v-model="otp"
+            type="text"
+          ></v-otp-input>
           <v-btn type="submit" block class="mt-2">Continue</v-btn>
         </v-form>
       </v-sheet>
@@ -43,23 +48,31 @@ export default {
     otpValidationSuccess: false,
   }),
   methods: {
+    /**
+     * Validates OTP (One-Time Password) for user authentication
+     * If successful, sets authentication details in localStorage and redirects to respective home page
+     * If an error occurs, sets validation error flag and handles the error silently
+     */
     async otpValidate() {
       try {
+        // Reset validation error flag
         this.otpValidationError = false;
 
+        // Dispatches an action to validate OTP for authentication
         const res = await this.$store.dispatch("otpValidate", {
           otp: this.otp,
           email: this.email,
           type: this.type,
         });
 
+        // Sets flags and stores authentication details upon successful OTP validation
         this.otpValidationSuccess = true;
         localStorage.setItem("otpValidation", 1);
         const token = res.headers.authorization.split(" ")[1];
-        console.log("PPPPPPPPP", token);
         localStorage.setItem("token", token);
-        console.log(res.data);
         localStorage.setItem("_id", res.data._id);
+
+        // Redirects to the respective home page after a delay
         setTimeout(() => {
           if (this.type === "instructor") {
             this.$router.push("/instructor/home");
@@ -68,6 +81,7 @@ export default {
           }
         }, 1000);
       } catch (err) {
+        // Sets validation error flag if OTP validation fails
         this.otpValidationError = true;
       }
     },

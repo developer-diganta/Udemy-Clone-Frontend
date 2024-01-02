@@ -17,7 +17,7 @@
     <v-rating
       :length="5"
       :size="32"
-      :model-value="ratings"
+      :model-value="rating"
       readonly
       half-increments
       active-color="primaryTheme"
@@ -33,6 +33,7 @@
         color="primaryTheme"
         variant="tonal"
         @click="enroll"
+        data-cy="checkc"
       >
         Check Course
       </v-btn>
@@ -68,20 +69,27 @@
 <script>
 export default {
   props: ["course", "type"],
-  mounted() {
-    console.log(this.course);
-  },
   data: () => ({
     show: false,
     ratings: 0,
   }),
   methods: {
+    /**
+     * Redirects user to enroll in the course
+     */
     enroll() {
       this.$router.push(`/student/enroll/${this.course._id}`);
     },
+    /**
+     * Redirects user to view the course
+     */
     goToCourse() {
       this.$router.push(`/student/learn?courseId=${this.course._id}`);
     },
+    /**
+     * Calculates average ratings for the course based on reviews
+     * @returns {number} - Average rating for the course
+     */
     ratingsCalculated() {
       if (this.course.reviews) {
         return (
@@ -93,6 +101,17 @@ export default {
       } else return 0;
     },
   },
+  computed: {
+    rating() {
+      return this.course.reviews.reduce(
+        (total, review) => total + review.rating,
+        0,
+      );
+    },
+  },
+  /**
+   * Lifecycle hook - runs when the component is created
+   */
   created() {
     this.ratings = this.ratingsCalculated();
   },

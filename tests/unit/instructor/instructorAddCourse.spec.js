@@ -91,7 +91,7 @@ describe("CreateCourse.vue", () => {
           description: "Sample description",
           price: 100,
           discount: 10,
-          thumbnail:"",
+          thumbnail: "",
           categories: ["Category 1", "Category 2"],
         },
       },

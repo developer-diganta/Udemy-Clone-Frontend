@@ -32,9 +32,19 @@
     </v-carousel>
   </div>
   <section>
-    <h3 style="text-align: center">{{$t('Explore the trending courses')}}</h3>
+    <h3 style="text-align: center">{{ $t("Explore the trending courses") }}</h3>
     <v-divider></v-divider>
-    <h2 class="text-center" style="margin:2%" v-if="!trendingCoursesList.length">{{$t("SORRY! WE ARE WORKING ON GETTING THE MOST TRENDING COURSES UP SOON!")}}</h2>
+    <h2
+      class="text-center"
+      style="margin: 2%"
+      v-if="!trendingCoursesList.length"
+    >
+      {{
+        $t(
+          "SORRY! WE ARE WORKING ON GETTING THE MOST TRENDING COURSES UP SOON!",
+        )
+      }}
+    </h2>
     <v-row no-gutters>
       <v-col
         v-for="(course, index) in trendingCoursesList"
@@ -50,7 +60,7 @@
     </v-row>
   </section>
   <section>
-    <h3 style="text-align: center">{{$t("Hear from our users")}}</h3>
+    <h3 style="text-align: center">{{ $t("Hear from our users") }}</h3>
     <v-divider></v-divider>
     <div class="d-flex mt-5">
       <v-card
@@ -66,7 +76,11 @@
         </template>
 
         <v-card-text class="text-h5 py-2">
-{{$t("Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.")}}
+          {{
+            $t(
+              "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
+            )
+          }}
         </v-card-text>
 
         <v-card-actions>
@@ -108,7 +122,11 @@
         </template>
 
         <v-card-text class="text-h5 py-2">
-{{$t("Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.")}}
+          {{
+            $t(
+              "Turns out semicolon-less style is easier and safer in TS because most gotcha edge cases are type invalid as well.",
+            )
+          }}
         </v-card-text>
 
         <v-card-actions>
@@ -139,13 +157,12 @@
     </div>
   </section>
   <section>
-    <h3 style="text-align: center">{{$t("Why Us?")}}</h3>
+    <h3 style="text-align: center">{{ $t("Why Us?") }}</h3>
     <v-divider></v-divider>
     <v-row align="center" justify="center" class="mt-5 mb-5">
       <v-col cols="auto">
         <v-card
           class="mx-auto"
-         
           title="Icons"
           subtitle="prepend-icon and append-icon"
           prepend-icon="mdi-account"
@@ -159,12 +176,7 @@
       </v-col>
 
       <v-col cols="auto">
-        <v-card
-          class="mx-auto"
-         
-          title="Icons"
-          subtitle="prepend and append"
-        >
+        <v-card class="mx-auto" title="Icons" subtitle="prepend and append">
           <template v-slot:prepend>
             <v-icon icon="mdi-account" color="primary"></v-icon>
           </template>
@@ -181,7 +193,6 @@
       <v-col cols="auto">
         <v-card
           class="mx-auto"
-         
           title="Avatars"
           subtitle="prepend-avatar and append-avatar"
           prepend-avatar="https://cdn.vuetifyjs.com/images/logos/v-alt.svg"
@@ -195,12 +206,7 @@
       </v-col>
 
       <v-col cols="auto">
-        <v-card
-          class="mx-auto"
-         
-          title="Avatars"
-          subtitle="prepend and append"
-        >
+        <v-card class="mx-auto" title="Avatars" subtitle="prepend and append">
           <template v-slot:prepend>
             <v-avatar color="blue-darken-2">
               <v-icon icon="mdi-alarm"></v-icon>

@@ -24,17 +24,17 @@ describe("StatCard.vue", () => {
             },
           },
         },
-        user:{
-          state:{
-            user:{
-              _id:""
-            }
-          }
-        }
+        user: {
+          state: {
+            user: {
+              _id: "",
+            },
+          },
+        },
       },
     });
     const wrapper = shallowMount(StatCard, {
-      global:{
+      global: {
         plugins: [store],
       },
       propsData: {

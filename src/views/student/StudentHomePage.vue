@@ -30,9 +30,11 @@
     </v-carousel>
 
     <section id="student-homepage" class="container mt-4">
-      <h3  v-if="trendingCoursesList.length" style="text-align: center">{{$t("Explore the trending courses")}}</h3>
-      <v-divider v-if="trendingCoursesList.length" ></v-divider>
-      <v-row no-gutters v-if="trendingCoursesList.length" >
+      <h3 v-if="trendingCoursesList.length" style="text-align: center">
+        {{ $t("Explore the trending courses") }}
+      </h3>
+      <v-divider v-if="trendingCoursesList.length"></v-divider>
+      <v-row no-gutters v-if="trendingCoursesList.length">
         <v-col
           v-for="(course, index) in trendingCoursesList"
           :key="index"
@@ -46,12 +48,26 @@
         </v-col>
       </v-row>
 
-      <h3 style="text-align: center">{{$t("Your Courses")}}</h3>
+      <h3 style="text-align: center">{{ $t("Your Courses") }}</h3>
       <v-divider></v-divider>
       <div v-if="!enrolledCoursesList.length" class="mt-2">
-        <v-img :src="require('../../assets/no-data.svg')" width="150" class="mx-auto"></v-img>
-        <p class="text-center mt-3">{{$t("You have not enrolled in any course")}}</p>
-        <v-btn @click="$router.push(`search?searchQuery=`)" class="mx-auto d-block mt-3" variant="flat" color="secondaryCoral" style="color:white !important">{{$t("Enroll Now")}}</v-btn>
+        <v-img
+          :src="require('../../assets/no-data.svg')"
+          width="150"
+          class="mx-auto"
+        ></v-img>
+        <p class="text-center mt-3">
+          {{ $t("You have not enrolled in any course") }}
+        </p>
+        <v-btn
+          @click="$router.push(`search?searchQuery=`)"
+          class="mx-auto d-block mt-3"
+          variant="flat"
+          color="secondaryCoral"
+          style="color: white !important"
+          data-cy="enroll"
+          >{{ $t("Enroll Now") }}</v-btn
+        >
       </div>
 
       <v-row no-gutters>

@@ -59,12 +59,12 @@ export default {
     state.allCourses = courses;
   },
 
-  logout(state){
-    state.allCourses= [];
-    state.allStudents= [];
-    state.allInstructors= [];
-    state.revenue= [];
-    state.instructorName= "";
-    state.courseStatus= {};
-  }
+  logout(state) {
+    state.allCourses = [];
+    state.allStudents = [];
+    state.allInstructors = [];
+    state.revenue = [];
+    state.instructorName = "";
+    state.courseStatus = {};
+  },
 };

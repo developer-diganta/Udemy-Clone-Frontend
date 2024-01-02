@@ -4,7 +4,11 @@
       <v-card-title class="mb-3 text-center">{{ title }}</v-card-title>
       <v-row>
         <v-col cols="6">
-          <v-card class="card" @click="redirect('student')">
+          <v-card
+            class="card"
+            @click="redirect('student')"
+            data-cy="dialog-student"
+          >
             <v-img
               class="bg-white"
               width="auto"
@@ -17,7 +21,11 @@
         </v-col>
 
         <v-col cols="6">
-          <v-card class="card" @click="redirect('instructor')">
+          <v-card
+            class="card"
+            @click="redirect('instructor')"
+            data-cy="dialog-instructor"
+          >
             <v-img
               class="bg-white"
               width="auto"

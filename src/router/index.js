@@ -31,6 +31,7 @@ import store from "@/store";
 import App from "../App";
 import FourZeroFour from "../views/common/FourZeroFour";
 import Home from "../views/common/Home";
+import CodeEditor from "../components/CodeEditor/CodeEditor";
 import backend_url from "@/globals/globals";
 import axios from "axios";
 const routes = [
@@ -39,12 +40,16 @@ const routes = [
     redirect: "/home",
   },
   {
+    path: "/code",
+    component: CodeEditor,
+  },
+  {
     path: "/home",
     component: Home,
     beforeEnter: async (to, from, next) => {
       try {
         const type = localStorage.getItem("type");
-        if(!type) next();
+        if (!type) next();
         if (type === "student") {
           next("/student/home");
         } else if (type === "instructor") {
@@ -99,17 +104,17 @@ const routes = [
       },
     ],
     beforeEnter: async (to, from, next) => {
-      if(localStorage.getItem("token")){
-        const verifyAdmin = await axios.post(`${backend_url}/admin/verify`,{
-          token:localStorage.getItem("token")
-        })
+      if (localStorage.getItem("token")) {
+        const verifyAdmin = await axios.post(`${backend_url}/admin/verify`, {
+          token: localStorage.getItem("token"),
+        });
         if (verifyAdmin) {
           next();
         } else {
           next("/home");
         }
-      }else{
-        next("/home")
+      } else {
+        next("/home");
       }
     },
   },

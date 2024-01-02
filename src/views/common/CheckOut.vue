@@ -1,6 +1,10 @@
 <template>
   <div>
-    <v-btn color="primaryTheme" variant="tonal" @click="redirect"
+    <v-btn
+      color="primaryTheme"
+      variant="tonal"
+      @click="redirect"
+      data-cy="enroll"
       >Enroll Course</v-btn
     >
   </div>

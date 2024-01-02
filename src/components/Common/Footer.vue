@@ -18,8 +18,12 @@
       </v-row>
       <div class="mx-auto d-block">
         <div class="custom-select">
-          <select v-model="$i18n.locale">
-            <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">
+          <select data-cy="lang" v-model="$i18n.locale">
+            <option
+              v-for="locale in $i18n.availableLocales"
+              :key="`locale-${locale}`"
+              :value="locale"
+            >
               {{ locale }}
             </option>
           </select>
@@ -52,7 +56,7 @@ export default {
 /* Base styles for the custom select */
 .custom-select {
   position: relative;
-  padding:10px;
+  padding: 10px;
   margin: 20px;
 }
 
@@ -61,8 +65,8 @@ export default {
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 100%;
-  padding:5px;
-  margin-right:15px;
+  padding: 5px;
+  margin-right: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
   cursor: pointer;
@@ -84,5 +88,4 @@ export default {
 .custom-select:hover select {
   border-color: #999;
 }
-
 </style>

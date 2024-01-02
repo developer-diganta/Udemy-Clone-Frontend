@@ -28,20 +28,23 @@ export default {
   props: ["totalCourses", "pendingCourses", "publishedCourses"],
   data() {
     return {
+      // Initializing chart options
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        options: {
-          scales: {
-            y: {
-              stepSize: 1,
-            },
+        scales: {
+          y: {
+            stepSize: 1,
           },
         },
       },
     };
   },
   computed: {
+    /**
+     * Constructs data for the bar chart
+     * @returns {Object} - Data for the bar chart
+     */
     barData() {
       return {
         labels: ["Total Courses", "Published Courses", "Pending Courses"],

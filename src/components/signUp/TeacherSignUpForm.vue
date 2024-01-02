@@ -36,37 +36,6 @@
         class="input"
         @change="handleFileChange($event)"
       ></v-file-input>
-      <!-- <div class="input"> -->
-      <!-- <v-row>
-          <v-col sm="4">
-            <v-text-field placeholder="site name" v-model="newProfileAccount">
-            </v-text-field>
-          </v-col>
-          <v-col sm="8">
-            <v-row>
-              <v-col sm="10">
-                <v-text-field
-                  placeholder="url"
-                  style="display: inline !important"
-                  v-model="newProfileAccountUrl"
-                ></v-text-field>
-              </v-col>
-              <v-col sm="2">
-                <v-btn icon="$plus" @click="addProfile"></v-btn>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row> -->
-      <!-- </div> -->
-      <!-- <v-row v-for="(profile, index) in socialLinks" :key="index" class="input">
-        <v-col cols="12" sm="4" class="d-inline text-left"
-          >{{ profile.name }}
-        </v-col>
-        <v-col cols="12" sm="1"></v-col>
-        <v-col cols="12" sm="7">
-          <a :href="profile.link">{{ profile.link }}</a>
-        </v-col>
-      </v-row> -->
 
       <div class="d-flex">
         <v-btn class="me-4" type="submit"> submit </v-btn>

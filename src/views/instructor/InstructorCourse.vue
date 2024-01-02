@@ -6,7 +6,7 @@
     :key="toggleSnackbar"
   ></snack-bar>
   <div>
-    <h3 class="text-center">{{$t("Course Details -")}} {{ title }}</h3>
+    <h3 class="text-center">{{ $t("Course Details -") }} {{ title }}</h3>
 
     <v-form v-model="valid" @submit.prevent="submit" @input="formEdited = true">
       <v-container>
@@ -146,7 +146,7 @@
 
           <v-divider style="margin-bottom: 30px"></v-divider>
           <v-col cols="12" md="6">
-            <p class="text-center">{{$t("Requirements")}}</p>
+            <p class="text-center">{{ $t("Requirements") }}</p>
 
             <v-text-field
               v-for="(requirement, index) in requirements"
@@ -173,7 +173,7 @@
           </v-col>
 
           <v-col cols="12" md="6">
-            <p class="text-center">{{$t('Course Materials')}}</p>
+            <p class="text-center">{{ $t("Course Materials") }}</p>
 
             <v-text-field
               v-for="(material, index) in courseMaterials"
@@ -181,12 +181,12 @@
               v-model="courseMaterials[index].name"
               :rules="titleRules"
               density="compact"
-              :label="'Material:' + (parseInt(index) + 1)"
+              :label="'Link:' + (parseInt(index) + 1)"
               variant="outlined"
             ></v-text-field>
             <v-text-field
               v-model="newMaterial"
-              :label="$t('Add Material')"
+              :label="$t('Add Links')"
               density="compact"
               variant="outlined"
               prepend-inner-icon="mdi-book-multiple"
@@ -209,7 +209,7 @@
           color="primaryTheme"
           rounded="sm"
           :disabled="formEdited === false"
-          >{{$t("Update Course")}}</v-btn
+          >{{ $t("Update Course") }}</v-btn
         >
         <v-btn
           type="button"
@@ -219,14 +219,15 @@
           color="primaryTheme"
           rounded="sm"
           @click="redirectAddLessons"
-          >{{$t("Add Lessons")}}</v-btn
+          data-cy="addlessons"
+          >{{ $t("Add Lessons") }}</v-btn
         >
       </div>
     </v-form>
   </div>
-  <div  class="mt-5">
-    <Footer/>
-    </div>
+  <div class="mt-5">
+    <Footer />
+  </div>
 </template>
 
 <script>
@@ -235,14 +236,14 @@ import Navbar from "../../components/Navbar/Navbar.vue";
 import axios from "axios";
 import Loader from "@/ui/Loader.vue";
 import SnackBar from "@/ui/SnackBar.vue";
-import Footer from '@/components/Common/Footer.vue';
+import Footer from "@/components/Common/Footer.vue";
 
 export default {
   components: {
     Navbar,
     Loader,
     SnackBar,
-    Footer
+    Footer,
   },
   data() {
     return {

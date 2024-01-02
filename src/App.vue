@@ -1,8 +1,6 @@
 <template>
-
   <router-view></router-view>
   <snack-bar></snack-bar>
-
 </template>
 
 <script>
@@ -13,22 +11,25 @@ import SnackBar from "./ui/SnackBar.vue";
 
 export default {
   components: { CheckOut, SnackBar },
-watch:{
-  '$store.state.common.theme'(){
-    if(this.$store.state.common.theme==='light'){
-      document.querySelector("body").classList.remove('dark')
-      document.querySelectorAll("img").forEach(img => img.classList.remove('undark'));
-
-    }else{
-      document.querySelector("body").classList.add('dark')
-      document.querySelectorAll("img").forEach(img => img.classList.add('undark'));
-
-
-    }
-  }
-},
+  watch: {
+    "$store.state.common.theme"() {
+      if (this.$store.state.common.theme === "light") {
+        document.querySelector("body").classList.remove("dark");
+        document
+          .querySelectorAll("img")
+          .forEach((img) => img.classList.remove("undark"));
+      } else {
+        document.querySelector("body").classList.add("dark");
+        document
+          .querySelectorAll("img")
+          .forEach((img) => img.classList.add("undark"));
+      }
+    },
+  },
   async created() {
     console.log(this.$store.state.user.name);
+
+    this.$store.dispatch("common/getCategories");
 
     console.log(localStorage.getItem("type") === "student");
     if (
@@ -53,7 +54,6 @@ watch:{
         await this.$store.dispatch("instructor/getInstructorProfileOnLoad");
 
         console.log(res);
-
       } catch (error) {
         return 0;
       }
@@ -75,10 +75,10 @@ watch:{
   list-style-type: none;
 }
 
-.dark{
-  filter:invert(1) hue-rotate(180deg)
+.dark {
+  filter: invert(1) hue-rotate(180deg);
 }
-.undark{
+.undark {
   filter: invert(1) hue-rotate(180deg);
 }
 .m-2 {
@@ -120,5 +120,4 @@ watch:{
   width: 100% !important;
   background: red;
 }
-
 </style>

@@ -1,13 +1,20 @@
 <template lang="">
   <div style="padding: 3%; background: black; color: white" class="mb-5">
-    <h1>{{ $t('My Courses') }}</h1>
+    <h1>{{ $t("My Courses") }}</h1>
   </div>
   <div class="container">
-    <p class="text-h5">{{$t("Unpublished Courses")}}</p>
+    <p class="text-h5">{{ $t("Unpublished Courses") }}</p>
     <v-divider></v-divider>
     <div v-if="!pendingCourses.length" class="text-center mt-2">
-      "{{$t("Create a New Course")}}"
-      <v-btn variant="flat" color="secondaryCoral" class="d-block mx-auto" style="color:white !important" @click="$router.push('course/add')">{{$t("Create Now")}}</v-btn>
+      "{{ $t("Create a New Course") }}"
+      <v-btn
+        variant="flat"
+        color="secondaryCoral"
+        class="d-block mx-auto"
+        style="color: white !important"
+        @click="$router.push('course/add')"
+        >{{ $t("Create Now") }}</v-btn
+      >
     </div>
     <v-row class="mt-4 mb-4">
       <v-col
@@ -45,7 +52,7 @@
 
           <v-card-actions>
             <v-btn color="orange" @click="redirect(course._id)">
-              {{$t("View Course")}}
+              {{ $t("View Course") }}
             </v-btn>
 
             <v-btn
@@ -53,18 +60,23 @@
               @click="publish(course._id)"
               data-value="publish-course-btn"
             >
-              "{{$t("Publish")}}"
+              "{{ $t("Publish") }}"
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
 
-    <p class="text-h5">{{$t("Pending For Review")}}</p>
+    <p class="text-h5">{{ $t("Pending For Review") }}</p>
     <v-divider></v-divider>
     <div v-if="!publishedCourses.length" class="text-center">
-      <v-img :src="require('../../assets/no-data.svg')" height="200" width="150" class="mx-auto"/>
-      {{$t("No Published(Pending for Review) Courses")}}
+      <v-img
+        :src="require('../../assets/no-data.svg')"
+        height="200"
+        width="150"
+        class="mx-auto"
+      />
+      {{ $t("No Published(Pending for Review) Courses") }}
     </div>
     <v-row class="mt-4 mb-4">
       <v-col
@@ -102,8 +114,7 @@
 
           <v-card-actions>
             <v-btn color="orange" @click="redirect(course._id)">
-              {{$t("View Course")}}
-
+              {{ $t("View Course") }}
             </v-btn>
 
             <v-btn color="orange" @click="publish(course._id)"> Publish </v-btn>
@@ -112,12 +123,16 @@
       </v-col>
     </v-row>
 
-    <p class="text-h5">              {{$t("Active Courses")}}
-    </p>
+    <p class="text-h5">{{ $t("Active Courses") }}</p>
     <v-divider></v-divider>
     <div v-if="!activeCourses.length" class="text-center">
-      <v-img :src="require('../../assets/no-data.svg')" height="200" width="150" class="mx-auto"/>
-      {{$t("No Active Courses")}}
+      <v-img
+        :src="require('../../assets/no-data.svg')"
+        height="200"
+        width="150"
+        class="mx-auto"
+      />
+      {{ $t("No Active Courses") }}
     </div>
 
     <v-row class="mt-4 mb-4">
@@ -156,25 +171,25 @@
 
           <v-card-actions>
             <v-btn color="orange" @click="redirect(course._id)">
-              {{$t("View Course")}}
+              {{ $t("View Course") }}
             </v-btn>
 
             <v-btn color="orange" @click="stats(course._id)">
-              {{$t("View Stats")}}
+              {{ $t("View Stats") }}
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
   </div>
-  <div  class="mt-5">
-    <Footer/>
-    </div>
+  <div class="mt-5">
+    <Footer />
+  </div>
 </template>
 <script>
 import Iterable from "@/components/Common/Iterable.vue";
 import moment from "moment";
-import Footer from '@/components/Common/Footer.vue';
+import Footer from "@/components/Common/Footer.vue";
 
 export default {
   components: { Iterable, Footer },
@@ -192,7 +207,7 @@ export default {
       return this.allCourses.filter((course) => course.status === "published");
     },
     activeCourses() {
-      console.log(this.allCourses)
+      console.log(this.allCourses);
       return this.allCourses.filter((course) => course.status === "active");
     },
     pendingCourses() {

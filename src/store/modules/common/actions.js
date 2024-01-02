@@ -46,4 +46,27 @@ export default {
       console.log(error);
     }
   },
+  async submitCode(
+    { commit, rootState },
+    { submission, courseId, questionId, section },
+  ) {
+    try {
+      const code = submission.code;
+      const lang = submission.lang;
+
+      const res = await axios.post(
+        `${backend_url}/courses/code?courseId=${courseId}&questionId=${questionId}&section=${section}`,
+        {
+          code: code,
+          language: lang,
+        },
+      );
+      console.log(res);
+      commit("setOutput", res.data);
+    } catch (error) {}
+  },
+  async getCategories({ commit, rootState }) {
+    const response = await axios.get(`${backend_url}/courses/categories`);
+    commit("setCategories", response.data);
+  },
 };

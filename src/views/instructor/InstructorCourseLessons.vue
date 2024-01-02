@@ -1,19 +1,30 @@
 <template>
-  <h3 class="text-center">{{ course.title }} {{$t('(Edit Mode: Instructor)')}}</h3>
+  <h3 class="text-center">
+    {{ course.title }} {{ $t("(Edit Mode: Instructor)") }}
+  </h3>
 
   <v-row style="padding: 30px; max-height: 80vh">
     <v-col cols="12" md="8" justify-center d-flex>
-      <div v-if="currentVideo" :key="course">
+      <div v-if="currentVideo && type !== 'exercise'" :key="course">
         <v-app style="min-height: 0 !important">
           <video-player :currentVideo="currentVideo"></video-player>
         </v-app>
       </div>
+      <div v-if="type == 'exercise'">
+        <div class="mx-auto" style="border: 1px solid black; min-height: 400px">
+          <h4 class="text-center">Q:{{ exercise.title }}</h4>
+          <h5 class="text-center">{{ exercise.description }}</h5>
+          <div style="margin: 0 auto !important">
+            <code-editor></code-editor>
+          </div>
+        </div>
+      </div>
       <div v-else>
-        <h3 class="text-center">{{$t("No videos to play")}}</h3>
+        <h3 class="text-center">{{ $t("No videos to play") }}</h3>
       </div>
       <div>
         <v-card>
-          <v-card-title class="text-center">{{$t("Summary")}}</v-card-title>
+          <v-card-title class="text-center">{{ $t("Summary") }}</v-card-title>
           <v-divider></v-divider>
           <v-table fixed-header>
             <tbody>
@@ -32,16 +43,21 @@
             @click="publish"
             v-if="course.status === 'pending' || course.status === 'published'"
             color="secondaryCoral"
+            data-cy="review"
           >
-            <span v-if="course.status === 'pending'"> {{$t("Submit For Review")}} </span>
-            <span v-if="course.status === 'published'"> {{$t("Under Review")}} </span>
+            <span v-if="course.status === 'pending'">
+              {{ $t("Submit For Review") }}
+            </span>
+            <span v-if="course.status === 'published'">
+              {{ $t("Under Review") }}
+            </span>
           </v-btn>
           <div
             v-if="course.status === 'active'"
             class="text-center bg-green mt-2"
             style="padding: 5px"
           >
-            {{$t("Course Active")}}
+            {{ $t("Course Active") }}
           </div>
         </div>
       </div>
@@ -49,56 +65,83 @@
     <v-col cols="12" md="4" style="max-height: 80vh; overflow-y: scroll">
       <!-- <v-btn>ADD</v-btn> -->
       <div class="d-flex justify-center">
-      <v-btn
-      @click="dialog = true"
-      :style="lessons.length?'width: 40%':'width:100%'"
-        :text="$t('Add')"
-        variant="outlined"
-      ></v-btn>
-        <div style="width:20%"
-        v-if="lessons.length"></div>
-      <v-btn
-      v-if="lessons.length"
-      @click="dialogDelete = true"
-      style="width: 40%"
-      :text="$t('Delete')"
-      variant="outlined"
-    ></v-btn>
+        <v-btn
+          @click="dialog = true"
+          :style="lessons.length ? 'width: 40%' : 'width:100%'"
+          :text="$t('Add')"
+          variant="outlined"
+          data-cy="add"
+        ></v-btn>
+        <div style="width: 20%" v-if="lessons.length"></div>
+        <v-btn
+          v-if="lessons.length"
+          @click="dialogDelete = true"
+          style="width: 40%"
+          :text="$t('Delete')"
+          variant="outlined"
+        ></v-btn>
       </div>
-    <v-dialog width="500" v-model="dialogDelete">
-      <v-card style="padding:10px">
-        <h2 class="text-center">{{$t("Delete Sections/Videos")}}</h2>
-        <h4 class="text-center">{{$t("Click on the section header/video title to delete it")}}</h4>
-        <v-divider></v-divider>
-        <v-card-text v-for="(lesson, index) in lessons" :key="index" >
-          <v-card-title class="rounded subsection-hover pointer" @click="deleteSection(index)">{{ index + 1 + ". " + lesson.title }}</v-card-title>
-          <div class="ml-4 mt-3" >
-            <v-card-text density="compact" v-for="(subsection, i) in lesson.videos" :key="i" style="margin-top:-3%; padding:10px !important" class="subsection-hover rounded pointer"                 @click="deleteVideo(index, i)"
+      <v-dialog width="500" v-model="dialogDelete">
+        <v-card style="padding: 10px">
+          <h2 class="text-center">{{ $t("Delete Sections/Videos") }}</h2>
+          <h4 class="text-center">
+            {{ $t("Click on the section header/video title to delete it") }}
+          </h4>
+          <v-divider></v-divider>
+          <v-card-text v-for="(lesson, index) in lessons" :key="index">
+            <v-card-title
+              class="rounded subsection-hover pointer"
+              @click="deleteSection(index)"
+              >{{ index + 1 + ". " + lesson.title }}</v-card-title
             >
-              {{ i + 1 + ". " + subsection.title }}
-            </v-card-text>
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+            <div class="ml-4 mt-3">
+              <v-card-text
+                density="compact"
+                v-for="(subsection, i) in lesson.videos"
+                :key="i"
+                style="margin-top: -3%; padding: 10px !important"
+                class="subsection-hover rounded pointer"
+                @click="deleteVideo(index, i)"
+              >
+                {{ i + 1 + ". " + subsection.title }}
+              </v-card-text>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
 
-
-
-
-      <v-dialog width="500" v-model="dialog">
-        <v-form @submit.prevent="handleSubmit" class="video-add">
-          <v-banner-text style="text-align: center; margin-left: 60px"
-            >{{$t("Upload Material")}}</v-banner-text
-          >
+      <v-dialog
+        width="800"
+        v-model="dialog"
+        style="overflow-y: auto !important"
+      >
+        <v-form
+          @submit.prevent="handleSubmit"
+          class="video-add"
+          style="overflow-y: auto !important; overflow-x: hidden"
+        >
+          <v-banner-text style="text-align: center; margin-left: 60px">{{
+            $t("Upload Material")
+          }}</v-banner-text>
 
           <v-radio-group class="d-flex" v-model="typeOfUpload" inline>
             <v-radio :label="$t('Section')" value="section"></v-radio>
-            <v-radio :label="$t('Lecture')" value="lecture"></v-radio>
+            <v-radio
+              :label="$t('Lecture')"
+              value="lecture"
+              data-cy="lecture"
+            ></v-radio>
+            <v-radio
+              label="Coding Exercise"
+              value="exercise"
+              data-cy="exercise"
+            ></v-radio>
           </v-radio-group>
 
           <v-text-field
             v-model="title"
             label="Title"
+            data-cy="title"
             :rules="titleRules"
             density="compact"
             class="input"
@@ -106,6 +149,14 @@
             variant="outlined"
             prepend-inner-icon="mdi-format-title"
           ></v-text-field>
+
+          <v-textarea
+            label="Description"
+            variant="outlined"
+            data-cy="desc"
+            v-if="typeOfUpload === 'exercise'"
+            v-model="qDesc"
+          ></v-textarea>
 
           <v-file-input
             multiple
@@ -118,20 +169,21 @@
           ></v-file-input>
 
           <v-select
-            label="Select"
+            label="Section"
             v-model="lectureSection"
-            v-if="typeOfUpload === 'lecture'"
+            v-if="typeOfUpload === 'lecture' || typeOfUpload === 'exercise'"
             :items="sectionsList.map((section) => section)"
             item-title="title"
             variant="outlined"
             return-object
             @change.prevent="handleVideoSelection"
+            data-cy="section"
           ></v-select>
 
           <v-select
-            label="Select"
+            label="Lecture"
             v-model="select"
-            v-if="typeOfUpload === 'lecture'"
+            v-if="typeOfUpload === 'lecture' || typeOfUpload === 'exercise'"
             :items="videosList.map((video) => video)"
             item-title="video.title"
             item-value="i,j"
@@ -139,6 +191,27 @@
             return-object
             @change.prevent="handleVideoSelection"
           ></v-select>
+
+          <v-row>
+            <v-col cols="6">
+              <v-textarea
+                label="Input"
+                variant="outlined"
+                v-if="typeOfUpload === 'exercise'"
+                v-model="qInput"
+                data-cy="qInput"
+              ></v-textarea>
+            </v-col>
+            <v-col cols="6">
+              <v-textarea
+                label="Output"
+                variant="outlined"
+                v-if="typeOfUpload === 'exercise'"
+                v-model="qOutput"
+                data-cy="qOutput"
+              ></v-textarea>
+            </v-col>
+          </v-row>
 
           <v-select
             label="Section"
@@ -156,12 +229,17 @@
               <v-radio label="After" value="after"></v-radio>
             </v-radio-group>
           </div>
-          <v-btn type="submit" color="primaryTheme" block class="mt-2 mb-2"
-            >{{$t("Submit")}}</v-btn
+          <v-btn
+            type="submit"
+            data-cy="submit"
+            color="primaryTheme"
+            block
+            class="mt-2 mb-2"
+            >{{ $t("Submit") }}</v-btn
           >
-          <v-btn type="button" color="error" block @click="dialog = false"
-            >{{$t("Close Dialog")}}</v-btn
-          >
+          <v-btn type="button" color="error" block @click="dialog = false">{{
+            $t("Close Dialog")
+          }}</v-btn>
         </v-form>
       </v-dialog>
 
@@ -195,7 +273,7 @@
             <li class="d-flex p-2" style="padding: 5px; margin-top: 7px">
               <div
                 variant="text"
-                @click="loadCurrentVideo(subsection.videoLink)"
+                @click="loadCurrentVideo(subsection.videoLink, subsection)"
                 style="margin-left: 8px"
                 class="cursor-pointer video-name"
               >
@@ -217,7 +295,7 @@
       </ul>
     </v-col>
   </v-row>
-  <Footer/>
+  <!-- <Footer /> -->
 </template>
 <script>
 import Navbar from "@/components/Navbar/Navbar.vue";
@@ -225,10 +303,11 @@ import axios from "axios";
 import backend_url from "@/globals/globals";
 
 import VideoPlayer from "@/components/Video/VideoPlayer.vue";
-import Footer from '@/components/Common/Footer.vue';
+import Footer from "@/components/Common/Footer.vue";
+import CodeEditor from "@/components/CodeEditor/CodeEditor.vue";
 
 export default {
-  components: { Navbar, VideoPlayer, Footer },
+  components: { Navbar, VideoPlayer, Footer, CodeEditor },
   data() {
     return {
       course: {},
@@ -242,6 +321,9 @@ export default {
       lessons: [],
       firstName: "",
       files: {},
+      qDesc: "",
+      qInput: "",
+      qOutput: "",
       addMaterialActivated: false,
       subsectionToBeUpdated: 0,
       videoToAddAfter: 0,
@@ -255,7 +337,8 @@ export default {
       materialPosition: null,
       lectureSection: null,
       showRadios: true,
-      dialogDelete:false,
+      dialogDelete: false,
+      type: "",
       firstNameRules: [
         (value) => {
           if (value?.length > 3) return true;
@@ -303,10 +386,75 @@ export default {
     handleSubmit() {
       if (this.typeOfUpload === "lecture") {
         this.videoUpload();
-      } else {
+      } else if (this.typeOfUpload === "section") {
         this.sectionUpload();
+      } else {
+        this.exerciseUpload();
       }
     },
+    async exerciseUpload() {
+      console.log(this.title);
+      console.log(this.lectureSection);
+      console.log(this.select);
+      console.log(this.qDesc);
+      console.log(this.qInput);
+      console.log(this.qOutput);
+      console.log(this.files);
+      const data = {
+        title: this.title,
+        description: this.qDesc,
+        input: this.qInput,
+        output: this.qOutput,
+        subsectionToBeUpdated: this.subsectionToBeUpdated,
+        courseId: this.course._id,
+        videoToAddAfter: this.videoToAddAfter,
+        type: "exercise",
+      };
+
+      try {
+        this.alertSuccess = true;
+        this.successMessage = "Uploading Exercise";
+        // const response = await axios.post(
+        //   `${backend_url}/courses/uploads`,
+        //   formData,
+        //   {
+        //     headers: {
+        //       "Content-Type": "multipart/form-data",
+        //     },
+        //     onUploadProgress: (progressEvent) => {
+        //       const percentCompleted = Math.round(
+        //         (progressEvent.loaded * 100) / progressEvent.total,
+        //       );
+        //       console.log(`Upload Progress: ${percentCompleted}%`);
+        //       this.dialog = false;
+        //     },
+        //   },
+        // );
+        const response = await axios.post(
+          `${backend_url}/courses/exercise`,
+          data,
+        );
+        // console.log("Files uploaded successfully:", response.data);
+
+        this.successMessage = "Video Uploaded";
+        this.initialLoad();
+        this.resetForm();
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "Video Uploaded",
+          type: "Success",
+        });
+        this.materialPosition = null;
+      } catch (error) {
+        this.alertFailure = true;
+        this.failureMessage = error;
+        console.error("Error uploading files:", error);
+        this.$store.dispatch("snackbar/showSnackbar", {
+          message: "There was some error",
+          type: "Error",
+        });
+      }
+    },
+
     async sectionUpload() {
       console.log(this.title);
       console.log(this.sectionSelect);
@@ -425,8 +573,16 @@ export default {
       }
     },
 
-    loadCurrentVideo(video) {
-      this.currentVideo = video;
+    loadCurrentVideo(video, subsection) {
+      if (video === undefined) {
+        if (subsection.type === "exercise") {
+          this.exercise = subsection;
+          this.type = "exercise";
+        }
+      } else {
+        this.currentVideo = video;
+        this.type = "";
+      }
     },
 
     async initialLoad() {
@@ -522,7 +678,7 @@ export default {
 };
 </script>
 <style scoped>
-.subsection-hover:hover{
+.subsection-hover:hover {
   background-color: lightcoral;
 }
 .input {

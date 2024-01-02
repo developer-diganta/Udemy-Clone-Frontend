@@ -35,7 +35,7 @@
 
           <admin-home-card
             :cardTitle="$t('Total Revenue')"
-            :cardData="'₹'+totalRevenue"
+            :cardData="'₹' + totalRevenue"
             redirect="revenue"
           ></admin-home-card>
         </v-row>
@@ -49,7 +49,7 @@
         style="margin-left: -30px; width: 100%"
       >
         <v-sheet :elevation="6" class="text-center" rounded>
-          <h4 class="text-h5"> {{ $t('Latest Transactions') }} </h4>
+          <h4 class="text-h5">{{ $t("Latest Transactions") }}</h4>
           <v-divider></v-divider>
           <div v-for="(transaction, index) in payments" :key="index">
             <div class="padd">
@@ -75,8 +75,8 @@ export default {
       totalCoursesPurchased: 0,
       totalCourses: 0,
       payments: [],
-      totalRevenue:0,
-      pending:0
+      totalRevenue: 0,
+      pending: 0,
     };
   },
   methods: {
@@ -89,7 +89,6 @@ export default {
         //     new Date(a.paymentDetails.createdAt) -
         //     new Date(b.paymentDetails.createdAt),
         // );
-        console.log(this.payments);
       } catch (error) {
         console.log("error");
       }
@@ -97,12 +96,17 @@ export default {
   },
   async created() {
     await this.fetchPayments();
-    await this.$store.dispatch("admin/getAllStudents")
-    await this.$store.dispatch("admin/getAllInstructors")
-    await this.$store.dispatch("admin/getAllCourses")
-    this.totalRevenue = this.$store.state.admin.revenue.reduce((t,x)=>t+x.paymentDetails.price,0)
-    this.pending = this.$store.state.admin.allCourses.filter((x)=>x.status==='published')
-    this.totalCoursesPurchased = this.$store.state.admin.revenue.length
+    await this.$store.dispatch("admin/getAllStudents");
+    await this.$store.dispatch("admin/getAllInstructors");
+    await this.$store.dispatch("admin/getAllCourses");
+    this.totalRevenue = this.$store.state.admin.revenue.reduce(
+      (t, x) => t + x.paymentDetails.price,
+      0,
+    );
+    this.pending = this.$store.state.admin.allCourses.filter(
+      (x) => x.status === "published",
+    );
+    this.totalCoursesPurchased = this.$store.state.admin.revenue.length;
   },
 };
 </script>

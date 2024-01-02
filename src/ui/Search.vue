@@ -8,7 +8,7 @@
         @input="onInput"
         @click="searchClicked"
       />
-      <button class="search-btn">
+      <button class="search-btn" data-cy="search">
         <v-icon class="rounded-icon search-icon">mdi-magnify</v-icon>
       </button>
     </form>
@@ -40,18 +40,25 @@ import _ from "lodash";
 import axios from "axios";
 import backend_url from "@/globals/globals";
 export default {
-  props:["type"],
+  props: ["type"],
   data: () => ({
     searchKey: "",
     searchResults: "",
   }),
   methods: {
+    /**
+     * Debounces search input to avoid rapid API requests
+     */
     onInput: _.debounce(async function () {
-      // if(searchKey==="")
+      // Fetch search results from the API based on the search key
       const searchResultsFromAPI = await this.$store.dispatch(
         "searchResultsFromAPI",
-        this.searchKey,
+        {
+          searchKey: this.searchKey,
+        },
       );
+
+      // Map API results to required display format
       this.searchResults = searchResultsFromAPI.map((result) => {
         return {
           title: result.item.title,
@@ -59,34 +66,73 @@ export default {
         };
       });
     }, 1000),
+
+    /**
+     * Clears search results when a click occurs outside the search container
+     * @param {Event} event - Click event
+     */
     clearSearchResultsOnOutsideClick(event) {
       const searchContainer = this.$el;
 
+      // Check if the click is outside the search container
       if (!searchContainer.contains(event.target)) {
         this.searchResults = [];
       }
     },
+
+    /**
+     * Handles the search input click event
+     * @param {Event} e - Click event
+     */
     searchClicked(e) {
+      // Update searchKey with the input value
       this.searchKey = e.target.value;
+
+      // Trigger the onInput method after updating the searchKey
       this.onInput();
     },
+
+    /**
+     * Initiates the search functionality by updating the route with the search query
+     */
     search() {
+      // Redirect to the search page with the search query as a parameter
       this.$router.push(`search?searchQuery=${this.searchKey}`);
     },
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.searchKey = to.query.searchQuery || ""; 
-    this.onInput(); 
-    next();
-  },
-  mounted() {
-    document.addEventListener("click", this.clearSearchResultsOnOutsideClick);
-  },
-  beforeDestroy() {
-    document.removeEventListener(
-      "click",
-      this.clearSearchResultsOnOutsideClick,
-    );
+
+    /**
+     * Updates search functionality when the route changes
+     * @param {Object} to - Route object to navigate to
+     * @param {Object} from - Route object navigated from
+     * @param {Function} next - Function to proceed to the next route
+     */
+    beforeRouteUpdate(to, from, next) {
+      // Set searchKey from query parameter or default to an empty string
+      this.searchKey = to.query.searchQuery || "";
+
+      // Trigger the onInput method after updating the searchKey
+      this.onInput();
+
+      // Continue with the route update
+      next();
+    },
+
+    /**
+     * Attaches an event listener to clear search results on clicks outside the search container
+     */
+    mounted() {
+      document.addEventListener("click", this.clearSearchResultsOnOutsideClick);
+    },
+
+    /**
+     * Removes the event listener before the component is destroyed
+     */
+    beforeDestroy() {
+      document.removeEventListener(
+        "click",
+        this.clearSearchResultsOnOutsideClick,
+      );
+    },
   },
 };
 </script>

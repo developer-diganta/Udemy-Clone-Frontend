@@ -3,7 +3,7 @@
     <v-card
       class="d-flex justify-center flex-column align-center p-3 prof-card"
     >
-      <h3>{{ $t('Your Profile') }}</h3>
+      <h3>{{ $t("Your Profile") }}</h3>
       <v-form
         class="form-width"
         @submit.prevent="submitForm"
@@ -36,7 +36,7 @@
           style="width: 10%"
           v-if="!edit"
           @click="edit = true"
-          >{{ $t('Edit Profile') }}</v-btn
+          >{{ $t("Edit Profile") }}</v-btn
         >
         <v-btn
           type="submit"
@@ -46,7 +46,7 @@
           style="width: 10%"
           :disabled="!formEdited"
           v-if="edit"
-          >{{ $t('Submit') }}</v-btn
+          >{{ $t("Submit") }}</v-btn
         >
       </v-form>
     </v-card>
@@ -79,7 +79,7 @@ export default {
         message: "Profile Updated",
         type: "Success",
       });
-      this.edit=false;
+      this.edit = false;
     },
 
     async getStudentProfile() {

@@ -23,11 +23,15 @@
             prepend-inner-icon="mdi-key"
             placeholder="Password"
           ></v-text-field>
-          <v-btn type="submit" block class="mt-2">Continue</v-btn>
+          <v-btn type="submit" data-cy="signinsubmit" block class="mt-2"
+            >Continue</v-btn
+          >
         </v-form>
         <div class="text-center mt-5">
           New User?
-          <span style="color: coral" @click="() => $router.push(`/${type}/signup`)"
+          <span
+            style="color: coral"
+            @click="() => $router.push(`/${type}/signup`)"
             >Sign Up</span
           >
         </div>

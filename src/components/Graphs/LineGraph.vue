@@ -34,13 +34,11 @@ export default {
     return {
       options: {
         responsive: true,
-        // maintainAspectRatio: false,
       },
     };
   },
   computed: {
     lineData() {
-      console.log(this.yearData);
       return {
         labels: [
           "January",

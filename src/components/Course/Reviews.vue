@@ -57,12 +57,14 @@
           :item-labels="labels"
           density="compact"
           size="70"
+          data-cy="rev"
         ></v-rating>
 
         <v-textarea
           rows="2"
           v-model="selfReview.review"
           label="Your Review"
+          data-cy="revArea"
         ></v-textarea>
         <v-btn type="submit" block class="mt-2" @click="submitReview"
           >Submit</v-btn
@@ -87,6 +89,7 @@ export default {
   emits: ["review-submitted"],
   data() {
     return {
+      // Initializing data properties
       reviewss: [
         {
           rating: 4,
@@ -95,7 +98,6 @@ export default {
           rating: 3,
         },
       ],
-
       labels: ["bad", "so so", "ok", "good", "great"],
       selfReview: {
         rating: 0,
@@ -104,24 +106,33 @@ export default {
     };
   },
   methods: {
+    /**
+     * Submits a review for the course
+     */
     async submitReview() {
       try {
+        // Dispatching action to submit a review
         await this.$store.dispatch("student/submitReview", {
           rating: this.selfReview.rating,
           review: this.selfReview.review,
           courseId: this.$route.query.courseId,
         });
+        // Emitting 'review-submitted' event and displaying success message
         this.$emit("review-submitted", this.selfReview);
         this.$store.dispatch("snackbar/showSnackbar", {
           message: "Review Added",
           type: "Success",
         });
       } catch (error) {
-        console.log(error);
+        // Handling errors during review submission
       }
     },
   },
   computed: {
+    /**
+     * Calculates the total ratings for the course based on received reviews
+     * @returns {number} - Total ratings for the course
+     */
     totalRatings() {
       try {
         return (
@@ -129,25 +140,35 @@ export default {
           0
         );
       } catch (error) {
-        console.log(error);
+        // Handle error gracefully
       }
     },
+    /**
+     * Filters out the user's own reviews from the received reviews
+     * @returns {Array} - Other users' reviews for the course
+     */
     otherReviews() {
       return this.reviews.filter(
         (review) => review.reviewer !== this.$store.state.user._id,
       );
     },
-
+    /**
+     * Groups the received ratings into categories
+     * @returns {Array} - Grouped ratings
+     */
     ratingsGroup() {
       const arr = new Array(5).fill(0);
       this.reviews.map((review) => {
-        console.log(Math.ceil(review.rating), "{}");
         arr[Math.ceil(review.rating) > 4 ? 4 : Math.ceil(review.rating) - 1]++;
       });
       return arr;
     },
   },
+  /**
+   * Executes when the component is created
+   */
   created() {
+    // Fetches and sets the user's own review for the course
     const selfReview = this.reviews.filter(
       (review) => review.reviewer === this.$store.state.user._id,
     );
